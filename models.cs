@@ -1,7 +1,11 @@
 using System;
 
 public enum AccountStatus {
-  
+  AwaitingConfirmation,
+  Active,
+  PendingUserTermination,
+  UserTerminated,
+  AdminTerminated
 }
 
 namespace DriverTracker.Models {
@@ -13,9 +17,8 @@ namespace DriverTracker.Models {
     public string Email {get; set;}
     public string? PhoneNumber {get; set;}
     public string? SMSNumber {get; set;}
-    public DateTime AccountCreationDate {get;}
     public int AccountStatus {get; set;}
-    public 
+    public bool ReceivesSMSAlertsNewDrivers {get; set;}
   }
   
   public class AnalystDBContext : DbContext {
