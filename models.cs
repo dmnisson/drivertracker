@@ -1,13 +1,20 @@
 using System;
 
+public enum AccountStatus {
+  
+}
+
 namespace DriverTracker.Models {
   public class Analyst {
   
     public int UserID {get; set;}
     public string Username {get; set;}
     public string FullName {get; set;}
+    public string Email {get; set;}
+    public string? PhoneNumber {get; set;}
+    public string? SMSNumber {get; set;}
     public DateTime AccountCreationDate {get;}
-    public DateTime AccountStatus {get; set;}
+    public int AccountStatus {get; set;}
     public 
   }
   
