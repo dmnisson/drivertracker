@@ -1,6 +1,6 @@
 using System;
 
-public enum AccountStatus {
+public enum AccountStatusType {
   AwaitingConfirmation,
   Active,
   PendingUserTermination,
