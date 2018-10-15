@@ -18,7 +18,12 @@ namespace DriverTracker.Models {
     public string? PhoneNumber {get; set;}
     public string? SMSNumber {get; set;}
     public int AccountStatus {get; set;}
+    
     public bool ReceivesSMSAlertsNewDrivers {get; set;}
+    public bool ReceivesSMSAlertsDriversTerminated {get; set;}
+    public bool ReceivesSMSAlertsLongDriverWaits {get; set;}
+    public double SMSAlertDriverWaitTime {get; set;}
+    
   }
   
   public class AnalystDBContext : DbContext {
