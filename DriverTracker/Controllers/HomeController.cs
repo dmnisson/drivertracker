@@ -17,7 +17,7 @@ namespace DriverTracker.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "DriverTracker is a system for analyzing the performance of drivers for taxicabs and transportation network carriers.";
 
             return View();
         }
