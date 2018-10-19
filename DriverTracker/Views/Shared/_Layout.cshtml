@@ -3,38 +3,33 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>@ViewData["Title"] - DriverTracker</title>
+        <title>@ViewData["Title"] - DriverTracker Transportation Analysis</title>
 
         <environment include="Development">
             <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
             <link rel="stylesheet" href="~/css/site.css" />
         </environment>
         <environment exclude="Development">
-            <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+            <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/4.1.1/css/bootstrap.min.css"
                   asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
                   asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
             <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
         </environment>
     </head>
     <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">DriverTracker</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    </ul>
-                </div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">DriverTracker</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Drivers" asp-action="CompanyStats">Company-Wide Statistics</a></li>
+                    <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Drivers" asp-action="DriverStats">Driver Statistics</a></li>
+                </ul>
             </div>
         </nav>
 
@@ -44,7 +39,7 @@
             @RenderBody()
             <hr />
             <footer>
-                <p>&copy; 2018 - DriverTracker</p>
+                <p>&copy; 2018 David Mark Nisson. Licensed under the MIT License.</p>
             </footer>
         </div>
 
@@ -60,7 +55,7 @@
                     crossorigin="anonymous"
                     integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
             </script>
-            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/4.1.1/bootstrap.min.js"
                     asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                     asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
                     crossorigin="anonymous"

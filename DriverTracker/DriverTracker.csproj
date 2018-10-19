@@ -6,9 +6,15 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.109.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.4" />
   </ItemGroup>
-
+    
   <ItemGroup>
     <Compile Remove="Controllers\AnalystController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\lib\bootstrap\.bower.json" />
+    <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
   </ItemGroup>
 </Project>

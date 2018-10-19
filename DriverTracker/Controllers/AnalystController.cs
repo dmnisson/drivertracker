@@ -7,7 +7,6 @@ namespace DriverTracker.Controllers
 {
     public class AnalystController : Controller
     {
-        private AnalystDBContext db = new AnalystDBContext();
 
         //
         // GET: /Analyst/
