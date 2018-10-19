@@ -1,0 +1,83 @@
+@model IEnumerable<DriverTracker.Models.Leg>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StartAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PickupRequestTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DestinationAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ArrivalTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Distance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fare)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumOfPassengersAboard)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Driver)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PickupRequestTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DestinationAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArrivalTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Distance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fare)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumOfPassengersAboard)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Driver.DriverID)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.LegID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.LegID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.LegID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,30 @@
+@model DriverTracker.Models.Analysis
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Analysis</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Analyst)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Analyst.ID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Driver)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Driver.DriverID)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.AnalysisID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

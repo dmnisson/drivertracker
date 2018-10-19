@@ -9,28 +9,22 @@ using DriverTracker.Models;
 
 namespace DriverTracker.Controllers
 {
-    public class DriversController : Controller
+    public class AnalystsController : Controller
     {
         private readonly MvcDriverContext _context;
 
-        public DriversController(MvcDriverContext context)
+        public AnalystsController(MvcDriverContext context)
         {
             _context = context;
         }
 
-        // GET: Drivers
+        // GET: Analysts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Driver.ToListAsync());
+            return View(await _context.Analysts.ToListAsync());
         }
 
-        // Get: Drivers/CompanyStats
-        public IActionResult CompanyStats()
-        {
-            return View();
-        }
-
-        // GET: Drivers/Details/5
+        // GET: Analysts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -38,39 +32,39 @@ namespace DriverTracker.Controllers
                 return NotFound();
             }
 
-            var driver = await _context.Driver
+            var analyst = await _context.Analysts
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (driver == null)
+            if (analyst == null)
             {
                 return NotFound();
             }
 
-            return View(driver);
+            return View(analyst);
         }
 
-        // GET: Drivers/Create
+        // GET: Analysts/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Drivers/Create
+        // POST: Analysts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,UserID,Name,LicenseNumber")] Driver driver)
+        public async Task<IActionResult> Create([Bind("ID,UserID,Username,FullName,Email,PhoneNumber,SMSNumber,AccountStatus,ReceivesSMSAlertsNewDrivers,ReceivesSMSAlertsDriversTerminated,ReceivesSMSAlertsLongDriverWaits,SMSAlertDriverWaitTime")] Analyst analyst)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(driver);
+                _context.Add(analyst);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(driver);
+            return View(analyst);
         }
 
-        // GET: Drivers/Edit/5
+        // GET: Analysts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,22 +72,22 @@ namespace DriverTracker.Controllers
                 return NotFound();
             }
 
-            var driver = await _context.Driver.FindAsync(id);
-            if (driver == null)
+            var analyst = await _context.Analysts.FindAsync(id);
+            if (analyst == null)
             {
                 return NotFound();
             }
-            return View(driver);
+            return View(analyst);
         }
 
-        // POST: Drivers/Edit/5
+        // POST: Analysts/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,UserID,Name,LicenseNumber")] Driver driver)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,UserID,Username,FullName,Email,PhoneNumber,SMSNumber,AccountStatus,ReceivesSMSAlertsNewDrivers,ReceivesSMSAlertsDriversTerminated,ReceivesSMSAlertsLongDriverWaits,SMSAlertDriverWaitTime")] Analyst analyst)
         {
-            if (id != driver.ID)
+            if (id != analyst.ID)
             {
                 return NotFound();
             }
@@ -102,12 +96,12 @@ namespace DriverTracker.Controllers
             {
                 try
                 {
-                    _context.Update(driver);
+                    _context.Update(analyst);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DriverExists(driver.ID))
+                    if (!AnalystExists(analyst.ID))
                     {
                         return NotFound();
                     }
@@ -118,10 +112,10 @@ namespace DriverTracker.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(driver);
+            return View(analyst);
         }
 
-        // GET: Drivers/Delete/5
+        // GET: Analysts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -129,30 +123,30 @@ namespace DriverTracker.Controllers
                 return NotFound();
             }
 
-            var driver = await _context.Driver
+            var analyst = await _context.Analysts
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (driver == null)
+            if (analyst == null)
             {
                 return NotFound();
             }
 
-            return View(driver);
+            return View(analyst);
         }
 
-        // POST: Drivers/Delete/5
+        // POST: Analysts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var driver = await _context.Driver.FindAsync(id);
-            _context.Driver.Remove(driver);
+            var analyst = await _context.Analysts.FindAsync(id);
+            _context.Analysts.Remove(analyst);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DriverExists(int id)
+        private bool AnalystExists(int id)
         {
-            return _context.Driver.Any(e => e.ID == id);
+            return _context.Analysts.Any(e => e.ID == id);
         }
     }
 }
