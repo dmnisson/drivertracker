@@ -1,4 +1,5 @@
-﻿using System; 
+﻿using System;
+using System.Collections.Generic;
 
 public enum AccountStatusType
 {
@@ -27,5 +28,6 @@ namespace DriverTracker.Models
         public bool ReceivesSMSAlertsLongDriverWaits { get; set; }
         public double SMSAlertDriverWaitTime { get; set; }
 
+        public ICollection<Analysis> Analyses { get; set; }
     }
 }

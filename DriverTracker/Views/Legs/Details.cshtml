@@ -1,0 +1,72 @@
+@model DriverTracker.Models.Leg
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Leg</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StartAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StartAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PickupRequestTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PickupRequestTime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DestinationAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DestinationAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ArrivalTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ArrivalTime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Distance)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Distance)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Fare)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Fare)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NumOfPassengersAboard)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NumOfPassengersAboard)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Driver)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Driver.DriverID)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.LegID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

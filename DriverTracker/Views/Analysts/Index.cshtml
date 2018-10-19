@@ -1,0 +1,95 @@
+@model IEnumerable<DriverTracker.Models.Analyst>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SMSNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceivesSMSAlertsNewDrivers)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceivesSMSAlertsDriversTerminated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceivesSMSAlertsLongDriverWaits)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SMSAlertDriverWaitTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SMSNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceivesSMSAlertsNewDrivers)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceivesSMSAlertsDriversTerminated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceivesSMSAlertsLongDriverWaits)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SMSAlertDriverWaitTime)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
