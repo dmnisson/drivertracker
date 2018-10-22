@@ -103,7 +103,7 @@ namespace DriverTracker.Migrations
 
                     b.Property<DateTime?>("PickupRequestTime");
 
-                    b.Property<int>("PreviousLegID");
+                    b.Property<int?>("PreviousLegID");
 
                     b.Property<string>("StartAddress");
 
@@ -140,8 +140,7 @@ namespace DriverTracker.Migrations
 
                     b.HasOne("DriverTracker.Models.Leg", "PreviousLeg")
                         .WithMany()
-                        .HasForeignKey("PreviousLegID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PreviousLegID");
                 });
 #pragma warning restore 612, 618
         }

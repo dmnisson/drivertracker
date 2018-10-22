@@ -78,7 +78,7 @@ namespace DriverTracker.Migrations
                     LegID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     DriverID = table.Column<int>(nullable: false),
-                    PreviousLegID = table.Column<int>(nullable: false),
+                    PreviousLegID = table.Column<int>(nullable: true),
                     StartAddress = table.Column<string>(nullable: true),
                     PickupRequestTime = table.Column<DateTime>(nullable: true),
                     StartTime = table.Column<DateTime>(nullable: false),
@@ -102,7 +102,7 @@ namespace DriverTracker.Migrations
                         column: x => x.PreviousLegID,
                         principalTable: "Legs",
                         principalColumn: "LegID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
