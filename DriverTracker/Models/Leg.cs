@@ -5,6 +5,8 @@ namespace DriverTracker.Models
     {
         public int LegID { get; set; }
         public int DriverID { get; set; }
+        public int PreviousLegID { get; set; }
+
         public string StartAddress { get; set; }
         public DateTime? PickupRequestTime { get; set; }
         public DateTime StartTime { get; set; }
@@ -15,5 +17,6 @@ namespace DriverTracker.Models
         public int NumOfPassengersAboard { get; set; }
 
         public Driver Driver { get; set; }
+        public Leg PreviousLeg { get; set; }
     }
 }

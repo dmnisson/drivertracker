@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DriverTracker.Migrations
 {
     [DbContext(typeof(MvcDriverContext))]
-    [Migration("20181019181554_InitialCreate")]
+    [Migration("20181022031526_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,9 +73,11 @@ namespace DriverTracker.Migrations
                     b.Property<int>("DriverID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("LicenseNumber");
+                    b.Property<string>("LicenseNumber")
+                        .IsRequired();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<int>("UserID");
 
@@ -103,6 +105,8 @@ namespace DriverTracker.Migrations
 
                     b.Property<DateTime?>("PickupRequestTime");
 
+                    b.Property<int>("PreviousLegID");
+
                     b.Property<string>("StartAddress");
 
                     b.Property<DateTime>("StartTime");
@@ -110,6 +114,8 @@ namespace DriverTracker.Migrations
                     b.HasKey("LegID");
 
                     b.HasIndex("DriverID");
+
+                    b.HasIndex("PreviousLegID");
 
                     b.ToTable("Legs");
                 });
@@ -132,6 +138,11 @@ namespace DriverTracker.Migrations
                     b.HasOne("DriverTracker.Models.Driver", "Driver")
                         .WithMany("Legs")
                         .HasForeignKey("DriverID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DriverTracker.Models.Leg", "PreviousLeg")
+                        .WithMany()
+                        .HasForeignKey("PreviousLegID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

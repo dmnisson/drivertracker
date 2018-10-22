@@ -37,8 +37,8 @@ namespace DriverTracker.Migrations
                     DriverID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     UserID = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    LicenseNumber = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false),
+                    LicenseNumber = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -78,6 +78,7 @@ namespace DriverTracker.Migrations
                     LegID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     DriverID = table.Column<int>(nullable: false),
+                    PreviousLegID = table.Column<int>(nullable: false),
                     StartAddress = table.Column<string>(nullable: true),
                     PickupRequestTime = table.Column<DateTime>(nullable: true),
                     StartTime = table.Column<DateTime>(nullable: false),
@@ -96,6 +97,12 @@ namespace DriverTracker.Migrations
                         principalTable: "Drivers",
                         principalColumn: "DriverID",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Legs_Legs_PreviousLegID",
+                        column: x => x.PreviousLegID,
+                        principalTable: "Legs",
+                        principalColumn: "LegID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -112,6 +119,11 @@ namespace DriverTracker.Migrations
                 name: "IX_Legs_DriverID",
                 table: "Legs",
                 column: "DriverID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Legs_PreviousLegID",
+                table: "Legs",
+                column: "PreviousLegID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

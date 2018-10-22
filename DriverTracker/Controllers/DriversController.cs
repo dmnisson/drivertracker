@@ -21,6 +21,26 @@ namespace DriverTracker.Controllers
         // GET: Drivers
         public async Task<IActionResult> Index()
         {
+            // total drivers
+            int numOfDrivers = await _context.Drivers.CountAsync();
+            ViewData["NumberOfDrivers"] = numOfDrivers + " driver" + (numOfDrivers == 1 ? "" : "s");
+
+            // total pickups
+            int pickups = await _context.Legs.Select(leg => (leg.PreviousLeg == null) ? leg.NumOfPassengersAboard : Math.Min(0, leg.NumOfPassengersAboard - leg.PreviousLeg.NumOfPassengersAboard))
+                                        .SumAsync();
+            ViewData["Pickups"] = pickups + " passenger pickup" + (pickups == 1 ? "" : "s");
+
+            // total miles driven
+            decimal milesDriven = await _context.Legs.Select(leg => leg.Distance).SumAsync();
+            ViewData["MilesDriven"] = milesDriven + " mile" + ((milesDriven > 0 && milesDriven < 1) ? "" : "s") + " driven";
+
+            // average pickup delay in minutes
+            if (await _context.Legs.CountAsync() > 0)
+            {
+                double avgPickupDelay = await _context.Legs.Select(leg => leg.StartTime.Subtract(leg.PickupRequestTime.GetValueOrDefault(leg.StartTime)).TotalMinutes).AverageAsync();
+                ViewData["AveragePickupDelay"] = avgPickupDelay + " minute" + ((avgPickupDelay > 0 && avgPickupDelay < 1) ? "" : "s");
+            }
+
             return View(await _context.Drivers.ToListAsync());
         }
 
