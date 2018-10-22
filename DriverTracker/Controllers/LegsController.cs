@@ -44,10 +44,18 @@ namespace DriverTracker.Controllers
             return View(leg);
         }
 
-        // GET: Legs/Create
-        public IActionResult Create()
+        // GET: Legs/Create/1
+        public IActionResult Create(int? id)
         {
-            ViewData["DriverID"] = new SelectList(_context.Drivers, "DriverID", "DriverID");
+            if (id == null)
+            {
+                ViewData["DriverID"] = new SelectList(_context.Drivers, "DriverID", "DriverID");
+            }
+            else
+            {
+                ViewData["DriverID"] = new SelectList(new int[] {id.Value});
+            }
+            ViewData["PreviousLegID"] = new SelectList(_context.Legs, "LegID", "LegID");
             return View();
         }
 
@@ -56,7 +64,7 @@ namespace DriverTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LegID,DriverID,StartAddress,PickupRequestTime,StartTime,DestinationAddress,ArrivalTime,Distance,Fare,NumOfPassengersAboard")] Leg leg)
+        public async Task<IActionResult> Create([Bind("LegID,DriverID,PreviousLegID,StartAddress,PickupRequestTime,StartTime,DestinationAddress,ArrivalTime,Distance,Fare,NumOfPassengersAboard,PreviousLeg")] Leg leg)
         {
             if (ModelState.IsValid)
             {

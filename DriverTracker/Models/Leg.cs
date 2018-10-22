@@ -5,7 +5,7 @@ namespace DriverTracker.Models
     {
         public int LegID { get; set; }
         public int DriverID { get; set; }
-        public int PreviousLegID { get; set; }
+        public int? PreviousLegID { get; set; }
 
         public string StartAddress { get; set; }
         public DateTime? PickupRequestTime { get; set; }

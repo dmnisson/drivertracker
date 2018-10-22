@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DriverTracker.Migrations
 {
     [DbContext(typeof(MvcDriverContext))]
-    [Migration("20181022031526_InitialCreate")]
+    [Migration("20181022153405_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,7 +105,7 @@ namespace DriverTracker.Migrations
 
                     b.Property<DateTime?>("PickupRequestTime");
 
-                    b.Property<int>("PreviousLegID");
+                    b.Property<int?>("PreviousLegID");
 
                     b.Property<string>("StartAddress");
 
@@ -142,8 +142,7 @@ namespace DriverTracker.Migrations
 
                     b.HasOne("DriverTracker.Models.Leg", "PreviousLeg")
                         .WithMany()
-                        .HasForeignKey("PreviousLegID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PreviousLegID");
                 });
 #pragma warning restore 612, 618
         }
