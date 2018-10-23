@@ -26,7 +26,7 @@ namespace DriverTracker.Controllers
         }
 
         // GET: Legs/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int? driver)
         {
             if (id == null)
             {
@@ -41,11 +41,16 @@ namespace DriverTracker.Controllers
                 return NotFound();
             }
 
+            if (driver != null)
+            {
+                ViewData["DriverID"] = driver;
+            }
+
             return View(leg);
         }
 
         // GET: Legs/Create/1
-        public IActionResult Create(int? id)
+        public IActionResult Create(int? id, bool? fromdriver)
         {
             if (id == null)
             {
@@ -55,6 +60,9 @@ namespace DriverTracker.Controllers
             {
                 ViewData["DriverID"] = new SelectList(new int[] {id.Value});
             }
+
+            ViewData["FromDriverPage"] = fromdriver.GetValueOrDefault(false) ? id : null;
+
             ViewData["PreviousLegID"] = new SelectList(_context.Legs, "LegID", "LegID");
             return View();
         }
@@ -64,20 +72,26 @@ namespace DriverTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LegID,DriverID,PreviousLegID,StartAddress,PickupRequestTime,StartTime,DestinationAddress,ArrivalTime,Distance,Fare,NumOfPassengersAboard,PreviousLeg")] Leg leg)
+        public async Task<IActionResult> Create(bool? fromdriver, [Bind("LegID,DriverID,PreviousLegID,StartAddress,PickupRequestTime,StartTime,DestinationAddress,ArrivalTime,Distance,Fare,NumOfPassengersAboard,PreviousLeg")] Leg leg)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(leg);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(DriverTracker.Controllers.DriversController.Details),
+                                        "Drivers",
+                                        new { id = leg.DriverID });
             }
             ViewData["DriverID"] = new SelectList(_context.Drivers, "DriverID", "DriverID", leg.DriverID);
+
+            ViewData["FromDriverPage"] = fromdriver.GetValueOrDefault(false) ? leg.DriverID as int? : null;
+
+            ViewData["PreviousLegID"] = new SelectList(_context.Legs, "LegID", "LegID");
             return View(leg);
         }
 
         // GET: Legs/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int? driver)
         {
             if (id == null)
             {
@@ -90,6 +104,9 @@ namespace DriverTracker.Controllers
                 return NotFound();
             }
             ViewData["DriverID"] = new SelectList(_context.Drivers, "DriverID", "DriverID", leg.DriverID);
+
+            ViewData["FromDriverPage"] = driver;
+
             return View(leg);
         }
 
@@ -98,7 +115,7 @@ namespace DriverTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LegID,DriverID,StartAddress,PickupRequestTime,StartTime,DestinationAddress,ArrivalTime,Distance,Fare,NumOfPassengersAboard")] Leg leg)
+        public async Task<IActionResult> Edit(int id, int? driver, [Bind("LegID,DriverID,StartAddress,PickupRequestTime,StartTime,DestinationAddress,ArrivalTime,Distance,Fare,NumOfPassengersAboard")] Leg leg)
         {
             if (id != leg.LegID)
             {
@@ -123,14 +140,19 @@ namespace DriverTracker.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(DriverTracker.Controllers.DriversController.Details),
+                                        "Drivers",
+                                        new { id = leg.DriverID });
             }
             ViewData["DriverID"] = new SelectList(_context.Drivers, "DriverID", "DriverID", leg.DriverID);
+
+            ViewData["FromDriverPage"] = driver;
+
             return View(leg);
         }
 
         // GET: Legs/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, int? driver)
         {
             if (id == null)
             {
@@ -145,18 +167,29 @@ namespace DriverTracker.Controllers
                 return NotFound();
             }
 
+            ViewData["FromDriverPage"] = driver;
+
             return View(leg);
         }
 
         // POST: Legs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, int? driver)
         {
             var leg = await _context.Legs.FindAsync(id);
             _context.Legs.Remove(leg);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (driver == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return RedirectToAction(nameof(DriverTracker.Controllers.DriversController.Details),
+                                        "Drivers",
+                                        new { id = leg.DriverID });
+            }
         }
 
         private bool LegExists(int id)
