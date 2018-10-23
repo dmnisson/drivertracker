@@ -59,6 +59,8 @@ namespace DriverTracker.Controllers
                 return NotFound();
             }
 
+            await _context.Legs.Where(leg => leg.DriverID == driver.DriverID).LoadAsync();
+
             return View(driver);
         }
 

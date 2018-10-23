@@ -63,13 +63,20 @@
             @Html.DisplayNameFor(model => model.Driver)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Driver.DriverID)
+            @Html.DisplayFor(model => model.Driver.Name)
         </dd>
     </dl>
     
-    <form asp-action="Delete">
+    <form asp-action="Delete" asp-route-driver="@ViewData["FromDriverPage"]">
         <input type="hidden" asp-for="LegID" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        @if (ViewData["FromDriverPage"] == null)
+        {
+           <a asp-action="Index">Back to List</a>
+        }
+        else
+        {
+            <a asp-action="Details" asp-controller="Drivers" asp-route-id="@ViewData["FromDriverPage"]">Back to Driver Details</a>
+        }
     </form>
 </div>

@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" asp-route-driver="@ViewData["FromDriverPage"]">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="LegID" />
             <div class="form-group">
@@ -66,7 +66,14 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @if (ViewData["FromDriverPage"] == null)
+    {
+        <a asp-action="Index">Back to List</a>
+    }
+    else
+    {
+        <a asp-action="Details" asp-controller="Drivers" asp-route-id="@ViewData["FromDriverPage"]">Back to Driver Details</a>
+    }
 </div>
 
 @section Scripts {

@@ -67,6 +67,13 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.LegID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.LegID" asp-route-driver="@ViewData["DriverID"]">Edit</a> |
+    @if (ViewData["DriverID"] == null)
+    {
+        <a asp-action="Index">Back to List</a>
+    }
+    else
+    {
+        <a asp-action="Details" asp-controller="Drivers" asp-route-id="@ViewData["DriverID"]">Back to Driver Details</a>
+    }
 </div>
