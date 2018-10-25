@@ -64,11 +64,6 @@
                 <span asp-validation-for="NumOfPassengersAboard" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NumOfPassengersAboard" class="control-label"></label>
-                <input asp-for="NumOfPassengersAboard" class="form-control" />
-                <span asp-validation-for="NumOfPassengersAboard" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="NumOfPassengersPickedUp" class="control-label"></label>
                 <input asp-for="NumOfPassengersPickedUp" class="form-control" />
                 <span asp-validation-for="NumOfPassengersPickedUp" class="text-danger"></span>
@@ -81,7 +76,6 @@
 </div>
 
 <div>
-    @ViewData["FromDriverPage"]
     @if (ViewData["FromDriverPage"] != null)
     {
         <a asp-action="Details" asp-controller="Drivers" asp-route-id="@ViewData["FromDriverPage"]">Back to Driver Details</a>
