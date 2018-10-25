@@ -26,8 +26,7 @@ namespace DriverTracker.Controllers
             ViewData["NumberOfDrivers"] = numOfDrivers + " driver" + (numOfDrivers == 1 ? "" : "s");
 
             // total pickups
-            int pickups = await _context.Legs.Select(leg => (leg.PreviousLeg == null) ? leg.NumOfPassengersAboard : Math.Min(0, leg.NumOfPassengersAboard - leg.PreviousLeg.NumOfPassengersAboard))
-                                        .SumAsync();
+            int pickups = await _context.Legs.Select(leg => leg.NumOfPassengersPickedUp).SumAsync();
             ViewData["Pickups"] = pickups + " passenger pickup" + (pickups == 1 ? "" : "s");
 
             // total miles driven

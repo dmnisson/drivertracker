@@ -101,9 +101,9 @@ namespace DriverTracker.Migrations
 
                     b.Property<int>("NumOfPassengersAboard");
 
-                    b.Property<DateTime?>("PickupRequestTime");
+                    b.Property<int>("NumOfPassengersPickedUp");
 
-                    b.Property<int?>("PreviousLegID");
+                    b.Property<DateTime?>("PickupRequestTime");
 
                     b.Property<string>("StartAddress");
 
@@ -112,8 +112,6 @@ namespace DriverTracker.Migrations
                     b.HasKey("LegID");
 
                     b.HasIndex("DriverID");
-
-                    b.HasIndex("PreviousLegID");
 
                     b.ToTable("Legs");
                 });
@@ -137,10 +135,6 @@ namespace DriverTracker.Migrations
                         .WithMany("Legs")
                         .HasForeignKey("DriverID")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DriverTracker.Models.Leg", "PreviousLeg")
-                        .WithMany()
-                        .HasForeignKey("PreviousLegID");
                 });
 #pragma warning restore 612, 618
         }

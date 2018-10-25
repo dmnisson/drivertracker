@@ -56,14 +56,9 @@ namespace DriverTracker.Controllers
             {
                 ViewData["DriverID"] = new SelectList(_context.Drivers, "DriverID", "DriverID");
             }
-            else
-            {
-                ViewData["DriverID"] = new SelectList(new int[] {id.Value});
-            }
 
             ViewData["FromDriverPage"] = fromdriver.GetValueOrDefault(false) ? id : null;
 
-            ViewData["PreviousLegID"] = new SelectList(_context.Legs, "LegID", "LegID");
             return View();
         }
 
@@ -72,7 +67,7 @@ namespace DriverTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(bool? fromdriver, [Bind("LegID,DriverID,PreviousLegID,StartAddress,PickupRequestTime,StartTime,DestinationAddress,ArrivalTime,Distance,Fare,NumOfPassengersAboard,PreviousLeg")] Leg leg)
+        public async Task<IActionResult> Create(bool? fromdriver, [Bind("LegID,DriverID,StartAddress,PickupRequestTime,StartTime,DestinationAddress,ArrivalTime,Distance,Fare,NumOfPassengersAboard,NumOfPassengersPickedUp")] Leg leg)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +81,6 @@ namespace DriverTracker.Controllers
 
             ViewData["FromDriverPage"] = fromdriver.GetValueOrDefault(false) ? leg.DriverID as int? : null;
 
-            ViewData["PreviousLegID"] = new SelectList(_context.Legs, "LegID", "LegID");
             return View(leg);
         }
 
@@ -115,7 +109,7 @@ namespace DriverTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int? driver, [Bind("LegID,DriverID,StartAddress,PickupRequestTime,StartTime,DestinationAddress,ArrivalTime,Distance,Fare,NumOfPassengersAboard")] Leg leg)
+        public async Task<IActionResult> Edit(int id, int? driver, [Bind("LegID,DriverID,StartAddress,PickupRequestTime,StartTime,DestinationAddress,ArrivalTime,Distance,Fare,NumOfPassengersAboard,NumOfPassengersPickedUp")] Leg leg)
         {
             if (id != leg.LegID)
             {
