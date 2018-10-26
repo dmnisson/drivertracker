@@ -46,6 +46,24 @@ namespace DriverTracker.Controllers
         // GET: Drivers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            // total pickups
+            int pickups = await _context.Legs.Where(leg => leg.DriverID == id.Value)
+                                        .Select(leg => leg.NumOfPassengersPickedUp).SumAsync();
+            ViewData["Pickups"] = pickups + " passenger pickup" + (pickups == 1 ? "" : "s");
+
+            // total miles driven
+            decimal milesDriven = await _context.Legs.Where(leg => leg.DriverID == id.Value)
+                                                .Select(leg => leg.Distance).SumAsync();
+            ViewData["MilesDriven"] = milesDriven + " mile" + ((milesDriven > 0 && milesDriven < 1) ? "" : "s") + " driven";
+
+            // average pickup delay in minutes
+            if (await _context.Legs.Where(leg => leg.DriverID == id.Value).CountAsync() > 0)
+            {
+                double avgPickupDelay = await _context.Legs.Where(leg => leg.DriverID == id.Value)
+                                                      .Select(leg => leg.StartTime.Subtract(leg.PickupRequestTime.GetValueOrDefault(leg.StartTime)).TotalMinutes).AverageAsync();
+                ViewData["AveragePickupDelay"] = avgPickupDelay + " minute" + ((avgPickupDelay > 0 && avgPickupDelay < 1) ? "" : "s");
+            }
+
             if (id == null)
             {
                 return NotFound();
