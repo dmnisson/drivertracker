@@ -22,5 +22,9 @@
   <ItemGroup>
     <Content Remove="wwwroot\lib\bootstrap\.bower.json" />
     <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
+    <Content Remove="wwwroot\vendor\%40angular\common\common.umd.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="NPM_Task_Runner_v1.4.90 %281%29.vsix" />
   </ItemGroup>
 </Project>
