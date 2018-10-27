@@ -10,7 +10,7 @@ const gulp = require("gulp"),
 
 const paths = {
   webroot: "./wwwroot/",
-  webroot_vendor: "./wwwroot/vendor/"
+  webroot_vendor: "./wwwroot/lib/"
 };
 
 paths.js = paths.webroot + "js/**/*.js";
@@ -54,7 +54,8 @@ var deps = {
   "@angular/router" : {"bundles/*" : ""},
   "@angular/forms" : {"bundles/*" : ""},
 
-  "rxjs" : {"bundles/*" : ""}
+  "rxjs" : {"bundles/*" : ""},
+  "zone.js" : {"dist/*" : ""}
 }
 
 gulp.task("scripts", () => {
