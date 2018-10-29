@@ -5,6 +5,7 @@ const gulp = require("gulp"),
       rimraf = require("rimraf"),
       concat = require("gulp-concat"),
       cssmin = require("gulp-cssmin"),
+      ts = require("gulp-typescript"),
       uglify = require("gulp-uglify"),
       merge = require("merge-stream");
 
@@ -19,10 +20,10 @@ paths.css = paths.webroot + "css/**/*.css";
 paths.minCss = paths.webroot + "css/**/*.min.css";
 paths.concatJsDest = paths.webroot + "js/site.min.js";
 paths.concatCssDest = paths.webroot + "css/site.min.css";
+paths.tsDest = paths.webroot + "app/**/*.js";
 
 gulp.task("clean:js", done => rimraf(paths.concatJsDest, done));
 gulp.task("clean:css", done => rimraf(paths.concatCssDest, done));
-gulp.task("clean:vendor", done => rimraf(paths.webroot_vendor, done));
 gulp.task("clean", gulp.series(["clean:js", "clean:css"]));
 
 gulp.task("min:js", () => {
@@ -45,18 +46,12 @@ gulp.task("min", gulp.series(["min:js", "min:css"]));
 
 // Dependency Dirs
 var deps = {
-  "@angular/common" : {"bundles/*" : ""},
-  "@angular/core" : {"bundles/*" : ""},
-  "@angular/compiler" : {"bundles/*" : ""},
-  "@angular/platform-browser" : {"bundles/*" : ""},
-  "@angular/platform-browser-dynamic" : {"bundles/*" : ""},
-  "@angular/http" : {"bundles/*" : ""},
-  "@angular/router" : {"bundles/*" : ""},
-  "@angular/forms" : {"bundles/*" : ""},
 
-  "rxjs" : {"bundles/*" : ""},
-  "zone.js" : {"dist/*" : ""}
 }
+
+// TypeScript apths
+var tsPaths = paths.webroot + "app/*.ts"
+var libTsPaths = paths.webroot + "lib/**/*.ts"
 
 gulp.task("scripts", () => {
   var streams = [];
@@ -71,3 +66,12 @@ gulp.task("scripts", () => {
 
   return merge(streams);
 });
+
+gulp.task("ts", () => {
+    var sourcePaths = [tsPaths, libTsPaths];
+
+    return gulp.src(sourcePaths, {base: '.'}).pipe(tsProject())
+       .js.pipe(gulp.dest('.'));
+});
+
+gulp.task("default", gulp.series(["clean", "min", "scripts"]));
