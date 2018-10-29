@@ -24,8 +24,76 @@
     <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
     <Content Remove="wwwroot\vendor\%40angular\common\common.umd.js" />
     <Content Remove="wwwroot\vendor\%40angular\common\common.umd.js" />
+    <Content Remove="wwwroot\lib\%40angular\common\common.umd.js" />
+    <Content Remove="wwwroot\lib\%40angular\common\common.umd.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\common\common.umd.min.js" />
+    <Content Remove="wwwroot\lib\%40angular\common\common.umd.min.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\compiler\compiler-testing.umd.js" />
+    <Content Remove="wwwroot\lib\%40angular\compiler\compiler-testing.umd.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\compiler\compiler-testing.umd.min.js" />
+    <Content Remove="wwwroot\lib\%40angular\compiler\compiler-testing.umd.min.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\compiler\compiler.umd.js" />
+    <Content Remove="wwwroot\lib\%40angular\compiler\compiler.umd.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\compiler\compiler.umd.min.js" />
+    <Content Remove="wwwroot\lib\%40angular\compiler\compiler.umd.min.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\core\core-testing.umd.js" />
+    <Content Remove="wwwroot\lib\%40angular\core\core-testing.umd.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\core\core-testing.umd.min.js" />
+    <Content Remove="wwwroot\lib\%40angular\core\core-testing.umd.min.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\core\core.umd.js" />
+    <Content Remove="wwwroot\lib\%40angular\core\core.umd.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\core\core.umd.min.js" />
+    <Content Remove="wwwroot\lib\%40angular\core\core.umd.min.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\forms\forms.umd.js" />
+    <Content Remove="wwwroot\lib\%40angular\forms\forms.umd.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\forms\forms.umd.min.js" />
+    <Content Remove="wwwroot\lib\%40angular\forms\forms.umd.min.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\http\http-testing.umd.js" />
+    <Content Remove="wwwroot\lib\%40angular\http\http-testing.umd.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\http\http-testing.umd.min.js" />
+    <Content Remove="wwwroot\lib\%40angular\http\http-testing.umd.min.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\http\http.umd.js" />
+    <Content Remove="wwwroot\lib\%40angular\http\http.umd.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\http\http.umd.min.js" />
+    <Content Remove="wwwroot\lib\%40angular\http\http.umd.min.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser\platform-browser-animations.umd.js" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser\platform-browser-animations.umd.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser\platform-browser-animations.umd.min.js" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser\platform-browser-animations.umd.min.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser\platform-browser-testing.umd.js" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser\platform-browser-testing.umd.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser\platform-browser-testing.umd.min.js" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser\platform-browser-testing.umd.min.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser\platform-browser.umd.js" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser\platform-browser.umd.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser\platform-browser.umd.min.js" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser\platform-browser.umd.min.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser-dynamic\platform-browser-dynamic-testing.umd.js" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser-dynamic\platform-browser-dynamic-testing.umd.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser-dynamic\platform-browser-dynamic-testing.umd.min.js" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser-dynamic\platform-browser-dynamic-testing.umd.min.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser-dynamic\platform-browser-dynamic.umd.js" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser-dynamic\platform-browser-dynamic.umd.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser-dynamic\platform-browser-dynamic.umd.min.js" />
+    <Content Remove="wwwroot\lib\%40angular\platform-browser-dynamic\platform-browser-dynamic.umd.min.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\router\router-testing.umd.js" />
+    <Content Remove="wwwroot\lib\%40angular\router\router-testing.umd.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\router\router-testing.umd.min.js" />
+    <Content Remove="wwwroot\lib\%40angular\router\router-testing.umd.min.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\router\router-upgrade.umd.js" />
+    <Content Remove="wwwroot\lib\%40angular\router\router-upgrade.umd.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\router\router-upgrade.umd.min.js" />
+    <Content Remove="wwwroot\lib\%40angular\router\router-upgrade.umd.min.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\router\router.umd.js" />
+    <Content Remove="wwwroot\lib\%40angular\router\router.umd.js.map" />
+    <Content Remove="wwwroot\lib\%40angular\router\router.umd.min.js" />
+    <Content Remove="wwwroot\lib\%40angular\router\router.umd.min.js.map" />
+    <Content Remove="wwwroot\lib\rxjs\rxjs.umd.js" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="NPM_Task_Runner_v1.4.90 %281%29.vsix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\app\" />
   </ItemGroup>
 </Project>
