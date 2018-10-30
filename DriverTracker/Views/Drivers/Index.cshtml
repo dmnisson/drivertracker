@@ -1,0 +1,69 @@
+@model IEnumerable<DriverTracker.Models.Driver>
+
+@{
+    ViewData["Title"] = "Drivers";
+}
+
+<h2>Statistics</h2>
+<ul>
+    <li>@ViewData["NumberOfDrivers"]</li>
+    <li>@ViewData["Pickups"]</li>
+    <li>@ViewData["MilesDriven"]</li>
+    @if (ViewData["AveragePickupDelay"] != null)
+    {
+        <li>Average pickup delay: @ViewData["AveragePickupDelay"]</li>
+    }
+</ul>
+
+<app-root></app-root>
+
+<h2>Drivers</h2>
+
+<p>
+    <a asp-action="Create">New Driver</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            @* <th>
+                    @Html.DisplayNameFor(model => model.UserID)
+                </th> *@
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LicenseNumber)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserID)
+                    </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LicenseNumber)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.DriverID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.DriverID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.DriverID">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@* Angular scripts *@
+<script src="~/libs/runtime.js"></script>
+<script src="~/libs/polyfills.js"></script>
+<script src="~/libs/styles.js"></script>
+<script src="~/libs/vendor.js"></script>
+<script src="~/libs/main.js"></script>

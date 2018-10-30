@@ -1,0 +1,132 @@
+@model DriverTracker.Models.Driver
+@using DriverTracker.Models
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Driver Statistics</h2>
+<ul>
+    <li>@ViewData["Pickups"]</li>
+    <li>@ViewData["MilesDriven"]</li>
+    @if (ViewData["AveragePickupDelay"] != null)
+    {
+        <li>Average pickup delay: @ViewData["AveragePickupDelay"]</li>
+    }
+</ul>
+
+<h2>Driver Details</h2>
+
+<div>
+    <h4>Driver</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        @*<dt>
+                @Html.DisplayNameFor(model => model.UserID)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.UserID)
+            </dd>*@
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LicenseNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LicenseNumber)
+        </dd>
+    </dl>
+</div>
+
+<h3>Driver's Legs</h3>
+
+<p>
+    <a asp-action="Create" asp-controller="Legs" asp-route-id="@Model.DriverID" asp-route-fromdriver="true">New Leg</a>
+</p>
+
+@if (Model.Legs != null && Model.Legs.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Legs.First().StartAddress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Legs.First().PickupRequestTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Legs.First().StartTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Legs.First().DestinationAddress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Legs.First().ArrivalTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Legs.First().Distance)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Legs.First().Fare)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Legs.First().NumOfPassengersAboard)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Legs.First().NumOfPassengersPickedUp)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Legs)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PickupRequestTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DestinationAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ArrivalTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Distance)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fare)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumOfPassengersAboard)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumOfPassengersPickedUp)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-controller="Legs" asp-route-id="@item.LegID" asp-route-driver="@item.Driver.DriverID">Edit</a> |
+                        <a asp-action="Details" asp-controller="Legs" asp-route-id="@item.LegID" asp-route-driver="@item.Driver.DriverID">Details</a> |
+                        <a asp-action="Delete" asp-controller="Legs" asp-route-id="@item.LegID" asp-route-driver="@item.Driver.DriverID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<div>
+    |
+    <a asp-action="Edit" asp-route-id="@Model.DriverID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

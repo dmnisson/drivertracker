@@ -1,0 +1,30 @@
+<h2>Drivers</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                License Number
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let driver of drivers">
+            <td>
+                {{driver.name}}
+            </td>
+            <td>
+                {{driver.licenseNumber}}
+            </td>
+            <td>
+                <a href="javascript:void(0);" (click)="editClicked(driver)">Edit</a> |
+                <a href="{{driver.detailUrl}}">Details</a> |
+                <a href="javascript:void(0);" (click)="showDeleteConfirm(driver)">Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
