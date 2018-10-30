@@ -47,10 +47,10 @@ gulp.task("min", gulp.series(["min:js", "min:css"]));
 // Dependency Dirs
 var deps = {
 
-}
+};
 
 // TypeScript apths
-var tsPaths = paths.webroot + "app/*.ts"
+var tsPaths = paths.webroot + "app/*.ts";
 var libTsPaths = paths.webroot + "lib/**/*.ts"
 
 gulp.task("scripts", () => {
@@ -65,13 +65,6 @@ gulp.task("scripts", () => {
   }
 
   return merge(streams);
-});
-
-gulp.task("ts", () => {
-    var sourcePaths = [tsPaths, libTsPaths];
-
-    return gulp.src(sourcePaths, {base: '.'}).pipe(tsProject())
-       .js.pipe(gulp.dest('.'));
 });
 
 gulp.task("default", gulp.series(["clean", "min", "scripts"]));
