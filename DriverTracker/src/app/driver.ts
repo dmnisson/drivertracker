@@ -1,6 +1,6 @@
 ﻿export class Driver {
-    id: number;
+    driverID: number;
+    userID: number;
     name: string;
     licenseNumber: string;
-    detailUrl: string;
 }
