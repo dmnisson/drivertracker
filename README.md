@@ -1,6 +1,8 @@
 # drivertracker
 An application for taxicab companies and transportation network carriers to track and analyze wait times, on-time performance, and service quality of drivers. 
 
+Warning: This application is still in its early stages of development. Security of personal information is not guaranteed.
+
 Specific features that are planned to be implemented are detailed on the About page. 
 
 This is a work in progress. When core functionality has been developed, this README will be updated accordingly.
