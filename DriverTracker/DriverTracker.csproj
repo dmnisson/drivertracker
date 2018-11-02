@@ -89,9 +89,52 @@
     <Content Remove="wwwroot\lib\%40angular\router\router.umd.min.js" />
     <Content Remove="wwwroot\lib\%40angular\router\router.umd.min.js.map" />
     <Content Remove="wwwroot\lib\rxjs\rxjs.umd.js" />
+    <Content Remove="drivertracker\angular.json" />
+    <Content Remove="drivertracker\package-lock.json" />
+    <Content Remove="drivertracker\package.json" />
+    <Content Remove="drivertracker\tsconfig.json" />
+    <Content Remove="drivertracker\tslint.json" />
+    <Content Remove="drivertracker\e2e\tsconfig.e2e.json" />
+    <Content Remove="drivertracker\src\tsconfig.app.json" />
+    <Content Remove="drivertracker\src\tsconfig.spec.json" />
+    <Content Remove="drivertracker\src\tslint.json" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="NPM_Task_Runner_v1.4.90 %281%29.vsix" />
+    <None Remove="drivertracker\.editorconfig" />
+    <None Remove="drivertracker\.gitignore" />
+    <None Remove="drivertracker\README.md" />
+    <None Remove="drivertracker\dist\drivertracker\favicon.ico" />
+    <None Remove="drivertracker\dist\drivertracker\index.html" />
+    <None Remove="drivertracker\dist\drivertracker\main.js" />
+    <None Remove="drivertracker\dist\drivertracker\main.js.map" />
+    <None Remove="drivertracker\dist\drivertracker\polyfills.js" />
+    <None Remove="drivertracker\dist\drivertracker\polyfills.js.map" />
+    <None Remove="drivertracker\dist\drivertracker\runtime.js" />
+    <None Remove="drivertracker\dist\drivertracker\runtime.js.map" />
+    <None Remove="drivertracker\dist\drivertracker\styles.js" />
+    <None Remove="drivertracker\dist\drivertracker\styles.js.map" />
+    <None Remove="drivertracker\dist\drivertracker\vendor.js" />
+    <None Remove="drivertracker\dist\drivertracker\vendor.js.map" />
+    <None Remove="drivertracker\e2e\protractor.conf.js" />
+    <None Remove="drivertracker\e2e\src\app.e2e-spec.ts" />
+    <None Remove="drivertracker\e2e\src\app.po.ts" />
+    <None Remove="drivertracker\src\browserslist" />
+    <None Remove="drivertracker\src\favicon.ico" />
+    <None Remove="drivertracker\src\index.html" />
+    <None Remove="drivertracker\src\karma.conf.js" />
+    <None Remove="drivertracker\src\main.ts" />
+    <None Remove="drivertracker\src\polyfills.ts" />
+    <None Remove="drivertracker\src\styles.sass" />
+    <None Remove="drivertracker\src\test.ts" />
+    <None Remove="drivertracker\src\app\app.component.html" />
+    <None Remove="drivertracker\src\app\app.component.sass" />
+    <None Remove="drivertracker\src\app\app.component.spec.ts" />
+    <None Remove="drivertracker\src\app\app.component.ts" />
+    <None Remove="drivertracker\src\app\app.module.ts" />
+    <None Remove="drivertracker\src\assets\.gitkeep" />
+    <None Remove="drivertracker\src\environments\environment.prod.ts" />
+    <None Remove="drivertracker\src\environments\environment.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\app\" />
