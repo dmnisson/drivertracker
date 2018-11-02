@@ -14,7 +14,6 @@ export class DriversComponent implements OnInit {
     drivers: Driver[];
     editing: number;
     deleteConfirming: number;
-    detailsShowing: number;
     adding: boolean;
 
     getDrivers(): void {
@@ -22,15 +21,19 @@ export class DriversComponent implements OnInit {
     }
 
     editClicked(driver: Driver): void {
+        this.cancelAdd();
         this.editing = driver.driverID;
     }
-
+    
     cancelEdit(): void {
-        this.editing = 0;
-    }
-
-    showDetails(driver: Driver): void {
-        this.detailsShowing = driver.driverID;
+        this.driverService.getDriver(this.editing).subscribe(driver => {
+            let dmem: Driver = this.drivers.find(d => d.driverID == this.editing);
+            if (dmem !== null && driver !== null) {
+                dmem.licenseNumber = driver.licenseNumber;
+                dmem.name = driver.name;
+                this.editing = 0;
+            }
+        });
     }
 
     showDeleteConfirm(driver: Driver): void {
@@ -38,6 +41,7 @@ export class DriversComponent implements OnInit {
     }
 
     addNew(): void {
+        this.cancelEdit();
         this.adding = true;
     }
 
@@ -46,10 +50,26 @@ export class DriversComponent implements OnInit {
     }
 
     onSubmit(): void {
-
+        if (this.editing !== 0) {
+            let driver: Driver = this.drivers.find(d => d.driverID == this.editing);
+            this.driverService.updateDriver(driver).subscribe(x => this.editing = 0);
+        }
     }
 
-    constructor(private driverService: DriverService) { }
+    saveNew(name: string, licenseNumber: string): void {
+        name = name.trim();
+        if (!name) {return;}
+        licenseNumber = licenseNumber.trim();
+        if (!licenseNumber) {return;}
+
+        this.driverService.addDriver({name, licenseNumber} as Driver)
+            .subscribe(driver => this.drivers.push(driver));
+    }
+
+    constructor(private driverService: DriverService) {
+        this.editing = 0;
+        this.adding = false;
+    }
 
     ngOnInit() {
         this.getDrivers();

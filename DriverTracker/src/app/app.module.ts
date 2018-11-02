@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { DriversComponent } from './drivers/drivers.component';
 import { LegsComponent } from './legs/legs.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { LegsComponent } from './legs/legs.component';
   imports: [
       BrowserModule,
       HttpClientModule,
-      FormsModule
+      FormsModule,
+      AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

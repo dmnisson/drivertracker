@@ -16,12 +16,12 @@
     <tbody>
         <tr *ngFor="let driver of drivers">
             <td [ngSwitch]="editing">
-                <input type="text" class="form-control" id="name" required name="name" value="{{driver.name}}"
+                <input type="text" class="form-control" id="name" required name="name_{{driver.driverID}}" [(ngModel)]="driver.name"
                  *ngSwitchCase="driver.driverID"/>
                 <span *ngSwitchDefault>{{driver.name}}</span>
             </td>
             <td [ngSwitch]="editing">
-                <input type="text" class="form-control" id="licenseNumber" required name="licenseNumber" value="{{driver.licenseNumber}}"
+                <input type="text" class="form-control" id="licenseNumber" required name="licenseNumber_{{driver.driverID}}" [(ngModel)]="driver.licenseNumber"
                        *ngSwitchCase="driver.driverID" />
                 <span *ngSwitchDefault>{{driver.licenseNumber}}</span>
             </td>
@@ -32,20 +32,20 @@
                 </span>
                 <span *ngSwitchDefault>
                     <a href="javascript:void(0);" (click)="editClicked(driver)">Edit</a> |
-                    <a href="javascript:void(0);" (click)="showDetails(driver)">Details</a> |
+                    <a href="/Drivers/Details/{{driver.driverID}}">Details</a> |
                     <a href="javascript:void(0);" (click)="showDeleteConfirm(driver)">Delete</a>
                 </span>
             </td>
         </tr>
         <tr *ngIf="adding; else addLink">
             <td>
-                <input type="text" class="form-control" id="name" required name="name" />
+                <input class="form-control" required #name />
             </td>
             <td>
-                <input type="text" class="form-control" id="licenseNumber" required name="licenseNumber" />
+                <input class="form-control" required #licenseNumber />
             </td>
             <td>
-                <button type="submit" class="btn btn-success" [disabled]="!driversForm.form.valid">Save</button>
+                <button type="submit" class="btn btn-success" [disabled]="!driversForm.form.valid" (click)="saveNew(name.value, licenseNumber.value); name.value=''; licenseNumber.value=''">Save</button>
                 <button type="button" class="btn" (click)="cancelAdd()">Cancel</button>
             </td>
         </tr>

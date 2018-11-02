@@ -11,7 +11,7 @@ using DriverTracker.Models;
 namespace DriverTracker.Controllers
 {
     [Route("api/[controller]")]
-    public class DriversApiController : Controller
+    public class DriversApiController : ControllerBase
     {
         private readonly MvcDriverContext _context;
 
@@ -28,7 +28,7 @@ namespace DriverTracker.Controllers
         }
 
         // GET api/driversapi/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetDriver")]
         public Driver Get(int id)
         {
             return _context.Drivers.FirstOrDefault(m => m.DriverID == id);
@@ -36,15 +36,17 @@ namespace DriverTracker.Controllers
 
         // POST api/driversapi/new
         [HttpPost("new")]
-        public void Post(Driver driver)
+        public IActionResult Post([FromBody] Driver driver)
         {
             _context.Add(driver);
             _context.SaveChanges();
+
+            return CreatedAtRoute("GetDriver", new { id = driver.DriverID }, driver);
         }
 
         // PUT api/driversapi/5
         [HttpPut("{id}")]
-        public void Put(int id, Driver driver)
+        public void Put(int id, [FromBody] Driver driver)
         {
             var existingDriver = _context.Drivers.Find(id);
             if (existingDriver == null) {
