@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { AppComponent } from './app.component';
 import { DriversComponent } from './drivers/drivers.component';
 import { LegsComponent } from './legs/legs.component';
@@ -18,7 +20,8 @@ import { AppRoutingModule } from './app-routing.module';
       BrowserModule,
       HttpClientModule,
       FormsModule,
-      AppRoutingModule
+      AppRoutingModule,
+      NgbModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

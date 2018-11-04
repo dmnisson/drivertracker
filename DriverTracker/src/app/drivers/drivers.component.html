@@ -28,12 +28,13 @@
             <td [ngSwitch]="editing">
                 <span *ngSwitchCase="driver.driverID">
                     <button type="submit" class="btn btn-success" [disabled]="!driversForm.form.valid">Save</button>
-                    <button type="button" class="btn" (click)="cancelEdit()">Cancel</button>
+                    <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
                 </span>
+
                 <span *ngSwitchDefault>
-                    <a href="javascript:void(0);" (click)="editClicked(driver)">Edit</a> |
-                    <a href="/Drivers/Details/{{driver.driverID}}">Details</a> |
-                    <a href="javascript:void(0);" (click)="showDeleteConfirm(driver)">Delete</a>
+                    <a class="btn btn-secondary" href="/Drivers/Details/{{driver.driverID}}">Details</a>
+                    <button type="button" class="btn btn-secondary" (click)="editClicked(driver)">Edit</button> 
+                    <button type="button" class="btn btn-secondary" (click)="showDeleteConfirm(content, driver)">Delete</button>
                 </span>
             </td>
         </tr>
@@ -46,12 +47,33 @@
             </td>
             <td>
                 <button type="submit" class="btn btn-success" [disabled]="!driversForm.form.valid" (click)="saveNew(name.value, licenseNumber.value); name.value=''; licenseNumber.value=''">Save</button>
-                <button type="button" class="btn" (click)="cancelAdd()">Cancel</button>
+                <button type="button" class="btn btn-secondary" (click)="cancelAdd()">Cancel</button>
             </td>
         </tr>
         <ng-template #addLink>
-            <a href="javascript:void(0);" (click)="addNew()">New Driver</a>
+            <button type="button" class="btn btn-success" (click)="addNew()">New Driver</button>
         </ng-template>
     </tbody>
 </table>
 </form>
+
+<!-- delete confirm modal -->
+<ng-template #content let-modal>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('crossClicked')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete driver {{toDelete.name}}?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="modal.close('deleteConfirmed')">Delete</button>
+                <button type="button" class="btn btn-secondary" (click)="modal.close('deleteCancelled')">Cancel</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
