@@ -72,7 +72,7 @@ AppRoutingModule = __decorate([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-drivers></app-drivers>"
+module.exports = "<router-outlet></router-outlet>"
 
 /***/ }),
 
@@ -136,10 +136,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _drivers_drivers_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./drivers/drivers.component */ "./src/app/drivers/drivers.component.ts");
-/* harmony import */ var _legs_legs_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./legs/legs.component */ "./src/app/legs/legs.component.ts");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm2015/ng-bootstrap.js");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _drivers_drivers_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./drivers/drivers.component */ "./src/app/drivers/drivers.component.ts");
+/* harmony import */ var _legs_legs_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./legs/legs.component */ "./src/app/legs/legs.component.ts");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -154,23 +155,25 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
         declarations: [
-            _app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"],
-            _drivers_drivers_component__WEBPACK_IMPORTED_MODULE_5__["DriversComponent"],
-            _legs_legs_component__WEBPACK_IMPORTED_MODULE_6__["LegsComponent"]
+            _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
+            _drivers_drivers_component__WEBPACK_IMPORTED_MODULE_6__["DriversComponent"],
+            _legs_legs_component__WEBPACK_IMPORTED_MODULE_7__["LegsComponent"]
         ],
         imports: [
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
             _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
-            _app_routing_module__WEBPACK_IMPORTED_MODULE_7__["AppRoutingModule"]
+            _app_routing_module__WEBPACK_IMPORTED_MODULE_8__["AppRoutingModule"],
+            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__["NgbModule"].forRoot()
         ],
         providers: [],
-        bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]]
+        bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]]
     })
 ], AppModule);
 
@@ -252,7 +255,7 @@ DriverService = __decorate([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Drivers</h2>\n\n<form (ngSubmit)=\"onSubmit()\" #driversForm=\"ngForm\">\n<table class=\"table\">\r\n    <thead>\r\n        <tr>\r\n            <th>\r\n                Name\r\n            </th>\r\n            <th>\r\n                License Number\r\n            </th>\r\n            <th></th>\r\n        </tr>\r\n    </thead>\r\n    <tbody>\r\n        <tr *ngFor=\"let driver of drivers\">\r\n            <td [ngSwitch]=\"editing\">\n                <input type=\"text\" class=\"form-control\" id=\"name\" required name=\"name_{{driver.driverID}}\" [(ngModel)]=\"driver.name\"\n                 *ngSwitchCase=\"driver.driverID\"/>\r\n                <span *ngSwitchDefault>{{driver.name}}</span>\r\n            </td>\r\n            <td [ngSwitch]=\"editing\">\n                <input type=\"text\" class=\"form-control\" id=\"licenseNumber\" required name=\"licenseNumber_{{driver.driverID}}\" [(ngModel)]=\"driver.licenseNumber\"\r\n                       *ngSwitchCase=\"driver.driverID\" />\r\n                <span *ngSwitchDefault>{{driver.licenseNumber}}</span>\r\n            </td>\r\n            <td [ngSwitch]=\"editing\">\n                <span *ngSwitchCase=\"driver.driverID\">\n                    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!driversForm.form.valid\">Save</button>\n                    <button type=\"button\" class=\"btn\" (click)=\"cancelEdit()\">Cancel</button>\n                </span>\n                <span *ngSwitchDefault>\r\n                    <a href=\"javascript:void(0);\" (click)=\"editClicked(driver)\">Edit</a> |\r\n                    <a href=\"/Drivers/Details/{{driver.driverID}}\">Details</a> |\r\n                    <a href=\"javascript:void(0);\" (click)=\"showDeleteConfirm(driver)\">Delete</a>\n                </span>\r\n            </td>\r\n        </tr>\n        <tr *ngIf=\"adding; else addLink\">\n            <td>\n                <input class=\"form-control\" required #name />\n            </td>\n            <td>\n                <input class=\"form-control\" required #licenseNumber />\n            </td>\n            <td>\n                <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!driversForm.form.valid\" (click)=\"saveNew(name.value, licenseNumber.value); name.value=''; licenseNumber.value=''\">Save</button>\n                <button type=\"button\" class=\"btn\" (click)=\"cancelAdd()\">Cancel</button>\n            </td>\n        </tr>\n        <ng-template #addLink>\n            <a href=\"javascript:void(0);\" (click)=\"addNew()\">New Driver</a>\n        </ng-template>\r\n    </tbody>\r\n</table>\n</form>"
+module.exports = "<h2>Drivers</h2>\n\n<form (ngSubmit)=\"onSubmit()\" #driversForm=\"ngForm\">\n<table class=\"table\">\r\n    <thead>\r\n        <tr>\r\n            <th>\r\n                Name\r\n            </th>\r\n            <th>\r\n                License Number\r\n            </th>\r\n            <th></th>\r\n        </tr>\r\n    </thead>\r\n    <tbody>\r\n        <tr *ngFor=\"let driver of drivers\">\r\n            <td [ngSwitch]=\"editing\">\n                <input type=\"text\" class=\"form-control\" id=\"name\" required name=\"name_{{driver.driverID}}\" [(ngModel)]=\"driver.name\"\n                 *ngSwitchCase=\"driver.driverID\"/>\r\n                <span *ngSwitchDefault>{{driver.name}}</span>\r\n            </td>\r\n            <td [ngSwitch]=\"editing\">\n                <input type=\"text\" class=\"form-control\" id=\"licenseNumber\" required name=\"licenseNumber_{{driver.driverID}}\" [(ngModel)]=\"driver.licenseNumber\"\r\n                       *ngSwitchCase=\"driver.driverID\" />\r\n                <span *ngSwitchDefault>{{driver.licenseNumber}}</span>\r\n            </td>\r\n            <td [ngSwitch]=\"editing\">\n                <span *ngSwitchCase=\"driver.driverID\">\n                    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!driversForm.form.valid\">Save</button>\n                    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"cancelEdit()\">Cancel</button>\n                </span>\n\n                <span *ngSwitchDefault>\r\n                    <a class=\"btn btn-secondary\" href=\"/Drivers/Details/{{driver.driverID}}\">Details</a>\r\n                    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"editClicked(driver)\">Edit</button> \r\n                    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"showDeleteConfirm(content, driver)\">Delete</button>\r\n                </span>\r\n            </td>\r\n        </tr>\n        <tr *ngIf=\"adding; else addLink\">\n            <td>\n                <input class=\"form-control\" required #name />\n            </td>\n            <td>\n                <input class=\"form-control\" required #licenseNumber />\n            </td>\n            <td>\n                <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!driversForm.form.valid\" (click)=\"saveNew(name.value, licenseNumber.value); name.value=''; licenseNumber.value=''\">Save</button>\n                <button type=\"button\" class=\"btn btn-secondary\" (click)=\"cancelAdd()\">Cancel</button>\n            </td>\n        </tr>\n        <ng-template #addLink>\n            <button type=\"button\" class=\"btn btn-success\" (click)=\"addNew()\">New Driver</button>\n        </ng-template>\r\n    </tbody>\r\n</table>\n</form>\n\n<!-- delete confirm modal -->\n<ng-template #content let-modal>\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h5 class=\"modal-title\">Confirm Delete</h5>\n                <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"modal.dismiss('crossClicked')\">\n                    <span aria-hidden=\"true\">&times;</span>\n                </button>\n            </div>\n            <div class=\"modal-body\">\r\n                <p>Are you sure you want to delete driver {{toDelete.name}}?</p>\r\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-primary\" (click)=\"modal.close('deleteConfirmed')\">Delete</button>\n                <button type=\"button\" class=\"btn btn-secondary\" (click)=\"modal.close('deleteCancelled')\">Cancel</button>\n            </div>\n        </div>\n    </div>\n</ng-template>"
 
 /***/ }),
 
@@ -278,7 +281,8 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DriversComponent", function() { return DriversComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-/* harmony import */ var _driver_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../driver.service */ "./src/app/driver.service.ts");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm2015/ng-bootstrap.js");
+/* harmony import */ var _driver_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../driver.service */ "./src/app/driver.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -290,9 +294,14 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
+const DELETE_CONFIRMED = "deleteConfirmed";
+const DELETE_CANCELLED = "deleteCancelled";
+const CROSS_CLICKED = "crossClicked";
 let DriversComponent = class DriversComponent {
-    constructor(driverService) {
+    constructor(driverService, modalService) {
         this.driverService = driverService;
+        this.modalService = modalService;
         this.editing = 0;
         this.adding = false;
     }
@@ -312,9 +321,6 @@ let DriversComponent = class DriversComponent {
                 this.editing = 0;
             }
         });
-    }
-    showDeleteConfirm(driver) {
-        this.deleteConfirming = driver.driverID;
     }
     addNew() {
         this.cancelEdit();
@@ -341,6 +347,30 @@ let DriversComponent = class DriversComponent {
         this.driverService.addDriver({ name, licenseNumber })
             .subscribe(driver => this.drivers.push(driver));
     }
+    showDeleteConfirm(content, driver) {
+        this.toDelete = driver;
+        this.modalService.open(content, { ariaLabelledBy: 'deleteConfirmLabel' })
+            .result.then((result) => {
+            if (result == DELETE_CONFIRMED) {
+                this.deleteDriver(driver);
+            }
+            else {
+                this.cancelDelete();
+            }
+        }, (reason) => {
+            this.cancelDelete();
+        });
+    }
+    deleteDriver(driver) {
+        this.driverService.deleteDriver(driver).subscribe(x => {
+            var indexToDelete = this.drivers.indexOf(this.toDelete, 0);
+            this.drivers.splice(indexToDelete, 1);
+            this.toDelete = null;
+        });
+    }
+    cancelDelete() {
+        this.toDelete = null;
+    }
     ngOnInit() {
         this.getDrivers();
     }
@@ -351,7 +381,7 @@ DriversComponent = __decorate([
         template: __webpack_require__(/*! ./drivers.component.html */ "./src/app/drivers/drivers.component.html"),
         styles: [__webpack_require__(/*! ./drivers.component.sass */ "./src/app/drivers/drivers.component.sass")]
     }),
-    __metadata("design:paramtypes", [_driver_service__WEBPACK_IMPORTED_MODULE_1__["DriverService"]])
+    __metadata("design:paramtypes", [_driver_service__WEBPACK_IMPORTED_MODULE_2__["DriverService"], _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NgbModal"]])
 ], DriversComponent);
 
 

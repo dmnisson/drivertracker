@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { Driver } from '../driver';
 import { DriverService } from '../driver.service';
+
+const DELETE_CONFIRMED: string = "deleteConfirmed";
+const DELETE_CANCELLED: string = "deleteCancelled";
+const CROSS_CLICKED: string = "crossClicked";
 
 @Component({
   selector: 'app-drivers',
@@ -13,8 +18,8 @@ export class DriversComponent implements OnInit {
 
     drivers: Driver[];
     editing: number;
-    deleteConfirming: number;
     adding: boolean;
+    toDelete: Driver;
 
     getDrivers(): void {
         this.driverService.getDrivers().subscribe(drivers => this.drivers = drivers);
@@ -34,10 +39,6 @@ export class DriversComponent implements OnInit {
                 this.editing = 0;
             }
         });
-    }
-
-    showDeleteConfirm(driver: Driver): void {
-        this.deleteConfirming = driver.driverID;
     }
 
     addNew(): void {
@@ -66,7 +67,34 @@ export class DriversComponent implements OnInit {
             .subscribe(driver => this.drivers.push(driver));
     }
 
-    constructor(private driverService: DriverService) {
+    showDeleteConfirm(content, driver: Driver) {
+        this.toDelete = driver;
+        this.modalService.open(content, {ariaLabelledBy: 'deleteConfirmLabel'})
+            .result.then((result) => {
+                if (result == DELETE_CONFIRMED) {
+                    this.deleteDriver(driver);
+                }
+                else {
+                    this.cancelDelete();
+                }
+            }, (reason) => {
+                this.cancelDelete();
+            });
+    }
+
+    deleteDriver(driver: Driver) {
+        this.driverService.deleteDriver(driver).subscribe(x => {
+            var indexToDelete = this.drivers.indexOf(this.toDelete, 0);
+            this.drivers.splice(indexToDelete, 1);
+            this.toDelete = null;
+        });
+    }
+
+    cancelDelete() {
+        this.toDelete = null;
+    }
+
+    constructor(private driverService: DriverService, private modalService: NgbModal) {
         this.editing = 0;
         this.adding = false;
     }
