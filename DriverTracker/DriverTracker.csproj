@@ -138,5 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\app\" />
+    <Folder Include="Domain\" />
   </ItemGroup>
 </Project>
