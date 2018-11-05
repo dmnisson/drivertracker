@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DriverTracker.Migrations
 {
     [DbContext(typeof(MvcDriverContext))]
-    [Migration("20181025044617_InitialCreate")]
+    [Migration("20181105040432_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,6 +100,8 @@ namespace DriverTracker.Migrations
                     b.Property<int>("DriverID");
 
                     b.Property<decimal>("Fare");
+
+                    b.Property<decimal>("FuelCost");
 
                     b.Property<int>("NumOfPassengersAboard");
 

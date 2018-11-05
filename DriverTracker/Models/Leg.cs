@@ -18,12 +18,17 @@ namespace DriverTracker.Models
         public decimal Fare { get; set; } // per-passenger fare
         public int NumOfPassengersAboard { get; set; }
         public int NumOfPassengersPickedUp { get; set; }
+        public decimal FuelCost { get; set; } // fuel cost per mile
 
         public Driver Driver { get; set; }
 
         public Leg GetPreviousLeg() {
             return this.Driver.Legs.Where(leg => leg.ArrivalTime <= this.StartTime)
                        .OrderByDescending(leg => leg.ArrivalTime).First();
+        }
+
+        public decimal GetTotalFuelCost() {
+            return this.FuelCost * this.Distance;
         }
     }
 }

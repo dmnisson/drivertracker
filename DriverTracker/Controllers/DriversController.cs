@@ -6,39 +6,53 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DriverTracker.Models;
+using DriverTracker.Domain;
 
 namespace DriverTracker.Controllers
 {
     public class DriversController : Controller
     {
         private readonly MvcDriverContext _context;
+        private readonly DriverStatistics _driverStatisticsService;
 
         public DriversController(MvcDriverContext context)
         {
             _context = context;
+            _driverStatisticsService = new DriverStatistics(_context);
         }
 
         // GET: Drivers
         public async Task<IActionResult> Index()
         {
+            _driverStatisticsService.ComputeCompanyStatistics();
             // total drivers
-            int numOfDrivers = await _context.Drivers.CountAsync();
+            int numOfDrivers = _driverStatisticsService.NumOfDrivers;
             ViewData["NumberOfDrivers"] = numOfDrivers + " driver" + (numOfDrivers == 1 ? "" : "s");
 
             // total pickups
-            int pickups = await _context.Legs.Select(leg => leg.NumOfPassengersPickedUp).SumAsync();
+            int pickups = _driverStatisticsService.Pickups;
             ViewData["Pickups"] = pickups + " passenger pickup" + (pickups == 1 ? "" : "s");
 
             // total miles driven
-            decimal milesDriven = await _context.Legs.Select(leg => leg.Distance).SumAsync();
+            decimal milesDriven = _driverStatisticsService.MilesDriven;
             ViewData["MilesDriven"] = milesDriven + " mile" + ((milesDriven > 0 && milesDriven < 1) ? "" : "s") + " driven";
 
+
             // average pickup delay in minutes
-            if (await _context.Legs.CountAsync() > 0)
+            if (_driverStatisticsService.AveragePickupDelay.HasValue)
             {
-                double avgPickupDelay = await _context.Legs.Select(leg => leg.StartTime.Subtract(leg.PickupRequestTime.GetValueOrDefault(leg.StartTime)).TotalMinutes).AverageAsync();
+                double avgPickupDelay = _driverStatisticsService.AveragePickupDelay.Value;
                 ViewData["AveragePickupDelay"] = avgPickupDelay + " minute" + ((avgPickupDelay > 0 && avgPickupDelay < 1) ? "" : "s");
             }
+
+            decimal totalFares = _driverStatisticsService.TotalFares;
+            ViewData["TotalFares"] = "$" + totalFares;
+
+            decimal totalCosts = _driverStatisticsService.TotalCosts;
+            ViewData["TotalCosts"] = "$" + totalCosts;
+
+            decimal netProfit = _driverStatisticsService.NetProfit;
+            ViewData["NetProfit"] = "$" + netProfit;
 
             return View(await _context.Drivers.ToListAsync());
         }
@@ -46,23 +60,27 @@ namespace DriverTracker.Controllers
         // GET: Drivers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            _driverStatisticsService.ComputeDriverStatistics(id.Value);
             // total pickups
-            int pickups = await _context.Legs.Where(leg => leg.DriverID == id.Value)
-                                        .Select(leg => leg.NumOfPassengersPickedUp).SumAsync();
+            int pickups = _driverStatisticsService.GetPickupsBy(id.Value);
             ViewData["Pickups"] = pickups + " passenger pickup" + (pickups == 1 ? "" : "s");
 
             // total miles driven
-            decimal milesDriven = await _context.Legs.Where(leg => leg.DriverID == id.Value)
-                                                .Select(leg => leg.Distance).SumAsync();
+            decimal milesDriven = _driverStatisticsService.GetMilesDrivenBy(id.Value);
             ViewData["MilesDriven"] = milesDriven + " mile" + ((milesDriven > 0 && milesDriven < 1) ? "" : "s") + " driven";
 
             // average pickup delay in minutes
-            if (await _context.Legs.Where(leg => leg.DriverID == id.Value).CountAsync() > 0)
+            if (_driverStatisticsService.GetAveragePickupDelayBy(id.Value).HasValue)
             {
-                double avgPickupDelay = await _context.Legs.Where(leg => leg.DriverID == id.Value)
-                                                      .Select(leg => leg.StartTime.Subtract(leg.PickupRequestTime.GetValueOrDefault(leg.StartTime)).TotalMinutes).AverageAsync();
+                double avgPickupDelay = _driverStatisticsService.GetAveragePickupDelayBy(id.Value).Value;
                 ViewData["AveragePickupDelay"] = avgPickupDelay + " minute" + ((avgPickupDelay > 0 && avgPickupDelay < 1) ? "" : "s");
             }
+
+            decimal totalFares = _driverStatisticsService.GetTotalFaresBy(id.Value);
+            ViewData["TotalFares"] = "$" + totalFares;
+
+            decimal totalCosts = _driverStatisticsService.GetTotalCostsBy(id.Value);
+            ViewData["TotalCosts"] = "$" + totalCosts;
 
             if (id == null)
             {

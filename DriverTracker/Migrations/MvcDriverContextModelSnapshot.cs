@@ -99,6 +99,8 @@ namespace DriverTracker.Migrations
 
                     b.Property<decimal>("Fare");
 
+                    b.Property<decimal>("FuelCost");
+
                     b.Property<int>("NumOfPassengersAboard");
 
                     b.Property<int>("NumOfPassengersPickedUp");

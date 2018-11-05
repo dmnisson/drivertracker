@@ -67,7 +67,7 @@ namespace DriverTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(bool? fromdriver, [Bind("LegID,DriverID,StartAddress,PickupRequestTime,StartTime,DestinationAddress,ArrivalTime,Distance,Fare,NumOfPassengersAboard,NumOfPassengersPickedUp")] Leg leg)
+        public async Task<IActionResult> Create(bool? fromdriver, [Bind("LegID,DriverID,StartAddress,PickupRequestTime,StartTime,DestinationAddress,ArrivalTime,Distance,Fare,NumOfPassengersAboard,NumOfPassengersPickedUp,FuelCost")] Leg leg)
         {
             if (ModelState.IsValid)
             {
@@ -109,7 +109,7 @@ namespace DriverTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int? driver, [Bind("LegID,DriverID,StartAddress,PickupRequestTime,StartTime,DestinationAddress,ArrivalTime,Distance,Fare,NumOfPassengersAboard,NumOfPassengersPickedUp")] Leg leg)
+        public async Task<IActionResult> Edit(int id, int? driver, [Bind("LegID,DriverID,StartAddress,PickupRequestTime,StartTime,DestinationAddress,ArrivalTime,Distance,Fare,NumOfPassengersAboard,NumOfPassengersPickedUp,FuelCost")] Leg leg)
         {
             if (id != leg.LegID)
             {

@@ -86,7 +86,8 @@ namespace DriverTracker.Migrations
                     Distance = table.Column<decimal>(nullable: false),
                     Fare = table.Column<decimal>(nullable: false),
                     NumOfPassengersAboard = table.Column<int>(nullable: false),
-                    NumOfPassengersPickedUp = table.Column<int>(nullable: false)
+                    NumOfPassengersPickedUp = table.Column<int>(nullable: false),
+                    FuelCost = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
