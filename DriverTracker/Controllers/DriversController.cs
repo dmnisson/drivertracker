@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using DriverTracker.Models;
 using DriverTracker.Domain;
 
+using Microsoft.AspNetCore.Authorization;
+
 namespace DriverTracker.Controllers
 {
     public class DriversController : Controller
@@ -22,6 +24,7 @@ namespace DriverTracker.Controllers
         }
 
         // GET: Drivers
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             _driverStatisticsService.ComputeCompanyStatistics();
