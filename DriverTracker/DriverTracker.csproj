@@ -18,6 +18,9 @@
   
   <ItemGroup>
     <Compile Remove="Controllers\AnalystController.cs" />
+    <Compile Remove="Migrations\DriverIdentity\20181106003846_CreateIdentityTables.cs" />
+    <Compile Remove="Areas\Identity\Data\DriverIdentityContext.cs" />
+    <Compile Remove="Areas\Identity\Data\MvcDataContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\lib\bootstrap\.bower.json" />
@@ -101,40 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="NPM_Task_Runner_v1.4.90 %281%29.vsix" />
-    <None Remove="drivertracker\.editorconfig" />
-    <None Remove="drivertracker\.gitignore" />
-    <None Remove="drivertracker\README.md" />
-    <None Remove="drivertracker\dist\drivertracker\favicon.ico" />
-    <None Remove="drivertracker\dist\drivertracker\index.html" />
-    <None Remove="drivertracker\dist\drivertracker\main.js" />
-    <None Remove="drivertracker\dist\drivertracker\main.js.map" />
-    <None Remove="drivertracker\dist\drivertracker\polyfills.js" />
-    <None Remove="drivertracker\dist\drivertracker\polyfills.js.map" />
-    <None Remove="drivertracker\dist\drivertracker\runtime.js" />
-    <None Remove="drivertracker\dist\drivertracker\runtime.js.map" />
-    <None Remove="drivertracker\dist\drivertracker\styles.js" />
-    <None Remove="drivertracker\dist\drivertracker\styles.js.map" />
-    <None Remove="drivertracker\dist\drivertracker\vendor.js" />
-    <None Remove="drivertracker\dist\drivertracker\vendor.js.map" />
-    <None Remove="drivertracker\e2e\protractor.conf.js" />
-    <None Remove="drivertracker\e2e\src\app.e2e-spec.ts" />
-    <None Remove="drivertracker\e2e\src\app.po.ts" />
-    <None Remove="drivertracker\src\browserslist" />
-    <None Remove="drivertracker\src\favicon.ico" />
-    <None Remove="drivertracker\src\index.html" />
-    <None Remove="drivertracker\src\karma.conf.js" />
-    <None Remove="drivertracker\src\main.ts" />
-    <None Remove="drivertracker\src\polyfills.ts" />
-    <None Remove="drivertracker\src\styles.sass" />
-    <None Remove="drivertracker\src\test.ts" />
-    <None Remove="drivertracker\src\app\app.component.html" />
-    <None Remove="drivertracker\src\app\app.component.sass" />
-    <None Remove="drivertracker\src\app\app.component.spec.ts" />
-    <None Remove="drivertracker\src\app\app.component.ts" />
-    <None Remove="drivertracker\src\app\app.module.ts" />
-    <None Remove="drivertracker\src\assets\.gitkeep" />
-    <None Remove="drivertracker\src\environments\environment.prod.ts" />
-    <None Remove="drivertracker\src\environments\environment.ts" />
+    <None Remove="DriverTracker.db" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\app\" />
