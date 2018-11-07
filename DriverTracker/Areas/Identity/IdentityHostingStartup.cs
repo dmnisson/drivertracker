@@ -18,9 +18,12 @@ namespace DriverTracker.Areas.Identity
                 services.AddDbContext<DriverTrackerIdentityDbContext>(options =>
                      options.UseSqlite("Data Source=DriverTracker.db"));
 
-                services.AddDefaultIdentity<IdentityUser>()
-                    .AddEntityFrameworkStores<DriverTrackerIdentityDbContext>();
+                services.AddIdentity<IdentityUser, IdentityRole>()
+                    .AddEntityFrameworkStores<DriverTrackerIdentityDbContext>()
+                .AddDefaultUI().AddDefaultTokenProviders();
             });
         }
+
+
     }
 }
