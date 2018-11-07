@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+
+
 using DriverTracker.Models;
 
 namespace DriverTracker.Controllers
@@ -19,6 +22,7 @@ namespace DriverTracker.Controllers
         }
 
         // GET: Analysts
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Analysts.ToListAsync());
