@@ -104,6 +104,7 @@ namespace DriverTracker.Controllers
         }
 
         // GET: Drivers/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -112,6 +113,7 @@ namespace DriverTracker.Controllers
         // POST: Drivers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("DriverID,UserID,Name,LicenseNumber")] Driver driver)
