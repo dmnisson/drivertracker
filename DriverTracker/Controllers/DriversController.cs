@@ -198,6 +198,7 @@ namespace DriverTracker.Controllers
         }
 
         // POST: Drivers/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

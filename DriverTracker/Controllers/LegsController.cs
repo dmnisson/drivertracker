@@ -7,8 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DriverTracker.Models;
 
+using Microsoft.AspNetCore.Authorization;
+
 namespace DriverTracker.Controllers
 {
+    [Authorize(Roles="Admin,Driver")]
     public class LegsController : Controller
     {
         private readonly MvcDriverContext _context;

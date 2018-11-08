@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 using DriverTracker.Models;
 
@@ -10,6 +11,7 @@ using DriverTracker.Models;
 
 namespace DriverTracker.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class DriversApiController : ControllerBase
     {
@@ -62,6 +64,7 @@ namespace DriverTracker.Controllers
         }
 
         // DELETE api/driversapi/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
