@@ -29,6 +29,7 @@ namespace DriverTracker.Controllers
         }
 
         // GET: Analysts/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,6 +48,7 @@ namespace DriverTracker.Controllers
         }
 
         // GET: Analysts/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -55,6 +57,7 @@ namespace DriverTracker.Controllers
         // POST: Analysts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,UserID,Username,FullName,Email,PhoneNumber,SMSNumber,AccountStatus,ReceivesSMSAlertsNewDrivers,ReceivesSMSAlertsDriversTerminated,ReceivesSMSAlertsLongDriverWaits,SMSAlertDriverWaitTime")] Analyst analyst)
@@ -69,6 +72,7 @@ namespace DriverTracker.Controllers
         }
 
         // GET: Analysts/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,6 +91,7 @@ namespace DriverTracker.Controllers
         // POST: Analysts/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,UserID,Username,FullName,Email,PhoneNumber,SMSNumber,AccountStatus,ReceivesSMSAlertsNewDrivers,ReceivesSMSAlertsDriversTerminated,ReceivesSMSAlertsLongDriverWaits,SMSAlertDriverWaitTime")] Analyst analyst)
@@ -120,6 +125,7 @@ namespace DriverTracker.Controllers
         }
 
         // GET: Analysts/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,6 +144,7 @@ namespace DriverTracker.Controllers
         }
 
         // POST: Analysts/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
