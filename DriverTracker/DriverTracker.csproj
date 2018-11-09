@@ -10,6 +10,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" />
     <PackageReference Include="NUnit" Version="3.11.0" />
+    <PackageReference Include="Geocoding.Core" Version="4.0.1" />
+    <PackageReference Include="Geocoding.Google" Version="4.0.1" />
+    <PackageReference Include="Geocoding.MapQuest" Version="4.0.1" />
+    <PackageReference Include="Geocoding.Microsoft" Version="4.0.1" />
+    <PackageReference Include="Geocoding.Yahoo" Version="4.0.1" />
+    <PackageReference Include="Accord.Statistics" Version="3.8.0" />
   </ItemGroup>
     
   <ItemGroup>
