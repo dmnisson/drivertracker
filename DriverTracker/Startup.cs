@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Identity;
 
 using Microsoft.EntityFrameworkCore;
 using DriverTracker.Models;
-using DriverTracker.Areas.Identity.Data;
+using DriverTracker.Data;
 
 namespace DriverTracker
 {
@@ -42,7 +42,8 @@ namespace DriverTracker
 
             services.AddDbContext<MvcDriverContext>(options => options.UseSqlite("Data Source=DriverTracker.db"));
             services.AddDbContext<DriverTrackerIdentityDbContext>(options =>
-                     options.UseSqlite("Data Source=DriverTracker.db"));
+                                                                  options.UseSqlite("Data Source=DriverTracker.db"));
+                                                                  
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

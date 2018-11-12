@@ -139,5 +139,10 @@ namespace DriverTracker.Domain
                 return netProfit;
             }
         }
+
+        public DriverStatisticResults GetDriverStatisticResults(int id)
+        {
+            return driverStats[id];
+        }
     }
 }
