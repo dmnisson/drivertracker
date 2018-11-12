@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace DriverTracker.Areas.Identity.Data
+namespace DriverTracker.Data
 {
     public class DriverTrackerIdentityDbContext : IdentityDbContext<IdentityUser>
     {

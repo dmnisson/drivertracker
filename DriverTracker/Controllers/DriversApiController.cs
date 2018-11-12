@@ -11,7 +11,7 @@ using DriverTracker.Models;
 
 namespace DriverTracker.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Analyst, Driver")]
     [Route("api/[controller]")]
     public class DriversApiController : ControllerBase
     {

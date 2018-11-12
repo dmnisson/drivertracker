@@ -24,7 +24,7 @@ namespace DriverTracker.Controllers
         }
 
         // GET: Drivers
-        [Authorize]
+        [Authorize(Roles = "Admin,Driver")]
         public async Task<IActionResult> Index()
         {
             _driverStatisticsService.ComputeCompanyStatistics();
@@ -61,7 +61,7 @@ namespace DriverTracker.Controllers
         }
 
         // GET: Drivers/Details/5
-        [Authorize]
+        [Authorize(Roles = "Admin,Driver")]
         public async Task<IActionResult> Details(int? id)
         {
             _driverStatisticsService.ComputeDriverStatistics(id.Value);
@@ -104,7 +104,7 @@ namespace DriverTracker.Controllers
         }
 
         // GET: Drivers/Create
-        [Authorize]
+        [Authorize(Roles = "Admin,Driver")]
         public IActionResult Create()
         {
             return View();
@@ -113,7 +113,7 @@ namespace DriverTracker.Controllers
         // POST: Drivers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize]
+        [Authorize(Roles = "Admin,Driver")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("DriverID,UserID,Name,LicenseNumber")] Driver driver)
@@ -128,7 +128,7 @@ namespace DriverTracker.Controllers
         }
 
         // GET: Drivers/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Admin,Driver")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -149,7 +149,7 @@ namespace DriverTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Admin,Driver")]
         public async Task<IActionResult> Edit(int id, [Bind("DriverID,UserID,Name,LicenseNumber")] Driver driver)
         {
             if (id != driver.DriverID)
