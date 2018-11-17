@@ -36,6 +36,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
 /* harmony import */ var _drivers_drivers_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./drivers/drivers.component */ "./src/app/drivers/drivers.component.ts");
+/* harmony import */ var _predictor_predictor_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./predictor/predictor.component */ "./src/app/predictor/predictor.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -45,8 +46,10 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 const routes = [
-    { path: 'Drivers', component: _drivers_drivers_component__WEBPACK_IMPORTED_MODULE_2__["DriversComponent"] }
+    { path: 'Drivers', component: _drivers_drivers_component__WEBPACK_IMPORTED_MODULE_2__["DriversComponent"] },
+    { path: 'Predictor/Index/:id', component: _predictor_predictor_component__WEBPACK_IMPORTED_MODULE_3__["PredictorComponent"] }
 ];
 let AppRoutingModule = class AppRoutingModule {
 };
@@ -141,12 +144,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _drivers_drivers_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./drivers/drivers.component */ "./src/app/drivers/drivers.component.ts");
 /* harmony import */ var _legs_legs_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./legs/legs.component */ "./src/app/legs/legs.component.ts");
 /* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _predictor_predictor_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./predictor/predictor.component */ "./src/app/predictor/predictor.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -163,7 +168,8 @@ AppModule = __decorate([
         declarations: [
             _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
             _drivers_drivers_component__WEBPACK_IMPORTED_MODULE_6__["DriversComponent"],
-            _legs_legs_component__WEBPACK_IMPORTED_MODULE_7__["LegsComponent"]
+            _legs_legs_component__WEBPACK_IMPORTED_MODULE_7__["LegsComponent"],
+            _predictor_predictor_component__WEBPACK_IMPORTED_MODULE_9__["PredictorComponent"]
         ],
         imports: [
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -255,7 +261,7 @@ DriverService = __decorate([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ng-template [ngIf]=\"companyStatistics != null\">\r\n<h2>Statistics</h2>\r\n<ul>\r\n    <li>{{companyStatistics.numOfDrivers}} driver<ng-template [ngIf]=\"companyStatistics.numOfDrivers != 1\">s</ng-template></li>\r\n    <li>{{companyStatistics.pickups}} passenger pickup<ng-template [ngIf]=\"companyStatistics.numOfPickups != 1\">s</ng-template></li>\r\n    <li>{{companyStatistics.milesDriven}} mile<ng-template [ngIf]=\"companyStatistics.milesDriven != 1\">s</ng-template> driven</li>\r\n    <li *ngIf=\"companyStatistics.averagePickupDelay != null\">Average pickup delay: \r\n    {{companyStatistics.averagePickupDelay}} minute<ng-template [ngIf]=\"companyStatistics.averagePickupDela != 1\">s</ng-template></li>\r\n    <li>Total fares: ${{companyStatistics.totalFares}}</li>\r\n    <li>Total fuel costs: ${{companyStatistics.totalCosts}}</li>\r\n    <li>Net profit: ${{companyStatistics.netProfit}}</li>\r\n</ul>\r\n</ng-template>\r\n\r\n<h2>Drivers</h2>\r\n<form (ngSubmit)=\"onSubmit()\" #driversForm=\"ngForm\">\r\n    <table class=\"table\">\r\n        <thead>\r\n            <tr>\r\n                <th>\r\n                    Name\r\n                </th>\r\n                <th>\r\n                    License Number\r\n                </th>\r\n                <th></th>\r\n            </tr>\r\n        </thead>\r\n        <tbody>\r\n            <tr *ngFor=\"let driver of drivers\">\r\n                <td [ngSwitch]=\"editing\">\r\n                    <input type=\"text\" class=\"form-control\" id=\"name\" required name=\"name_{{driver.driverID}}\" [(ngModel)]=\"driver.name\"\r\n                           *ngSwitchCase=\"driver.driverID\" />\r\n                    <span *ngSwitchDefault>{{driver.name}}</span>\r\n                </td>\r\n                <td [ngSwitch]=\"editing\">\r\n                    <input type=\"text\" class=\"form-control\" id=\"licenseNumber\" required name=\"licenseNumber_{{driver.driverID}}\" [(ngModel)]=\"driver.licenseNumber\"\r\n                           *ngSwitchCase=\"driver.driverID\" />\r\n                    <span *ngSwitchDefault>{{driver.licenseNumber}}</span>\r\n                </td>\r\n                <td [ngSwitch]=\"editing\">\r\n                    <span *ngSwitchCase=\"driver.driverID\">\r\n                        <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!driversForm.form.valid\">Save</button>\r\n                        <button type=\"button\" class=\"btn btn-secondary\" (click)=\"cancelEdit()\">Cancel</button>\r\n                    </span>\r\n                    <span *ngSwitchDefault>\r\n                        <a class=\"btn btn-secondary\" href=\"/Drivers/Details/{{driver.driverID}}\">Details</a>\r\n                        <button type=\"button\" class=\"btn btn-secondary\" (click)=\"editClicked(driver)\">Edit</button>\r\n                        <button type=\"button\" class=\"btn btn-secondary\" (click)=\"showDeleteConfirm(content, driver)\">Delete</button>\r\n                    </span>\r\n                </td>\r\n            </tr>\r\n            <tr *ngIf=\"adding; else addLink\">\r\n                <td>\r\n                    <input class=\"form-control\" required #name />\r\n                </td>\r\n                <td>\r\n                    <input class=\"form-control\" required #licenseNumber />\r\n                </td>\r\n                <td>\r\n                    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!driversForm.form.valid\" (click)=\"saveNew(name.value, licenseNumber.value); name.value=''; licenseNumber.value=''\">Save</button>\r\n                    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"cancelAdd()\">Cancel</button>\r\n                </td>\r\n            </tr>\r\n            <ng-template #addLink>\r\n                <button type=\"button\" class=\"btn btn-success\" (click)=\"addNew()\">New Driver</button>\r\n            </ng-template>\r\n        </tbody>\r\n    </table>\r\n</form>\r\n<!-- delete confirm modal -->\r\n<ng-template #content let-modal>\r\n    <div class=\"modal-dialog\" role=\"document\">\r\n        <div class=\"modal-content\">\r\n            <div class=\"modal-header\">\r\n                <h5 class=\"modal-title\">Confirm Delete</h5>\r\n                <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"modal.dismiss('crossClicked')\">\r\n                    <span aria-hidden=\"true\">&times;</span>\r\n                </button>\r\n            </div>\r\n            <div class=\"modal-body\">\r\n                <p>Are you sure you want to delete driver {{toDelete.name}}?</p>\r\n            </div>\r\n            <div class=\"modal-footer\">\r\n                <button type=\"button\" class=\"btn btn-primary\" (click)=\"modal.close('deleteConfirmed')\">Delete</button>\r\n                <button type=\"button\" class=\"btn btn-secondary\" (click)=\"modal.close('deleteCancelled')\">Cancel</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</ng-template>"
+module.exports = "<ng-template [ngIf]=\"companyStatistics != null\">\r\n<h2>Statistics</h2>\r\n<ul>\r\n    <li>{{companyStatistics.numOfDrivers}} driver<ng-template [ngIf]=\"companyStatistics.numOfDrivers != 1\">s</ng-template></li>\r\n    <li>{{companyStatistics.pickups}} passenger pickup<ng-template [ngIf]=\"companyStatistics.numOfPickups != 1\">s</ng-template></li>\r\n    <li>{{companyStatistics.milesDriven}} mile<ng-template [ngIf]=\"companyStatistics.milesDriven != 1\">s</ng-template> driven</li>\r\n    <li *ngIf=\"companyStatistics.averagePickupDelay != null\">Average pickup delay: \r\n    {{companyStatistics.averagePickupDelay}} minute<ng-template [ngIf]=\"companyStatistics.averagePickupDela != 1\">s</ng-template></li>\r\n    <li>Total fares: ${{companyStatistics.totalFares}}</li>\r\n    <li>Total fuel costs: ${{companyStatistics.totalCosts}}</li>\r\n    <li>Net profit: ${{companyStatistics.netProfit}}</li>\r\n</ul>\r\n</ng-template>\r\n\r\n<h2>Drivers</h2>\r\n<form (ngSubmit)=\"onSubmit()\" #driversForm=\"ngForm\">\r\n    <table class=\"table\">\r\n        <thead>\r\n            <tr>\r\n                <th>\r\n                    Name\r\n                </th>\r\n                <th>\r\n                    License Number\r\n                </th>\r\n                <th></th>\r\n            </tr>\r\n        </thead>\r\n        <tbody>\r\n            <tr *ngFor=\"let driver of drivers\">\r\n                <td [ngSwitch]=\"editing\">\r\n                    <input type=\"text\" class=\"form-control\" id=\"name\" required name=\"name_{{driver.driverID}}\" [(ngModel)]=\"driver.name\"\r\n                           *ngSwitchCase=\"driver.driverID\" />\r\n                    <span *ngSwitchDefault>{{driver.name}}</span>\r\n                </td>\r\n                <td [ngSwitch]=\"editing\">\r\n                    <input type=\"text\" class=\"form-control\" id=\"licenseNumber\" required name=\"licenseNumber_{{driver.driverID}}\" [(ngModel)]=\"driver.licenseNumber\"\r\n                           *ngSwitchCase=\"driver.driverID\" />\r\n                    <span *ngSwitchDefault>{{driver.licenseNumber}}</span>\r\n                </td>\r\n                <td [ngSwitch]=\"editing\">\r\n                    <div class=\"btn-toolbar\" role=\"toolbar\" *ngSwitchCase=\"driver.driverID\">\r\n                        <button type=\"submit\" class=\"btn btn-success mr-2\" [disabled]=\"!driversForm.form.valid\">Save</button>\r\n                        <button type=\"button\" class=\"btn btn-secondary\" (click)=\"cancelEdit()\">Cancel</button>\r\n                    </div>\r\n                    <span class=\"btn-group\" role=\"group\" *ngSwitchDefault>\r\n                        <a class=\"btn btn-secondary\" href=\"/Drivers/Details/{{driver.driverID}}\">Details</a>\r\n                        <button type=\"button\" class=\"btn btn-secondary\" (click)=\"editClicked(driver)\">Edit</button>\r\n                        <button type=\"button\" class=\"btn btn-secondary\" (click)=\"showDeleteConfirm(content, driver)\">Delete</button>\r\n                        <a class=\"btn btn-secondary\" href=\"/Predictor/Index/{{driver.driverID}}\">Predictive Analytics</a>\r\n                    </span>\r\n                </td>\r\n            </tr>\r\n            <tr *ngIf=\"adding; else addLink\">\r\n                <td>\r\n                    <input class=\"form-control\" required #name />\r\n                </td>\r\n                <td>\r\n                    <input class=\"form-control\" required #licenseNumber />\r\n                </td>\r\n                <td>\r\n                    <button type=\"submit\" class=\"btn btn-success mr-2\" [disabled]=\"!driversForm.form.valid\" (click)=\"saveNew(name.value, licenseNumber.value); name.value=''; licenseNumber.value=''\">Save</button>\r\n                    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"cancelAdd()\">Cancel</button>\r\n                </td>\r\n            </tr>\r\n            <ng-template #addLink>\r\n                <button type=\"button\" class=\"btn btn-success\" (click)=\"addNew()\">New Driver</button>\r\n            </ng-template>\r\n        </tbody>\r\n    </table>\r\n</form>\r\n<!-- delete confirm modal -->\r\n<ng-template #content let-modal>\r\n    <div class=\"modal-dialog\" role=\"document\">\r\n        <div class=\"modal-content\">\r\n            <div class=\"modal-header\">\r\n                <h5 class=\"modal-title\">Confirm Delete</h5>\r\n                <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"modal.dismiss('crossClicked')\">\r\n                    <span aria-hidden=\"true\">&times;</span>\r\n                </button>\r\n            </div>\r\n            <div class=\"modal-body\">\r\n                <p>Are you sure you want to delete driver {{toDelete.name}}?</p>\r\n            </div>\r\n            <div class=\"modal-footer\">\r\n                <button type=\"button\" class=\"btn btn-primary\" (click)=\"modal.close('deleteConfirmed')\">Delete</button>\r\n                <button type=\"button\" class=\"btn btn-secondary\" (click)=\"modal.close('deleteCancelled')\">Cancel</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</ng-template>"
 
 /***/ }),
 
@@ -493,6 +499,134 @@ LegsComponent = __decorate([
     }),
     __metadata("design:paramtypes", [])
 ], LegsComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/predictor.service.ts":
+/*!**************************************!*\
+  !*** ./src/app/predictor.service.ts ***!
+  \**************************************/
+/*! exports provided: PredictorService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PredictorService", function() { return PredictorService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+const httpOptions = {
+    headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({ 'Content-Type': 'application/json' })
+};
+let PredictorService = class PredictorService {
+    constructor(http) {
+        this.http = http;
+        this.analysisUrl = '/api/analysisapi';
+    }
+    getRidershipProbabilities(driverID, delay, duration, fare) {
+        const url = `${this.analysisUrl}/multipickupprob/${driverID}/${delay}/${duration}/${fare}`;
+        return this.http.get(url, httpOptions);
+    }
+};
+PredictorService = __decorate([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+        providedIn: 'root'
+    }),
+    __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+], PredictorService);
+
+
+
+/***/ }),
+
+/***/ "./src/app/predictor/predictor.component.html":
+/*!****************************************************!*\
+  !*** ./src/app/predictor/predictor.component.html ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<h2>Ridership Prediction for Driver: {{driver.name}}</h2>\n\n<form (ngSubmit)=\"onSubmit()\" #riderPredictionForm=\"ngForm\">\n    <div class=\"form-group\">\n        <label for=\"delay\">Anticipated delay (min)</label>\n        <input type=\"number\" name=\"delay\" [(ngModel)]=\"delay\" class=\"form-control\" />\n    </div>\n    <div class=\"form-group\">\r\n        <label for=\"duration\">Leg duration (min)</label>\r\n        <input type=\"number\" name=\"duration\" [(ngModel)]=\"duration\" class=\"form-control\" />\r\n    </div>\n    <div class=\"form-group\">\r\n        <label for=\"fare\">Fare ($)</label>\r\n        <input type=\"number\" name=\"fare\" [(ngModel)]=\"fare\" class=\"form-control\" />\r\n    </div>\n    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!riderPredictionForm.form.valid\">Predict</button>\n</form>\n\n\n<div class=\"row\" *ngIf=\"ridershipProbabilities != null\">\n    <div class=\"col\">\n        <p class=\"p-5\">Probability of multiple ridership:</p>\n    </div>\n    <div class=\"col\">\n        <p class=\"p-5\">{{ridershipProbabilities[1] * 100}}%</p>\r\n    </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/predictor/predictor.component.sass":
+/*!****************************************************!*\
+  !*** ./src/app/predictor/predictor.component.sass ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3ByZWRpY3Rvci9wcmVkaWN0b3IuY29tcG9uZW50LnNhc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/predictor/predictor.component.ts":
+/*!**************************************************!*\
+  !*** ./src/app/predictor/predictor.component.ts ***!
+  \**************************************************/
+/*! exports provided: PredictorComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PredictorComponent", function() { return PredictorComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _predictor_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../predictor.service */ "./src/app/predictor.service.ts");
+/* harmony import */ var _driver_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../driver.service */ "./src/app/driver.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+let PredictorComponent = class PredictorComponent {
+    constructor(predictorService, driverService, aRoute) {
+        this.predictorService = predictorService;
+        this.driverService = driverService;
+        this.aRoute = aRoute;
+        this.aRoute.params.subscribe(p => this.getDriver(p['id']));
+    }
+    getDriver(id) {
+        this.driverService.getDriver(id).subscribe(driver => this.driver = driver);
+    }
+    onSubmit() {
+        this.predictorService.getRidershipProbabilities(this.driver.driverID, this.delay, this.duration, this.fare)
+            .subscribe(probs => this.ridershipProbabilities = probs);
+    }
+    ngOnInit() {
+    }
+};
+PredictorComponent = __decorate([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+        selector: 'app-predictor',
+        template: __webpack_require__(/*! ./predictor.component.html */ "./src/app/predictor/predictor.component.html"),
+        styles: [__webpack_require__(/*! ./predictor.component.sass */ "./src/app/predictor/predictor.component.sass")]
+    }),
+    __metadata("design:paramtypes", [_predictor_service__WEBPACK_IMPORTED_MODULE_2__["PredictorService"],
+        _driver_service__WEBPACK_IMPORTED_MODULE_3__["DriverService"],
+        _angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"]])
+], PredictorComponent);
 
 
 

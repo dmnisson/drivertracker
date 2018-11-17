@@ -9,12 +9,14 @@ import { AppComponent } from './app.component';
 import { DriversComponent } from './drivers/drivers.component';
 import { LegsComponent } from './legs/legs.component';
 import { AppRoutingModule } from './app-routing.module';
+import { PredictorComponent } from './predictor/predictor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DriversComponent,
-    LegsComponent
+    LegsComponent,
+    PredictorComponent
   ],
   imports: [
       BrowserModule,
