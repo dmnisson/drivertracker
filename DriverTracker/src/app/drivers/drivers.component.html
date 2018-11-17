@@ -39,14 +39,15 @@
                     <span *ngSwitchDefault>{{driver.licenseNumber}}</span>
                 </td>
                 <td [ngSwitch]="editing">
-                    <span *ngSwitchCase="driver.driverID">
-                        <button type="submit" class="btn btn-success" [disabled]="!driversForm.form.valid">Save</button>
+                    <div class="btn-toolbar" role="toolbar" *ngSwitchCase="driver.driverID">
+                        <button type="submit" class="btn btn-success mr-2" [disabled]="!driversForm.form.valid">Save</button>
                         <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
-                    </span>
-                    <span *ngSwitchDefault>
+                    </div>
+                    <span class="btn-group" role="group" *ngSwitchDefault>
                         <a class="btn btn-secondary" href="/Drivers/Details/{{driver.driverID}}">Details</a>
                         <button type="button" class="btn btn-secondary" (click)="editClicked(driver)">Edit</button>
                         <button type="button" class="btn btn-secondary" (click)="showDeleteConfirm(content, driver)">Delete</button>
+                        <a class="btn btn-secondary" href="/Predictor/Index/{{driver.driverID}}">Predictive Analytics</a>
                     </span>
                 </td>
             </tr>
@@ -58,7 +59,7 @@
                     <input class="form-control" required #licenseNumber />
                 </td>
                 <td>
-                    <button type="submit" class="btn btn-success" [disabled]="!driversForm.form.valid" (click)="saveNew(name.value, licenseNumber.value); name.value=''; licenseNumber.value=''">Save</button>
+                    <button type="submit" class="btn btn-success mr-2" [disabled]="!driversForm.form.valid" (click)="saveNew(name.value, licenseNumber.value); name.value=''; licenseNumber.value=''">Save</button>
                     <button type="button" class="btn btn-secondary" (click)="cancelAdd()">Cancel</button>
                 </td>
             </tr>

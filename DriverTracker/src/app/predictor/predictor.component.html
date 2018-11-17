@@ -1,0 +1,27 @@
+<h2>Ridership Prediction for Driver: {{driver.name}}</h2>
+
+<form (ngSubmit)="onSubmit()" #riderPredictionForm="ngForm">
+    <div class="form-group">
+        <label for="delay">Anticipated delay (min)</label>
+        <input type="number" name="delay" [(ngModel)]="delay" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="duration">Leg duration (min)</label>
+        <input type="number" name="duration" [(ngModel)]="duration" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="fare">Fare ($)</label>
+        <input type="number" name="fare" [(ngModel)]="fare" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-success" [disabled]="!riderPredictionForm.form.valid">Predict</button>
+</form>
+
+
+<div class="row" *ngIf="ridershipProbabilities != null">
+    <div class="col">
+        <p class="p-5">Probability of multiple ridership:</p>
+    </div>
+    <div class="col">
+        <p class="p-5">{{ridershipProbabilities[1] * 100}}%</p>
+    </div>
+</div>

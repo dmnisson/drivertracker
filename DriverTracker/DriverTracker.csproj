@@ -116,6 +116,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\app\" />
     <Folder Include="Domain\" />
+    <Folder Include="Views\Predictor\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DriverTracker.csproj" />
