@@ -4,6 +4,8 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { Driver } from '../driver';
 import { DriverService } from '../driver.service';
+import { CompanyStatistics } from '../statistics';
+import { StatisticsService } from '../statistics.service';
 
 const DELETE_CONFIRMED: string = "deleteConfirmed";
 const DELETE_CANCELLED: string = "deleteCancelled";
@@ -17,12 +19,18 @@ const CROSS_CLICKED: string = "crossClicked";
 export class DriversComponent implements OnInit {
 
     drivers: Driver[];
+    companyStatistics: CompanyStatistics;
     editing: number;
     adding: boolean;
     toDelete: Driver;
 
     getDrivers(): void {
         this.driverService.getDrivers().subscribe(drivers => this.drivers = drivers);
+    }
+
+    getCompanyStatistics(): void {
+        this.statisticsService.getCompanyStatistics()
+            .subscribe(stats => this.companyStatistics = stats);
     }
 
     editClicked(driver: Driver): void {
@@ -64,7 +72,10 @@ export class DriversComponent implements OnInit {
         if (!licenseNumber) {return;}
 
         this.driverService.addDriver({name, licenseNumber} as Driver)
-            .subscribe(driver => this.drivers.push(driver));
+            .subscribe(driver => {
+                this.drivers.push(driver);
+                this.getCompanyStatistics(); // update to reflect change
+            });
     }
 
     showDeleteConfirm(content, driver: Driver) {
@@ -87,6 +98,7 @@ export class DriversComponent implements OnInit {
             var indexToDelete = this.drivers.indexOf(this.toDelete, 0);
             this.drivers.splice(indexToDelete, 1);
             this.toDelete = null;
+            this.getCompanyStatistics(); // update to reflect change
         });
     }
 
@@ -94,13 +106,16 @@ export class DriversComponent implements OnInit {
         this.toDelete = null;
     }
 
-    constructor(private driverService: DriverService, private modalService: NgbModal) {
+    constructor(private driverService: DriverService, 
+        private statisticsService: StatisticsService,
+        private modalService: NgbModal) {
         this.editing = 0;
         this.adding = false;
     }
 
     ngOnInit() {
         this.getDrivers();
+        this.getCompanyStatistics();
     }
 
 
