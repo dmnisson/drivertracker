@@ -4,20 +4,6 @@
     ViewData["Title"] = "Drivers";
 }
 
-<h2>Statistics</h2>
-<ul>
-    <li>@ViewData["NumberOfDrivers"]</li>
-    <li>@ViewData["Pickups"]</li>
-    <li>@ViewData["MilesDriven"]</li>
-    @if (ViewData["AveragePickupDelay"] != null)
-    {
-        <li>Average pickup delay: @ViewData["AveragePickupDelay"]</li>
-    }
-    <li>Total fares: @ViewData["TotalFares"]</li>
-    <li>Total fuel costs: @ViewData["TotalCosts"]</li>
-    <li>Net profit: @ViewData["NetProfit"]</li>
-</ul>
-
 <app-root></app-root>
 
 <form method="post" action="~/Identity/Account/Logout">

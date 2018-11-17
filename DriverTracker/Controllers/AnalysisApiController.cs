@@ -40,6 +40,14 @@ namespace DriverTracker.Controllers
             return driverStatisticResults;
         }
 
+        // GET api/analysisapi/company
+        [HttpGet("company")]
+        public DriverStatistics GetCompany()
+        {
+            _driverStatistics.ComputeCompanyStatistics();
+            return _driverStatistics;
+        }
+
         // GET api/analysisapi/5
         [HttpGet("{id}")]
         public DriverStatisticResults Get(int id)

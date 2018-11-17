@@ -27,6 +27,7 @@
     <Compile Remove="Migrations\DriverIdentity\20181106003846_CreateIdentityTables.cs" />
     <Compile Remove="Areas\Identity\Data\DriverIdentityContext.cs" />
     <Compile Remove="Areas\Identity\Data\MvcDataContext.cs" />
+    <Compile Remove="Domain\CompanyStatisticResults.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\lib\bootstrap\.bower.json" />
