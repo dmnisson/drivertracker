@@ -558,7 +558,7 @@ PredictorService = __decorate([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Ridership Prediction for Driver: {{driver.name}}</h2>\n\n<form (ngSubmit)=\"onSubmit()\" #riderPredictionForm=\"ngForm\">\n    <div class=\"form-group\">\n        <label for=\"delay\">Anticipated delay (min)</label>\n        <input type=\"number\" name=\"delay\" [(ngModel)]=\"delay\" class=\"form-control\" />\n    </div>\n    <div class=\"form-group\">\r\n        <label for=\"duration\">Leg duration (min)</label>\r\n        <input type=\"number\" name=\"duration\" [(ngModel)]=\"duration\" class=\"form-control\" />\r\n    </div>\n    <div class=\"form-group\">\r\n        <label for=\"fare\">Fare ($)</label>\r\n        <input type=\"number\" name=\"fare\" [(ngModel)]=\"fare\" class=\"form-control\" />\r\n    </div>\n    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!riderPredictionForm.form.valid\">Predict</button>\n</form>\n\n\n<div class=\"row\" *ngIf=\"ridershipProbabilities != null\">\n    <div class=\"col\">\n        <p class=\"p-5\">Probability of multiple ridership:</p>\n    </div>\n    <div class=\"col\">\n        <p class=\"p-5\">{{ridershipProbabilities[1] * 100}}%</p>\r\n    </div>\n</div>"
+module.exports = "<h2>Ridership Prediction for Driver: {{driver.name}}</h2>\n\n<form (ngSubmit)=\"onSubmit()\" #riderPredictionForm=\"ngForm\">\n    <div class=\"form-group\">\n        <label for=\"delay\">Anticipated delay (min)</label>\n        <input type=\"number\" name=\"delay\" [(ngModel)]=\"delay\" class=\"form-control\" />\n    </div>\n    <div class=\"form-group\">\r\n        <label for=\"duration\">Leg duration (min)</label>\r\n        <input type=\"number\" name=\"duration\" [(ngModel)]=\"duration\" class=\"form-control\" />\r\n    </div>\n    <div class=\"form-group\">\r\n        <label for=\"fare\">Fare ($)</label>\r\n        <input type=\"number\" name=\"fare\" [(ngModel)]=\"fare\" class=\"form-control\" />\r\n    </div>\n    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!riderPredictionForm.form.valid\">Predict</button>\n</form>\n\n<ng-template [ngIf]=\"ridershipProbabilities != null\">\r\n    <div class=\"row\" *ngFor=\"let i of ridershipProbabilityIndices\">\r\n        <div class=\"col\">\r\n            <p class=\"p-5\">Probability of {{i+2}}<ng-template [ngIf]=\"i == 3\">+</ng-template> riders:</p>\r\n        </div>\r\n        <div class=\"col\">\r\n            <p class=\"p-5\">{{ridershipProbabilities[i] * 100}}%</p>\r\n        </div>\r\n    </div>\r\n</ng-template>"
 
 /***/ }),
 
@@ -606,6 +606,7 @@ let PredictorComponent = class PredictorComponent {
         this.driverService = driverService;
         this.aRoute = aRoute;
         this.aRoute.params.subscribe(p => this.getDriver(p['id']));
+        this.ridershipProbabilityIndices = (new Array(4)).fill(0).map((x, i) => i);
     }
     getDriver(id) {
         this.driverService.getDriver(id).subscribe(driver => this.driver = driver);

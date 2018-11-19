@@ -18,6 +18,7 @@ export class PredictorComponent implements OnInit {
     duration: number;
     fare: number;
     ridershipProbabilities: number[];
+    ridershipProbabilityIndices: number[];
 
     getDriver(id: number): void {
         this.driverService.getDriver(id).subscribe(driver => this.driver = driver);
@@ -33,6 +34,7 @@ export class PredictorComponent implements OnInit {
         private driverService: DriverService,
         private aRoute: ActivatedRoute) { 
         this.aRoute.params.subscribe(p => this.getDriver(p['id']));
+        this.ridershipProbabilityIndices = (new Array(4)).fill(0).map((x,i) => i);
     }
 
     ngOnInit() {
