@@ -69,7 +69,7 @@ namespace DriverTracker.Controllers
             result.DriverID = id;
             result.FromDateTime = fromDateTime;
             result.ToDateTime = toDateTime;
-            result.RegressionResult = farePrediction.GetRegressionModel();
+            result.RegressionResult = farePrediction.GetRegressionModels();
 
             return result;
         }
@@ -82,8 +82,7 @@ namespace DriverTracker.Controllers
             DateTime toDateTime = DateTime.Now;
             farePrediction.LearnFromDates(fromDateTime, toDateTime);
 
-            LogisticRegression regression = farePrediction.GetRegressionModel();
-            return regression?.Probabilities(new double[] { delay, duration, fare });
+            return farePrediction.RidershipClassProbabilities(delay, duration, fare);
         }
     }
 }

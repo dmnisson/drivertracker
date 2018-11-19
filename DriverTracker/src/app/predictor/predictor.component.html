@@ -16,12 +16,13 @@
     <button type="submit" class="btn btn-success" [disabled]="!riderPredictionForm.form.valid">Predict</button>
 </form>
 
-
-<div class="row" *ngIf="ridershipProbabilities != null">
-    <div class="col">
-        <p class="p-5">Probability of multiple ridership:</p>
+<ng-template [ngIf]="ridershipProbabilities != null">
+    <div class="row" *ngFor="let i of ridershipProbabilityIndices">
+        <div class="col">
+            <p class="p-5">Probability of {{i+2}}<ng-template [ngIf]="i == 3">+</ng-template> riders:</p>
+        </div>
+        <div class="col">
+            <p class="p-5">{{ridershipProbabilities[i] * 100}}%</p>
+        </div>
     </div>
-    <div class="col">
-        <p class="p-5">{{ridershipProbabilities[1] * 100}}%</p>
-    </div>
-</div>
+</ng-template>
