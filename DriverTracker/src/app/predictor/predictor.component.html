@@ -3,15 +3,15 @@
 <form (ngSubmit)="onSubmit()" #riderPredictionForm="ngForm">
     <div class="form-group">
         <label for="delay">Anticipated delay (min)</label>
-        <input type="number" name="delay" [(ngModel)]="delay" class="form-control" />
+        <input type="number" name="delay" required [(ngModel)]="delay" class="form-control" />
     </div>
     <div class="form-group">
         <label for="duration">Leg duration (min)</label>
-        <input type="number" name="duration" [(ngModel)]="duration" class="form-control" />
+        <input type="number" name="duration" required [(ngModel)]="duration" class="form-control" />
     </div>
     <div class="form-group">
         <label for="fare">Fare ($)</label>
-        <input type="number" name="fare" [(ngModel)]="fare" class="form-control" />
+        <input type="number" name="fare" required [(ngModel)]="fare" class="form-control" />
     </div>
     <button type="submit" class="btn btn-success" [disabled]="!riderPredictionForm.form.valid">Predict</button>
 </form>
@@ -19,10 +19,10 @@
 <ng-template [ngIf]="ridershipProbabilities != null">
     <div class="row" *ngFor="let i of ridershipProbabilityIndices">
         <div class="col">
-            <p class="p-5">Probability of {{i+2}}<ng-template [ngIf]="i == 3">+</ng-template> riders:</p>
+            <p class="pl-5">Probability of {{i+2}}<ng-template [ngIf]="i == 3">+</ng-template> riders:</p>
         </div>
         <div class="col">
-            <p class="p-5">{{ridershipProbabilities[i] * 100}}%</p>
+            <p class="pr-5">{{ridershipProbabilities[i] * 100}}%</p>
         </div>
     </div>
 </ng-template>
