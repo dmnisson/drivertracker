@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.Security.Principal;
 
 namespace DriverTracker.Areas.Identity.Pages.Account
 {
@@ -30,6 +31,9 @@ namespace DriverTracker.Areas.Identity.Pages.Account
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
+
+            HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
+
             if (returnUrl != null)
             {
                 return LocalRedirect(returnUrl);
