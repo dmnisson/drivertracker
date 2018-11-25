@@ -58,14 +58,14 @@ namespace DriverTracker.Controllers
 
         // GET api/analysisapi/logistic/5
         [HttpGet("logistic/{id}")]
-        public LogisticFarePredictionResult GetLogistic(int id)
+        public LogisticRidershipPredictionResult GetLogistic(int id)
         {
-            FarePrediction farePrediction = new FarePrediction(_context, id);
+            RidershipPrediction farePrediction = new RidershipPrediction(_context, id);
             DateTime fromDateTime = DateTime.Now.AddMonths(-12);
             DateTime toDateTime = DateTime.Now;
             farePrediction.LearnFromDates(fromDateTime, toDateTime);
 
-            LogisticFarePredictionResult result = new LogisticFarePredictionResult();
+            LogisticRidershipPredictionResult result = new LogisticRidershipPredictionResult();
             result.DriverID = id;
             result.FromDateTime = fromDateTime;
             result.ToDateTime = toDateTime;
@@ -77,7 +77,7 @@ namespace DriverTracker.Controllers
         // GET api/analysisapi/multipickupprob/5/6/12/13.7/
         [HttpGet("multipickupprob/{id}/{delay}/{duration}/{fare}/")]
         public double[] GetMultiPickupProb(int id, double delay, double duration, double fare) {
-            FarePrediction farePrediction = new FarePrediction(_context, id);
+            RidershipPrediction farePrediction = new RidershipPrediction(_context, id);
             DateTime fromDateTime = DateTime.Now.AddMonths(-12);
             DateTime toDateTime = DateTime.Now;
             farePrediction.LearnFromDates(fromDateTime, toDateTime);

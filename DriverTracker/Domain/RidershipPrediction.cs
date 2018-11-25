@@ -10,14 +10,14 @@ using DriverTracker.Models;
 
 namespace DriverTracker.Domain
 {
-    public class FarePrediction
+    public class RidershipPrediction
     {
         private readonly List<LogisticRegressionAnalysis> _logisticRegressionAnalyses;
         private List<LogisticRegression> _logisticRegressions;
         private readonly MvcDriverContext _context;
         private readonly int _DriverID;
 
-        public FarePrediction(MvcDriverContext context, int DriverID, int maxPickups = 4) {
+        public RidershipPrediction(MvcDriverContext context, int DriverID, int maxPickups = 4) {
             _logisticRegressionAnalyses = new List<LogisticRegressionAnalysis>();
             for (int i = 0; i < maxPickups; i++) {
                 _logisticRegressionAnalyses.Add(new LogisticRegressionAnalysis());
