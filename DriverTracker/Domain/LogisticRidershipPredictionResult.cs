@@ -5,7 +5,7 @@ using Accord.Statistics.Models.Regression;
 
 namespace DriverTracker.Domain
 {
-    public class LogisticFarePredictionResult
+    public class LogisticRidershipPredictionResult
     {
         public int DriverID { get; set; }
         public DateTime FromDateTime { get; set; }
