@@ -30,7 +30,6 @@
                     <li class="nav-item active"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Analysts" asp-action="Index">Analysts</a></li>
                     <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Drivers" asp-action="Index">Driver Statistics</a></li>
                 </ul>
             </div>
@@ -39,6 +38,16 @@
         <partial name="_CookieConsentPartial" />
 
         <div class="container body-content">
+            @if (User.Identity.IsAuthenticated)
+            {
+            <div class="row">
+                <div class="col">
+                    <form class="text-right p-3" method="post" action="~/Identity/Account/Logout">
+                        <button type="submit" id="logout-btn" class="btn btn-default" value="Log out">Log out</button>
+                    </form>
+                </div>
+            </div>
+            }
             @RenderBody()
             <hr />
             <footer>
