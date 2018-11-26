@@ -1,6 +1,5 @@
 using System;
 using Microsoft.EntityFrameworkCore;
-using DriverTracker.Models;
 
 namespace DriverTracker.Models
 {
@@ -14,5 +13,6 @@ namespace DriverTracker.Models
         public DbSet<DriverTracker.Models.Analyst> Analysts { get; set; }
         public DbSet<DriverTracker.Models.Analysis> Analyses { get; set; }
         public DbSet<DriverTracker.Models.Leg> Legs { get; set; }
+        public DbSet<DriverTracker.Models.LegCoordinates> LegCoordinates { get; set; }
     }
 }

@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using DriverTracker.Models;
 using DriverTracker.Data;
+using DriverTracker.Domain;
 
 namespace DriverTracker
 {
@@ -43,6 +44,8 @@ namespace DriverTracker
             services.AddDbContext<MvcDriverContext>(options => options.UseSqlite("Data Source=DriverTracker.db"));
             services.AddDbContext<DriverTrackerIdentityDbContext>(options =>
                                                                   options.UseSqlite("Data Source=DriverTracker.db"));
+            services.AddTransient(provider => new GeocodingDbSync(
+                this.Configuration, provider.GetService<MvcDriverContext>()));
                                                                   
         }
 
