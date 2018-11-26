@@ -58,6 +58,8 @@ namespace DriverTracker.Models
 
         public Driver Driver { get; set; }
 
+        public virtual LegCoordinates LegCoordinates { get; set; }
+
         public Leg GetPreviousLeg() {
             return this.Driver.Legs.Where(leg => leg.ArrivalTime <= this.StartTime)
                        .OrderByDescending(leg => leg.ArrivalTime).First();

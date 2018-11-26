@@ -13,7 +13,7 @@ namespace DriverTracker.Domain
     {
 
         public static bool IsGeocoderEnabled(IConfiguration configuration) {
-            string[] providerNames = { "Google", "MapQuest", "Microsoft", "Yahoo" };
+            string[] providerNames = { "Google", "MapQuest", "OpenStreetMap", "Microsoft", "Yahoo" };
             foreach (string providerName in providerNames) {
                 if (configuration["GeocodingProviders:Provider"].Equals(providerName))
                 {
@@ -30,6 +30,11 @@ namespace DriverTracker.Domain
                     return new GoogleGeocoder() { ApiKey = configuration["GeocodingProviders:ApiKey"] };
                 case "MapQuest":
                     return new MapQuestGeocoder(configuration["GeocodingProviders:Key"]) { };
+                case "OpenStreetMap":
+                    return new MapQuestGeocoder(configuration["GeocodingProviders:Key"])
+                    {
+                        UseOSM = true
+                    };
                 case "Microsoft":
                     return new BingMapsGeocoder(configuration["GeocodingProviders:BingKey"]) { };
                 case "Yahoo":
