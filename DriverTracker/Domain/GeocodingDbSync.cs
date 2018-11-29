@@ -31,10 +31,10 @@ namespace DriverTracker.Domain
         public async Task<bool> UpdateAllAsync()
         {
             var creationTasks = _context.Legs.Where(leg => leg.LegCoordinates == null)
-                                        .Select(leg => CreateLegCoordinatesAsync(leg.LegID));
+                                        .Select(leg => CreateLegCoordinatesAsync(leg));
             var updateTasks = _context.Legs.Where(leg => leg.LegCoordinates != null 
                                                   && leg.LegCoordinates.DateModified > DateTime.Now)
-                                      .Select(leg => UpdateLegCoordinatesAsync(leg.LegID));
+                                      .Select(leg => UpdateLegCoordinatesAsync(leg));
 
             await Task.WhenAll(creationTasks);
             await Task.WhenAll(updateTasks);
@@ -48,11 +48,11 @@ namespace DriverTracker.Domain
             Leg leg = await _context.Legs.FirstOrDefaultAsync(l => l.LegID == id);
             if (leg.LegCoordinates == null)
             {
-                await CreateLegCoordinatesAsync(id);
+                await CreateLegCoordinatesAsync(leg);
             }
             else
             {
-                await UpdateLegCoordinatesAsync(id);
+                await UpdateLegCoordinatesAsync(leg);
             }
 
             return (await _context.SaveChangesAsync()) > 0;
@@ -67,11 +67,11 @@ namespace DriverTracker.Domain
         {
             var creationTasks = _context.Legs.Where(leg => leg.LegCoordinates == null)
                                         .Where(predicate)
-                                        .Select(leg => CreateLegCoordinatesAsync(leg.LegID));
+                                        .Select(leg => CreateLegCoordinatesAsync(leg));
             var updateTasks = _context.Legs.Where(leg => leg.LegCoordinates != null
                                                  && leg.LegCoordinates.DateModified > DateTime.Now)
                                       .Where(predicate)
-                                      .Select(leg => UpdateLegCoordinatesAsync(leg.LegID));
+                                      .Select(leg => UpdateLegCoordinatesAsync(leg));
 
             await Task.WhenAll(creationTasks);
             await Task.WhenAll(updateTasks);
@@ -115,17 +115,15 @@ namespace DriverTracker.Domain
             };
         }
 
-        private async Task CreateLegCoordinatesAsync(int id)
+        private async Task CreateLegCoordinatesAsync(Leg leg)
         {
-            Leg leg = await _context.Legs.FirstOrDefaultAsync(l => l.LegID == id);
             LegCoordinates legCoordinates = await GeocodeLeg(leg);
 
-            await _context.LegCoordinates.AddAsync(legCoordinates);
+            _context.LegCoordinates.Add(legCoordinates);
         }
 
-        private async Task UpdateLegCoordinatesAsync(int id)
+        private async Task UpdateLegCoordinatesAsync(Leg leg)
         {
-            Leg leg = await _context.Legs.FirstOrDefaultAsync(l => l.LegID == id);
             LegCoordinates legCoordinates = await GeocodeLeg(leg);
 
             _context.LegCoordinates.Update(legCoordinates);
