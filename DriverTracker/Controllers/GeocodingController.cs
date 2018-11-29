@@ -14,9 +14,9 @@ namespace DriverTracker.Controllers
     [Route("api/[controller]")]
     public class GeocodingController : Controller
     {
-        private readonly GeocodingDbSync _dbSync;
+        private readonly IGeocodingDbSync _dbSync;
 
-        public GeocodingController(GeocodingDbSync dbSync)
+        public GeocodingController(IGeocodingDbSync dbSync)
         {
             _dbSync = dbSync;
         }

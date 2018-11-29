@@ -13,16 +13,16 @@ namespace DriverTracker.Domain
     public class RidershipPrediction
     {
         private readonly List<LogisticRegressionAnalysis> _logisticRegressionAnalyses;
-        private List<LogisticRegression> _logisticRegressions;
-        private readonly MvcDriverContext _context;
+        private readonly List<LogisticRegression> _logisticRegressions;
+        private readonly ILegRepository _legRepository;
         private readonly int _DriverID;
 
-        public RidershipPrediction(MvcDriverContext context, int DriverID, int maxPickups = 4) {
+        public RidershipPrediction(ILegRepository legRepository, int DriverID, int maxPickups = 4) {
             _logisticRegressionAnalyses = new List<LogisticRegressionAnalysis>();
             for (int i = 0; i < maxPickups; i++) {
                 _logisticRegressionAnalyses.Add(new LogisticRegressionAnalysis());
             }
-            _context = context;
+            _legRepository = legRepository;
             _DriverID = DriverID;
 
             _logisticRegressionAnalyses.ForEach(lra => lra.Inputs = new string[] { "delay", "duration", "fare" });
@@ -35,12 +35,11 @@ namespace DriverTracker.Domain
         }
 
         /* Learn from legs with specified request times in a given date range */
-        public async void LearnFromDates(DateTime from, DateTime to) {
-            List<Leg> legs = await _context.Legs.Where(leg => leg.DriverID == _DriverID
-                                                        && leg.StartTime.CompareTo(from) >= 0
+        public async Task LearnFromDates(DateTime from, DateTime to) {
+            IEnumerable<Leg> legs = await _legRepository.ListForDriverAsync(_DriverID, leg =>
+                                                        leg.StartTime.CompareTo(from) >= 0
                                                         && leg.StartTime.CompareTo(to) < 0
-                                                        && leg.PickupRequestTime.HasValue)
-                                                .ToListAsync();
+                                                        && leg.PickupRequestTime.HasValue);
 
             double[][] trainingInputs = legs.Select(leg =>
             {
@@ -51,8 +50,6 @@ namespace DriverTracker.Domain
                     decimal.ToDouble(leg.Fare)
                 };
             }).ToArray();
-
-
 
             _logisticRegressions.Clear();
             _logisticRegressions.AddRange(_logisticRegressionAnalyses.Select((lra, i) => {
