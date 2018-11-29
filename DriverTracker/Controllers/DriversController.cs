@@ -14,13 +14,15 @@ namespace DriverTracker.Controllers
 {
     public class DriversController : Controller
     {
-        private readonly MvcDriverContext _context;
+        private readonly IDriverRepository _driverRepository;
+        private readonly ILegRepository _legRepository;
         private readonly DriverStatistics _driverStatisticsService;
 
-        public DriversController(MvcDriverContext context)
+        public DriversController(IDriverRepository driverRepository, ILegRepository legRepository)
         {
-            _context = context;
-            _driverStatisticsService = new DriverStatistics(_context);
+            _driverRepository = driverRepository;
+            _legRepository = legRepository;
+            _driverStatisticsService = new DriverStatistics(driverRepository, legRepository);
         }
 
         // GET: Drivers
@@ -57,7 +59,7 @@ namespace DriverTracker.Controllers
             decimal netProfit = _driverStatisticsService.NetProfit;
             ViewData["NetProfit"] = "$" + netProfit;
 
-            return View(await _context.Drivers.ToListAsync());
+            return View(await _driverRepository.ListAsync());
         }
 
         // GET: Drivers/Details/5
@@ -91,14 +93,13 @@ namespace DriverTracker.Controllers
                 return NotFound();
             }
 
-            var driver = await _context.Drivers
-                .FirstOrDefaultAsync(m => m.DriverID == id);
+            var driver = await _driverRepository.GetAsync(id.Value);
             if (driver == null)
             {
                 return NotFound();
             }
 
-            await _context.Legs.Where(leg => leg.DriverID == driver.DriverID).LoadAsync();
+            await _legRepository.ListForDriverAsync(id.Value);
 
             return View(driver);
         }
@@ -120,8 +121,7 @@ namespace DriverTracker.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(driver);
-                await _context.SaveChangesAsync();
+                await _driverRepository.AddAsync(driver);
                 return RedirectToAction(nameof(Index));
             }
             return View(driver);
@@ -136,7 +136,7 @@ namespace DriverTracker.Controllers
                 return NotFound();
             }
 
-            var driver = await _context.Drivers.FindAsync(id);
+            var driver = await _driverRepository.GetAsync(id.Value);
             if (driver == null)
             {
                 return NotFound();
@@ -161,12 +161,11 @@ namespace DriverTracker.Controllers
             {
                 try
                 {
-                    _context.Update(driver);
-                    await _context.SaveChangesAsync();
+                    await _driverRepository.EditAsync(driver);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DriverExists(driver.DriverID))
+                    if (!_driverRepository.DriverExists(driver.DriverID))
                     {
                         return NotFound();
                     }
@@ -189,8 +188,7 @@ namespace DriverTracker.Controllers
                 return NotFound();
             }
 
-            var driver = await _context.Drivers
-                .FirstOrDefaultAsync(m => m.DriverID == id);
+            var driver = await _driverRepository.GetAsync(id.Value);
             if (driver == null)
             {
                 return NotFound();
@@ -205,15 +203,9 @@ namespace DriverTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var driver = await _context.Drivers.FindAsync(id);
-            _context.Drivers.Remove(driver);
-            await _context.SaveChangesAsync();
+            var driver = await _driverRepository.GetAsync(id);
+            await _driverRepository.DeleteAsync(driver);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool DriverExists(int id)
-        {
-            return _context.Drivers.Any(e => e.DriverID == id);
         }
     }
 }
