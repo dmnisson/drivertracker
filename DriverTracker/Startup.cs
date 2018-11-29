@@ -45,9 +45,9 @@ namespace DriverTracker
             services.AddDbContext<DriverTrackerIdentityDbContext>(options =>
                                                                   options.UseSqlite("Data Source=DriverTracker.db"));
 
-            services.AddTransient(provider => new DriverRepository(provider.GetService<MvcDriverContext>()));
-            services.AddTransient(provider => new LegRepository(provider.GetService<MvcDriverContext>()));
-            services.AddTransient(provider => new GeocodingDbSync(
+            services.AddTransient<IDriverRepository>(provider => new DriverRepository(provider.GetService<MvcDriverContext>()));
+            services.AddTransient<ILegRepository>(provider => new LegRepository(provider.GetService<MvcDriverContext>()));
+            services.AddTransient<IGeocodingDbSync>(provider => new GeocodingDbSync(
                 this.Configuration, provider.GetService<MvcDriverContext>()));
                                                                   
         }

@@ -15,15 +15,14 @@ namespace DriverTracker.Controllers
     [Route("api/[controller]")]
     public class AnalysisApiController : Controller
     {
-        private readonly MvcDriverContext _context;
         private readonly IDriverRepository _driverRepository;
         private readonly ILegRepository _legRepository;
         private readonly DriverStatistics _driverStatistics;
 
-        public AnalysisApiController(MvcDriverContext context, 
-                                     IDriverRepository driverRepository, 
+        public AnalysisApiController(IDriverRepository driverRepository, 
                                      ILegRepository legRepository) {
-            _context = context;
+            _driverRepository = driverRepository;
+            _legRepository = legRepository;
             _driverStatistics = new DriverStatistics(driverRepository, legRepository);
         }
 
@@ -62,29 +61,31 @@ namespace DriverTracker.Controllers
 
         // GET api/analysisapi/logistic/5
         [HttpGet("logistic/{id}")]
-        public LogisticRidershipPredictionResult GetLogistic(int id)
+        public async Task<LogisticRidershipPredictionResult> GetLogistic(int id)
         {
-            RidershipPrediction farePrediction = new RidershipPrediction(_context, id);
+            RidershipPrediction farePrediction = new RidershipPrediction(_legRepository, id);
             DateTime fromDateTime = DateTime.Now.AddMonths(-12);
             DateTime toDateTime = DateTime.Now;
-            farePrediction.LearnFromDates(fromDateTime, toDateTime);
+            await farePrediction.LearnFromDates(fromDateTime, toDateTime);
 
-            LogisticRidershipPredictionResult result = new LogisticRidershipPredictionResult();
-            result.DriverID = id;
-            result.FromDateTime = fromDateTime;
-            result.ToDateTime = toDateTime;
-            result.RegressionResult = farePrediction.GetRegressionModels();
+            LogisticRidershipPredictionResult result = new LogisticRidershipPredictionResult
+            {
+                DriverID = id,
+                FromDateTime = fromDateTime,
+                ToDateTime = toDateTime,
+                RegressionResult = farePrediction.GetRegressionModels()
+            };
 
             return result;
         }
 
         // GET api/analysisapi/multipickupprob/5/6/12/13.7/
         [HttpGet("multipickupprob/{id}/{delay}/{duration}/{fare}/")]
-        public double[] GetMultiPickupProb(int id, double delay, double duration, double fare) {
-            RidershipPrediction farePrediction = new RidershipPrediction(_context, id);
+        public async Task<double[]> GetMultiPickupProb(int id, double delay, double duration, double fare) {
+            RidershipPrediction farePrediction = new RidershipPrediction(_legRepository, id);
             DateTime fromDateTime = DateTime.Now.AddMonths(-12);
             DateTime toDateTime = DateTime.Now;
-            farePrediction.LearnFromDates(fromDateTime, toDateTime);
+            await farePrediction.LearnFromDates(fromDateTime, toDateTime);
 
             return farePrediction.RidershipClassProbabilities(delay, duration, fare);
         }
