@@ -8,7 +8,8 @@ namespace DriverTracker.Domain
 {
     public class DriverStatistics
     {
-        private readonly MvcDriverContext _context;
+        private readonly IDriverRepository _driverRepository;
+        private readonly ILegRepository _legRepository;
 
         private int numOfDrivers; // total drivers
         private int pickups; // number of pickups
@@ -20,23 +21,28 @@ namespace DriverTracker.Domain
 
         private Dictionary<int, DriverStatisticResults> driverStats;
 
-        public DriverStatistics(MvcDriverContext context)
+        public DriverStatistics(IDriverRepository driverRepository, ILegRepository legRepository)
         {
-            _context = context;
+            _driverRepository = driverRepository;
+            _legRepository = legRepository;
         }
 
         public async void ComputeCompanyStatistics() {
-            numOfDrivers = await _context.Drivers.CountAsync();
-            pickups = await _context.Legs.Select(leg => leg.NumOfPassengersPickedUp).SumAsync();
-            milesDriven = await _context.Legs.Select(leg => leg.Distance).SumAsync();
+            numOfDrivers = await _driverRepository.CountAsync();
 
-            if (await _context.Legs.CountAsync() > 0)
+            IEnumerable<Leg> legs = await _legRepository.ListAsync();
+
+            pickups = legs.Select(leg => leg.NumOfPassengersPickedUp).Sum();
+            milesDriven = legs.Select(leg => leg.Distance).Sum();
+
+            if (await _legRepository.CountAsync() > 0)
             {
-                averagePickupDelay = await _context.Legs.Select(leg => leg.StartTime.Subtract(leg.PickupRequestTime.GetValueOrDefault(leg.StartTime)).TotalMinutes).AverageAsync();
+                averagePickupDelay = (await _legRepository.ListAsync()).Select(leg => 
+                leg.StartTime.Subtract(leg.PickupRequestTime.GetValueOrDefault(leg.StartTime)).TotalMinutes).Average();
             }
 
-            totalFares = await _context.Legs.Select(leg => leg.Fare * leg.NumOfPassengersAboard).SumAsync();
-            totalCosts = await _context.Legs.Select(leg => leg.GetTotalFuelCost()).SumAsync();
+            totalFares = legs.Select(leg => leg.Fare * leg.NumOfPassengersAboard).Sum();
+            totalCosts = legs.Select(leg => leg.GetTotalFuelCost()).Sum();
             netProfit = totalFares - totalCosts;
         }
 
@@ -45,28 +51,26 @@ namespace DriverTracker.Domain
                 driverStats = new Dictionary<int, DriverStatisticResults>();
             }
 
-            Driver driver = await _context.Drivers.Where(d => d.DriverID == id).FirstAsync();
+            Driver driver = await _driverRepository.GetAsync(id);
             if (driver == null) {
                 return;
             }
 
+            IEnumerable<Leg> legs = await _legRepository.ListForDriverAsync(id);
+
             DriverStatisticResults results = new DriverStatisticResults();
             results.DriverID = id;
-            results.Pickups = await _context.Legs.Where(leg => leg.DriverID == id)
-                                        .Select(leg => leg.NumOfPassengersPickedUp).SumAsync();
-            results.MilesDriven = await _context.Legs.Where(leg => leg.DriverID == id)
-                                                .Select(leg => leg.Distance).SumAsync();
-            if (await _context.Legs.Where(leg => leg.DriverID == id).CountAsync() > 0)
+            results.Pickups = legs.Select(leg => leg.NumOfPassengersPickedUp).Sum();
+            results.MilesDriven = legs.Select(leg => leg.Distance).Sum();
+            if (await _legRepository.CountDriverLegsAsync(id) > 0)
             {
-                results.AveragePickupDelay = await _context.Legs.Where(leg => leg.DriverID == id)
-                                                      .Select(leg => leg.StartTime.Subtract(leg.PickupRequestTime.GetValueOrDefault(leg.StartTime)).TotalMinutes).AverageAsync();
+                results.AveragePickupDelay = legs.Select(leg => 
+                     leg.StartTime.Subtract(leg.PickupRequestTime.GetValueOrDefault(leg.StartTime)).TotalMinutes).Average();
             }
 
-            results.TotalFares = await _context.Legs.Where(leg => leg.DriverID == id)
-                .Select(leg => leg.Fare * leg.NumOfPassengersAboard).SumAsync();
+            results.TotalFares = legs.Select(leg => leg.Fare * leg.NumOfPassengersAboard).Sum();
 
-            results.TotalCosts = await _context.Legs.Where(leg => leg.DriverID == id)
-                .Select(leg => leg.GetTotalFuelCost()).SumAsync();
+            results.TotalCosts = legs.Select(leg => leg.GetTotalFuelCost()).Sum();
 
             driverStats[id] = results;
         }

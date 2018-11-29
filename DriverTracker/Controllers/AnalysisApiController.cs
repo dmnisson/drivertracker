@@ -16,20 +16,24 @@ namespace DriverTracker.Controllers
     public class AnalysisApiController : Controller
     {
         private readonly MvcDriverContext _context;
+        private readonly IDriverRepository _driverRepository;
+        private readonly ILegRepository _legRepository;
         private readonly DriverStatistics _driverStatistics;
 
-        public AnalysisApiController(MvcDriverContext context) {
+        public AnalysisApiController(MvcDriverContext context, 
+                                     IDriverRepository driverRepository, 
+                                     ILegRepository legRepository) {
             _context = context;
-            _driverStatistics = new DriverStatistics(context);
+            _driverStatistics = new DriverStatistics(driverRepository, legRepository);
         }
 
         // GET: api/analysisapi
         [HttpGet]
-        public IEnumerable<DriverStatisticResults> Get()
+        public async Task<IEnumerable<DriverStatisticResults>> Get()
         {
             List<DriverStatisticResults> driverStatisticResults = new List<DriverStatisticResults>();
 
-            IEnumerable<Driver> drivers = _context.Drivers.AsEnumerable();
+            IEnumerable<Driver> drivers = await _driverRepository.ListAsync();
 
 
             foreach (Driver driver in drivers) {

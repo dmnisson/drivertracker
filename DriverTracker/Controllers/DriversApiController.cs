@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
 using DriverTracker.Models;
+using DriverTracker.Domain;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,42 +16,43 @@ namespace DriverTracker.Controllers
     [Route("api/[controller]")]
     public class DriversApiController : ControllerBase
     {
-        private readonly MvcDriverContext _context;
+        private readonly IDriverRepository _driverRepository;
+        private readonly ILegRepository _legRepository;
 
-        public DriversApiController(MvcDriverContext context)
+        public DriversApiController(IDriverRepository driverRepository, ILegRepository legRepository)
         {
-            _context = context;
+            _driverRepository = driverRepository;
+            _legRepository = legRepository;
         }
 
         // GET: api/driversapi
         [HttpGet]
-        public IEnumerable<Driver> Get()
+        public async Task<IEnumerable<Driver>> Get()
         {
-            return _context.Drivers.ToList();
+            return await _driverRepository.ListAsync();
         }
 
         // GET api/driversapi/5
         [HttpGet("{id}", Name = "GetDriver")]
-        public Driver Get(int id)
+        public async Task<Driver> Get(int id)
         {
-            return _context.Drivers.FirstOrDefault(m => m.DriverID == id);
+            return await _driverRepository.GetAsync(id);
         }
 
         // POST api/driversapi/new
         [HttpPost("new")]
-        public IActionResult Post([FromBody] Driver driver)
+        public async Task<IActionResult> Post([FromBody] Driver driver)
         {
-            _context.Add(driver);
-            _context.SaveChanges();
+            await _driverRepository.AddAsync(driver);
 
             return CreatedAtRoute("GetDriver", new { id = driver.DriverID }, driver);
         }
 
         // PUT api/driversapi/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Driver driver)
+        public async void Put(int id, [FromBody] Driver driver)
         {
-            var existingDriver = _context.Drivers.Find(id);
+            var existingDriver = await _driverRepository.GetAsync(id);
             if (existingDriver == null) {
                 return;
             }
@@ -59,23 +61,21 @@ namespace DriverTracker.Controllers
             existingDriver.Name = driver.Name;
             existingDriver.LicenseNumber = driver.LicenseNumber;
 
-            _context.Drivers.Update(existingDriver);
-            _context.SaveChanges();
+            await _driverRepository.EditAsync(driver);
         }
 
         // DELETE api/driversapi/5
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async void Delete(int id)
         {
-            var existingDriver = _context.Drivers.Find(id);
+            var existingDriver = await _driverRepository.GetAsync(id);
             if (existingDriver == null)
             {
                 return;
             }
 
-            _context.Drivers.Remove(existingDriver);
-            _context.SaveChanges();
+            await _driverRepository.DeleteAsync(existingDriver);
         }
     }
 }
