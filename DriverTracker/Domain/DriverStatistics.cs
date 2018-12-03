@@ -36,10 +36,8 @@ namespace DriverTracker.Domain
             milesDriven = legs.Select(leg => leg.Distance).Sum();
 
             if (await _legRepository.CountAsync() > 0)
-            {
-                averagePickupDelay = (await _legRepository.ListAsync()).Select(leg => 
+                averagePickupDelay = legs.Select(leg =>
                 leg.StartTime.Subtract(leg.PickupRequestTime.GetValueOrDefault(leg.StartTime)).TotalMinutes).Average();
-            }
 
             totalFares = legs.Select(leg => leg.Fare * leg.NumOfPassengersAboard).Sum();
             totalCosts = legs.Select(leg => leg.GetTotalFuelCost()).Sum();
