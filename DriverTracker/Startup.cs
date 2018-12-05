@@ -49,6 +49,7 @@ namespace DriverTracker
             services.AddTransient<ILegRepository>(provider => new LegRepository(provider.GetService<MvcDriverContext>()));
             services.AddTransient<IGeocodingDbSync>(provider => new GeocodingDbSync(
                 this.Configuration, provider.GetService<MvcDriverContext>()));
+            services.AddSingleton(this.Configuration);
                                                                   
         }
 

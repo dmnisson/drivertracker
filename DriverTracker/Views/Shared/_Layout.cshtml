@@ -35,7 +35,7 @@
             </div>
         </nav>
 
-        <partial name="_CookieConsentPartial" />
+        @await Component.InvokeAsync("CookieConsent");
 
         <div class="container body-content">
             @if (User.Identity.IsAuthenticated)

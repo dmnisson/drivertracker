@@ -4,12 +4,20 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using DriverTracker.Models;
 
 namespace DriverTracker.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IConfiguration _configuration;
+
+        public HomeController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -24,13 +32,22 @@ namespace DriverTracker.Controllers
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            IConfigurationSection companyInfoSection = _configuration.GetSection("CompanyInfo");
+            ViewData["Message"] = companyInfoSection["ContactInfo"];
+            ViewData["AddressLine1"] = companyInfoSection["AddressLine1"];
+            ViewData["AddressLine2"] = companyInfoSection["AddressLine2"];
+            ViewData["AddressLine3"] = companyInfoSection["AddressLine3"];
+            ViewData["Telephone"] = companyInfoSection["Telephone"];
+            ViewData["Email"] = companyInfoSection["Email"];
 
             return View();
         }
 
         public IActionResult Privacy()
         {
+            ViewData["PrivacyPolicy"] = _configuration.GetSection("CompanyInfo")["PrivacyPolicy"];
+
+
             return View();
         }
 
