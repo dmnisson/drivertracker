@@ -5,9 +5,12 @@
 <h3>@ViewData["Message"]</h3>
 
 <address>
-    (Your company address here)
+    @ViewData["AddressLine1"]<br />
+    @ViewData["AddressLine2"]<br />
+    @ViewData["AddressLine3"]
 </address>
 
 <address>
-    (Company telephone and emails here)
+    Tel: @ViewData["Telephone"]<br />
+    Email: @ViewData["Email"]
 </address>

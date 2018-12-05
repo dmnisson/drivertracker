@@ -117,6 +117,9 @@
     <Folder Include="wwwroot\app\" />
     <Folder Include="Domain\" />
     <Folder Include="Views\Predictor\" />
+    <Folder Include="ViewComponents\" />
+    <Folder Include="Views\Shared\Components\" />
+    <Folder Include="Views\Shared\Components\CookieConsent\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DriverTracker.csproj" />
