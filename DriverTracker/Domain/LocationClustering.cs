@@ -6,7 +6,6 @@ using System.Linq.Expressions;
 using static System.Math;
 
 using Accord.MachineLearning;
-using Accord.Math.Distances;
 
 using DriverTracker.Models;
 
@@ -118,7 +117,6 @@ namespace DriverTracker.Domain
                 // decide optimal k
                 if (k > 1 && Gap[k - 2] >= Gap[k - 1] - sd[k - 1])
                 {
-                    Console.WriteLine("optimal k = " + (k - 1));
                     ClusterCollection = clusterCollections[k - 2];
                     NumberOfClustersLastChanged = DateTime.Now;
                     return;
@@ -142,7 +140,6 @@ namespace DriverTracker.Domain
 
         private static double[][][] ClusterPoints(double[][] dataset, int k, KMeansClusterCollection clusters)
         {
-            Console.WriteLine("ClusterPoints called with k = " + k);
             // points in each cluster
             double[][][] clusterData = new double[k][][];
             for (int i = 0; i < dataset.Length; i++)
@@ -175,7 +172,6 @@ namespace DriverTracker.Domain
         private double ComputeWk(double[][][] clusterData, KMeansClusterCollection clusters)
         {
             // sum of pairwise distances
-            Console.WriteLine("ComputeWk called with k = " + clusters.NumberOfClasses);
             double Wk = 0;
             double[] D = new double[clusterData.Length];
 
@@ -281,23 +277,13 @@ namespace DriverTracker.Domain
             IEnumerable<DateTime> startTimes = (await _legRepository.ListAsync(predicate)).Select(leg => leg.StartTime);
             _RetrainedEarliestDate = startTimes.Min();
             _RetrainedLatestDate = startTimes.Max();
+            _LastRetrained = DateTime.Now;
         }
 
         public async Task RetrainAsync(DateTime start, DateTime? end)
         {
             Expression<Func<Leg, bool>> predicate = leg => leg.StartTime.CompareTo(start) >= 0 && leg.StartTime.CompareTo(end) < 0;
             await RetrainAsync(predicate);
-        }
-    }
-
-    /// <summary>
-    /// Geographic distance function.
-    /// </summary>
-    class GeographicDistance : IDistance
-    {
-        public double Distance(double[] x, double[] y)
-        {
-            return Acos(Sin(x[0] * PI/180) * Sin(y[0] * PI/180) + Cos(x[0] * PI/180) * Cos(y[0] * PI/180) * Cos((y[1] - x[1]) * PI/180)) * 180/PI;
         }
     }
 }
