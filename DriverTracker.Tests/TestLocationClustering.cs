@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using Moq;
-using Moq.EntityFrameworkCore;
-using Accord.MachineLearning;
 
 using DriverTracker.Models;
 using DriverTracker.Domain;
