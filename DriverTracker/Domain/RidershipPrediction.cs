@@ -70,7 +70,7 @@ namespace DriverTracker.Domain
             double[] result = new double[_logisticRegressions.Count];
             for (int i = 0; i < _logisticRegressions.Count; i++) {
                 result[i] = _logisticRegressions[i].Probabilities(new double[] { delay, duration, fare })[1];
-                if (i > 0) result[i - 1] -= result[i];
+                if (i > 0) result[i - 1] *= 1 - result[i];
             }
             return result;
         }
