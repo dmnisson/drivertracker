@@ -23,7 +23,7 @@ namespace DriverTracker.Domain
         IEnumerable<double> FareClassIntervals { get; set; }
 
         /// <summary>
-        /// Gets the logistic regressions corresponding to each fare class
+        /// Gets the logistic regressions corresponding to each fare class boundary
         /// <param name="clusterIndex"/>
         /// The index of the cluster for which to get the logistic regresssions
         /// <paramref name="numberOfPickups"/>
