@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Accord.Statistics.Models.Regression;
 using Accord.MachineLearning;
+using Accord.Statistics.Distributions;
 using Accord.Statistics.Distributions.Multivariate;
 using Accord.Statistics.Distributions.DensityKernels;
 using System.Linq;
@@ -31,10 +32,12 @@ namespace DriverTracker.Domain
         private readonly ISupervisedLearning<LogisticRegression, double[], double> _logisticRegressionAnalysis;
 
         private LogisticRegression[][][] clusterFareClassRegressions; // array[i][n-1][j] = logistic regression of fare class j for cluster i and minimum number of pickups n
-        private double[][][] clusterFareClassFrequencies; // array[i][n-1][j] = frequency of minimum fare class j for cluster i and number of pickups at least n
-        private IDensityKernel[][][] clusterFareClassInputDensityKernels; // array[i][n-1][j] = pdf of input variables for cluster i given minimum fare class j
+        //private double[][][] clusterFareClassFrequencies; // array[i][n-1][j] = frequency of minimum fare class j for cluster i and number of pickups at least n
+        private MultivariateEmpiricalDistribution[][][] clusterFareClassInputDensityKernels; // array[i][n-1][j] = pdf of input variables for cluster i given minimum fare class j
+        private bool[][][] clusterFareClassDistributionsUnivariate;
         private double[][] clusterPickupFrequencies; // array[i][j] = frequency of at least j+1 pickups in cluster i
-        private IDensityKernel[][] clusterPickupInputDensityKernels; // array[i][j] = pdf of input variables for cluster i given minimum of pickups > j
+        private MultivariateEmpiricalDistribution[][] clusterPickupInputDensityKernels; // array[i][j] = pdf of input variables for cluster i given minimum of pickups > j
+        private bool[][] clusterPickupInputDensityKernelsUnivariate;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:DriverTracker.Domain.PickupPrediction"/> class.
@@ -62,30 +65,36 @@ namespace DriverTracker.Domain
         public double[] GetFareClassProbabilities(double[] startLocation, double[] destLocation, double pickupDelay, double duration, int pickups, double interval)
         {
             // cluster to which location belongs
-            int clusterIndex = _locationClustering.ClusterCollection.Decide(new double[] { 
+            int clusterIndex = _locationClustering.ClusterCollection.Decide(new double[] {
                 startLocation[0], startLocation[1], destLocation[0], destLocation[1] });
 
             double[] probs = new double[FareClassIntervals.Count() + 1];
             for (int i = 0; i < probs.Length; i++)
             {
                 if (i == 0)
-                    probs[i] = 1 - clusterFareClassRegressions[clusterIndex][pickups - 1][0]
+                    probs[i] = 1 - clusterFareClassRegressions[clusterIndex][pickups][0]
                     .Probability(new double[] { pickupDelay, duration });
                 else if (i < probs.Length - 1)
-                    probs[i] = clusterFareClassRegressions[clusterIndex][pickups - 1][i - 1]
+                    probs[i] = clusterFareClassRegressions[clusterIndex][pickups][i - 1]
                         .Probability(new double[] { pickupDelay, duration })
-                        * (1 - clusterFareClassRegressions[clusterIndex][pickups - 1][i]
+                        * (1 - clusterFareClassRegressions[clusterIndex][pickups][i]
                         .Probability(new double[] { pickupDelay, duration }));
                 else
-                    probs[i] = clusterFareClassRegressions[clusterIndex][pickups - 1][i - 1]
+                    probs[i] = clusterFareClassRegressions[clusterIndex][pickups][i - 1]
                         .Probability(new double[] { pickupDelay, duration });
             }
 
             // get unconditional probability
+            if (clusterPickupInputDensityKernels[clusterIndex][pickups] == null) 
+            { 
+                // return zeroes for all fare class probabilities for this cluster
+                return new double[probs.Length]; 
+            }
+
+            double probDist = 1 - clusterPickupInputDensityKernels[clusterIndex][pickups].DistributionFunction(
+                clusterPickupInputDensityKernelsUnivariate[clusterIndex][pickups] ? new double[] { duration } : new double[] { pickupDelay, duration });
             return probs.Select((p, i) => p
-                * clusterPickupInputDensityKernels[clusterIndex][pickups - 1].Function(new double[] { pickupDelay, duration })
-                * clusterPickupFrequencies[clusterIndex][pickups - 1]
-                * interval * interval * interval).ToArray();
+                * probDist * clusterPickupFrequencies[clusterIndex][pickups] * interval).ToArray();
         }
 
         public double[] GetPickupProbabilities(double[] startLocation, double[] destLocation, double pickupDelay, double duration, double fare, double interval)
@@ -107,17 +116,24 @@ namespace DriverTracker.Domain
             for (int n = 1; n <= probs.Length; n++)
             {
                 // first compute probability of fare class given pickups
-                probs[n - 1] = clusterFareClassRegressions[clusterIndex][n - 1][fareClassIndex]
-                    .Probability(new double[] { pickupDelay, duration });
+                probs[n - 1] = fareClassIndex > 0 ? clusterFareClassRegressions[clusterIndex][n - 1][fareClassIndex - 1]
+                    .Probability(new double[] { pickupDelay, duration }) : 1;
             }
 
             // apply Bayes' theorem
-            return probs.Select((p, i) => p
-                * clusterPickupInputDensityKernels[clusterIndex][i].Function(new double[] { pickupDelay, duration })
-                * clusterPickupFrequencies[clusterIndex][i]
-                / clusterFareClassInputDensityKernels[clusterIndex][i][fareClassIndex].Function(new double[] { pickupDelay, duration })
-                / clusterFareClassFrequencies[clusterIndex][i][fareClassIndex]
-            ).ToArray();
+            return probs.Select((p, i) =>
+            {
+                double pickupProb = 0;
+
+                if (clusterPickupInputDensityKernels[clusterIndex][i + 1] != null)
+                {
+                    double[] inputArray = clusterPickupInputDensityKernelsUnivariate[clusterIndex][i + 1] ? new double[] { duration } : new double[] { pickupDelay, duration };
+                    pickupProb = (1 - clusterPickupInputDensityKernels[clusterIndex][i + 1].DistributionFunction(inputArray))
+                        * clusterPickupFrequencies[clusterIndex][i + 1] * interval; // unconditional probability of at least n pickups
+                }
+
+                return p * pickupProb / ((p * pickupProb) + ((1 - p) * (1 - pickupProb)));
+            }).ToArray();
         }
 
         public async Task LearnFromDates(DateTime from, DateTime to)
@@ -130,17 +146,19 @@ namespace DriverTracker.Domain
             // initialize storage arrays
             int pickupElementSize = await GetMaxNumberOfPickups() + 1;
             InitStorageArray(ref clusterFareClassRegressions, pickupElementSize - 1, NumberOfFareClassIntervals - 1);
-            InitStorageArray(ref clusterFareClassFrequencies, pickupElementSize - 1, NumberOfFareClassIntervals);
             InitStorageArray(ref clusterFareClassInputDensityKernels, pickupElementSize - 1, NumberOfFareClassIntervals);
+            InitStorageArray(ref clusterFareClassDistributionsUnivariate, pickupElementSize - 1, NumberOfFareClassIntervals);
             InitStorageArray(ref clusterPickupFrequencies, pickupElementSize);
             InitStorageArray(ref clusterPickupInputDensityKernels, pickupElementSize);
+            InitStorageArray(ref clusterPickupInputDensityKernelsUnivariate, pickupElementSize);
 
             // for each cluster
             for (int i = 0; i < _locationClustering.NumberOfClusters; i++)
             {
                 // obtain data set
-                IEnumerable<Task<Pair<Leg, bool>>> decisionTasks = (await _legRepository.ListAsync()).
-                Select(async (leg) =>
+                IEnumerable<Task<Pair<Leg, bool>>> decisionTasks = (await _legRepository.ListAsync())
+                    .Where(leg => leg.StartTime.CompareTo(from) > 0 && leg.StartTime.CompareTo(to) < 0)
+                .Select(async (leg) =>
                 {
                     LegCoordinates coords = await _geocodingDbSync.GetLegCoordinatesAsync(leg.LegID);
                     double[] dp = (new decimal[] { coords.StartLatitude, coords.StartLongitude, coords.DestLatitude, coords.DestLongitude })
@@ -167,8 +185,8 @@ namespace DriverTracker.Domain
                     {
                         for (int j = 0; j < FareClassIntervals.Count(); j++)
                         {
-                            if ((j < FareClassIntervals.Count()
-                                && Convert.ToDecimal(FareClassIntervals.ElementAt(j)) > leg.Fare))
+                            if (j < FareClassIntervals.Count()
+                                && Convert.ToDecimal(FareClassIntervals.ElementAt(j)) > leg.Fare)
                                 return j;
                         }
                         return FareClassIntervals.Count();
@@ -180,42 +198,50 @@ namespace DriverTracker.Domain
                 // for each possible number of pickups
                 for (int n = 1; n <= maxPickups; n++)
                 {
-                    double[][] dataSubset = dataset.Where((dp, k) => pickupNumbers[k] >= n).ToArray();
-                    int[] fareClassesSubset = fareClasses.Where((fc, k) => pickupNumbers[k] >= n).ToArray();
+                    double[][] dataSubset = dataset.Where((dp, k) => pickupNumbers[k] == n).ToArray();
+                    int[] fareClassesSubset = fareClasses.Where((fc, k) => pickupNumbers[k] == n).ToArray();
                     // for each fare class interval boundary
                     for (int j = 0; j < NumberOfFareClassIntervals; j++)
                     {
                         // train logistic regression
-                        if (j > 0 && clusterFareClassRegressions[i][n-1][j-1] == null)
+                        if (j > 0 && clusterFareClassRegressions[i][n - 1][j - 1] == null)
                         {
-                            clusterFareClassRegressions[i][n-1][j-1] = _logisticRegressionAnalysis
+                            clusterFareClassRegressions[i][n - 1][j - 1] = _logisticRegressionAnalysis
                                 .Learn(dataSubset, fareClassesSubset.Select(fc => fc >= j ? 1.0 : 0.0).ToArray());
                         }
 
-                        // compute frequency of this fare class
-                        clusterFareClassFrequencies[i][n-1][j] = fareClassesSubset.Count(fc => fc >= j) / to.Subtract(from).TotalMinutes;
-
                         // train empirical density functions
-                        if (clusterFareClassFrequencies[i][n-1][j] > 0.0)
+                        if (fareClassesSubset.Count(fc => fc >= j) > 0.0)
                         {
+                            double[][] dataSubsetSamples = dataSubset.Where((dp, k)
+                                   => fareClassesSubset[k] >= j).ToArray();
                             MultivariateEmpiricalDistribution fareClassInputDistribution
-                            = new MultivariateEmpiricalDistribution(dataSubset.Where((dp, k)
-                                => fareClassesSubset[k] >= j).ToArray());
-                            clusterFareClassInputDensityKernels[i][n-1][j] = fareClassInputDistribution.Kernel;
+                            = new MultivariateEmpiricalDistribution(dataSubsetSamples);
+
+                            SetInputDistribution(fareClassInputDistribution, dataSubsetSamples,
+                            out clusterFareClassInputDensityKernels[i][n - 1][j],
+                            out clusterFareClassDistributionsUnivariate[i][n - 1][j]);
                         }
 
                     }
                 }
 
                 // compute pickup frequencies
-                for (int j = 0; j < pickupElementSize; j++)
+                for (int l = 0; l < pickupElementSize; l++)
                 {
-                    clusterPickupFrequencies[i][j] = Convert.ToDouble(dataLegs.Count(leg => leg.NumOfPassengersPickedUp >= j))
+                    clusterPickupFrequencies[i][l] = Convert.ToDouble(dataLegs.Count(leg => leg.NumOfPassengersPickedUp == l))
                         / to.Subtract(from).TotalMinutes;
 
-                    MultivariateEmpiricalDistribution pickupInputDistribution
-                        = new MultivariateEmpiricalDistribution(dataset.Where((dp, k) => pickupNumbers[k] >= j).ToArray());
-                    clusterPickupInputDensityKernels[i][j] = pickupInputDistribution.Kernel;
+                    if (pickupNumbers.Any(pn => pn == l))
+                    {
+                        double[][] samples = dataset.Where((dp, k) => pickupNumbers[k] == l).ToArray();
+                        MultivariateEmpiricalDistribution pickupInputDistribution
+                            = new MultivariateEmpiricalDistribution(samples);
+
+                        SetInputDistribution(pickupInputDistribution, samples, 
+                        out clusterPickupInputDensityKernels[i][l], 
+                        out clusterPickupInputDensityKernelsUnivariate[i][l]);
+                    }
                 }
             }
         }
@@ -251,11 +277,31 @@ namespace DriverTracker.Domain
             {
                 storageArray[i] = new T[elementSize1][];
 
-                for (int j = 0; j < storageArray.Length; j++)
+                for (int j = 0; j < storageArray[i].Length; j++)
                 {
                     storageArray[i][j] = new T[elementSize2];
                 }
             }
         }
+
+        // set an appropriate distribution for the given data subset
+        private void SetInputDistribution(MultivariateEmpiricalDistribution inputDistribution, 
+            double[][] dataSubsetSamples, out MultivariateEmpiricalDistribution distToSet, out bool distUnivariate)
+        {
+            if (Math.Abs(inputDistribution.Variance[0]) < double.Epsilon)
+            {
+                // if we have essentially a univariate distribution
+                MultivariateEmpiricalDistribution univInputDistribution
+                    = new MultivariateEmpiricalDistribution(dataSubsetSamples.Select(a => new double[] { a[1] }).ToArray());
+                distToSet = univInputDistribution;
+                distUnivariate = true;
+            }
+            else
+            {
+                distToSet = inputDistribution;
+                distUnivariate = false;
+            }
+        }
+
     }
 }
