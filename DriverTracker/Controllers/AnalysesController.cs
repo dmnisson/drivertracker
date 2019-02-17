@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DriverTracker.Controllers
 {
+    [Authorize(Roles = "Admin,Analyst")]
     public class AnalysesController : Controller
     {
         private readonly MvcDriverContext _context;
@@ -21,7 +22,6 @@ namespace DriverTracker.Controllers
         }
 
         // GET: Analyses
-        [Authorize]
         public async Task<IActionResult> Index()
         {
             var mvcDriverContext = _context.Analyses.Include(a => a.Analyst).Include(a => a.Driver);
@@ -29,7 +29,6 @@ namespace DriverTracker.Controllers
         }
 
         // GET: Analyses/Details/5
-        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -50,7 +49,6 @@ namespace DriverTracker.Controllers
         }
 
         // GET: Analyses/Create
-        [Authorize]
         public IActionResult Create()
         {
             ViewData["AnalystID"] = new SelectList(_context.Analysts, "ID", "ID");
@@ -61,7 +59,6 @@ namespace DriverTracker.Controllers
         // POST: Analyses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AnalysisID,AnalystID,DriverID")] Analysis analysis)
@@ -78,7 +75,6 @@ namespace DriverTracker.Controllers
         }
 
         // GET: Analyses/Edit/5
-        [Authorize(Roles = "Admin,Analyst")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -99,7 +95,6 @@ namespace DriverTracker.Controllers
         // POST: Analyses/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Admin,Analyst")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("AnalysisID,AnalystID,DriverID")] Analysis analysis)
@@ -135,7 +130,6 @@ namespace DriverTracker.Controllers
         }
 
         // GET: Analyses/Delete/5
-        [Authorize(Roles="Admin,Analyst")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -156,7 +150,6 @@ namespace DriverTracker.Controllers
         }
 
         // POST: Analyses/Delete/5
-        [Authorize(Roles = "Admin,Analyst")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

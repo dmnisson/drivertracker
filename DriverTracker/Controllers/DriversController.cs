@@ -17,16 +17,19 @@ namespace DriverTracker.Controllers
         private readonly IDriverRepository _driverRepository;
         private readonly ILegRepository _legRepository;
         private readonly DriverStatistics _driverStatisticsService;
+        private readonly IAuthorizationService _authorizationService;
 
-        public DriversController(IDriverRepository driverRepository, ILegRepository legRepository)
+        public DriversController(IDriverRepository driverRepository, ILegRepository legRepository,
+        IAuthorizationService authorizationService)
         {
             _driverRepository = driverRepository;
             _legRepository = legRepository;
             _driverStatisticsService = new DriverStatistics(driverRepository, legRepository);
+            _authorizationService = authorizationService;
         }
 
         // GET: Drivers
-        [Authorize(Roles = "Admin,Driver")]
+        [Authorize(Roles = "Admin,Analyst")]
         public async Task<IActionResult> Index()
         {
             _driverStatisticsService.ComputeCompanyStatistics();
@@ -63,9 +66,26 @@ namespace DriverTracker.Controllers
         }
 
         // GET: Drivers/Details/5
-        [Authorize(Roles = "Admin,Driver")]
         public async Task<IActionResult> Details(int? id)
         {
+            var driver = await _driverRepository.GetAsync(id.Value);
+            if (driver == null)
+            {
+                return NotFound();
+            }
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Challenge();
+            }
+
+            var authResult = await _authorizationService.AuthorizeAsync(User, driver, "DriverInfoPolicy");
+
+            if (!authResult.Succeeded)
+            {
+                return Forbid();
+            }
+
             _driverStatisticsService.ComputeDriverStatistics(id.Value);
             // total pickups
             int pickups = _driverStatisticsService.GetPickupsBy(id.Value);
@@ -93,11 +113,6 @@ namespace DriverTracker.Controllers
                 return NotFound();
             }
 
-            var driver = await _driverRepository.GetAsync(id.Value);
-            if (driver == null)
-            {
-                return NotFound();
-            }
 
             await _legRepository.ListForDriverAsync(id.Value);
 
@@ -114,11 +129,23 @@ namespace DriverTracker.Controllers
         // POST: Drivers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Admin,Driver")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("DriverID,UserID,Name,LicenseNumber")] Driver driver)
         {
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Challenge();
+            }
+
+            var authResult = await _authorizationService.AuthorizeAsync(User, driver, "DriverInfoPolicy");
+
+            if (!authResult.Succeeded)
+            {
+                return Forbid();
+            }
+
             if (ModelState.IsValid)
             {
                 await _driverRepository.AddAsync(driver);
@@ -128,7 +155,6 @@ namespace DriverTracker.Controllers
         }
 
         // GET: Drivers/Edit/5
-        [Authorize(Roles = "Admin,Driver")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -141,6 +167,19 @@ namespace DriverTracker.Controllers
             {
                 return NotFound();
             }
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Challenge();
+            }
+
+            var authResult = await _authorizationService.AuthorizeAsync(User, driver, "DriverInfoPolicy");
+
+            if (!authResult.Succeeded)
+            {
+                return Forbid();
+            }
+
             return View(driver);
         }
 
@@ -149,12 +188,23 @@ namespace DriverTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin,Driver")]
         public async Task<IActionResult> Edit(int id, [Bind("DriverID,UserID,Name,LicenseNumber")] Driver driver)
         {
             if (id != driver.DriverID)
             {
                 return NotFound();
+            }
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Challenge();
+            }
+
+            var authResult = await _authorizationService.AuthorizeAsync(User, driver, "DriverInfoPolicy");
+
+            if (!authResult.Succeeded)
+            {
+                return Forbid();
             }
 
             if (ModelState.IsValid)

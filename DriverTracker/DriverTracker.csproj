@@ -29,6 +29,7 @@
     <Compile Remove="Areas\Identity\Data\DriverIdentityContext.cs" />
     <Compile Remove="Areas\Identity\Data\MvcDataContext.cs" />
     <Compile Remove="Domain\CompanyStatisticResults.cs" />
+    <Compile Remove="Domain\GeographicDistance.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\lib\bootstrap\.bower.json" />
@@ -121,6 +122,7 @@
     <Folder Include="ViewComponents\" />
     <Folder Include="Views\Shared\Components\" />
     <Folder Include="Views\Shared\Components\CookieConsent\" />
+    <Folder Include="Authorization\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DriverTracker.csproj" />
