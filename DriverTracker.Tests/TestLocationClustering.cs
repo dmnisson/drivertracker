@@ -35,7 +35,7 @@ namespace DriverTracker.Tests
             Driver driver = new Driver
             {
                 DriverID = 1,
-                UserID = 1,
+                UserIDString = "1",
                 LicenseNumber = "123456789ABC0",
                 Name = "Testing T. Tester"
             };
