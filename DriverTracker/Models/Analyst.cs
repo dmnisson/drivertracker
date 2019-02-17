@@ -15,7 +15,11 @@ namespace DriverTracker.Models
     public class Analyst
     {
         public int ID { get; set; }
+
+        [Obsolete("Integer User ID is not supported. Please use UserIDString.", true)]
         public int UserID { get; set; }
+
+        public string UserIDString { get; set; }
         public string Username { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }

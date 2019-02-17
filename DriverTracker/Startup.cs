@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 using Microsoft.EntityFrameworkCore;
 using DriverTracker.Models;
 using DriverTracker.Data;
 using DriverTracker.Domain;
+using DriverTracker.Authorization;
 
 namespace DriverTracker
 {
@@ -44,6 +43,12 @@ namespace DriverTracker
             services.AddDbContext<MvcDriverContext>(options => options.UseSqlite("Data Source=DriverTracker.db"));
             services.AddDbContext<DriverTrackerIdentityDbContext>(options =>
                                                                   options.UseSqlite("Data Source=DriverTracker.db"));
+
+            services.AddAuthorization(options => {
+                options.AddPolicy("DriverInfoPolicy", policy => policy.Requirements.Add(new SameDriverRequirement()));
+
+            });
+            services.AddScoped<IAuthorizationHandler, UserInfoPermissionHandler>();
 
             services.AddTransient<IDriverRepository>(provider => new DriverRepository(provider.GetService<MvcDriverContext>()));
             services.AddTransient<ILegRepository>(provider => new LegRepository(provider.GetService<MvcDriverContext>()));

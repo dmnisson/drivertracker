@@ -21,7 +21,7 @@ namespace DriverTracker.Tests
         private DriverStatistics CreateInstance1() => CreateInstance(new Driver[] {
                 new Driver {
                     DriverID = 1,
-                    UserID = 1,
+                    UserIDString = "1",
                     LicenseNumber = "123456789ABC",
                     Name = "John Doe"
                 }
@@ -30,31 +30,31 @@ namespace DriverTracker.Tests
         private DriverStatistics CreateInstance2() => CreateInstance(new Driver[] {
                 new Driver {
                     DriverID = 1,
-                    UserID = 1,
+                    UserIDString = "1",
                     LicenseNumber = "123456789ABC",
                     Name = "John Doe"
                 },
                 new Driver {
                     DriverID = 2,
-                    UserID = 7,
+                    UserIDString = "7",
                     LicenseNumber = "123456788ABC",
                     Name = "Joe Johnson"
                 },
                 new Driver {
                     DriverID = 3,
-                    UserID = 19,
+                    UserIDString = "19",
                     LicenseNumber = "AC12346134",
                     Name = "Alex Smith"
                 },
                 new Driver {
                     DriverID = 4,
-                    UserID = 3,
+                    UserIDString = "3",
                     LicenseNumber = "11235813ABCX",
                     Name = "Jane West"
                 },
                 new Driver {
                     DriverID = 5,
-                    UserID = 8,
+                    UserIDString = "8",
                     LicenseNumber = "112471324BCDE",
                     Name = "Lucy Anderson"
                 }

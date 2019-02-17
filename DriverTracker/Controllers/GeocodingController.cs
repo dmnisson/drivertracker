@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
+using Microsoft.AspNetCore.Authorization;
+
 using DriverTracker.Domain;
 using DriverTracker.Models;
 
@@ -15,36 +17,59 @@ namespace DriverTracker.Controllers
     public class GeocodingController : Controller
     {
         private readonly IGeocodingDbSync _dbSync;
+        private readonly ILegRepository _legRepository; // for authorization purposes
+        private readonly IAuthorizationService _authorizationService;
 
-        public GeocodingController(IGeocodingDbSync dbSync)
+        public GeocodingController(
+            IGeocodingDbSync dbSync,
+            ILegRepository legRepository,
+            IAuthorizationService authorizationService)
         {
             _dbSync = dbSync;
+            _legRepository = legRepository;
+            _authorizationService = authorizationService;
         }
 
         // GET api/geocoding
         [HttpGet]
-        public async Task<LegCoordinates[]> Get()
+        [Authorize(Roles = "Admin,Analyst")]
+        public async Task<IActionResult> Get()
         {
-            return (await _dbSync.ListLegCoordinatesAsync()).ToArray();
+            return Ok((await _dbSync.ListLegCoordinatesAsync()).ToArray());
         }
 
         // GET api/geocoding/5
         [HttpGet("{id}")]
-        public async Task<LegCoordinates> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return await _dbSync.GetLegCoordinatesAsync(id);
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Challenge();
+            }
+
+            var driver = (await _legRepository.Get(id)).Driver;
+            var authResult = await _authorizationService.AuthorizeAsync(User, driver, "DriverInfoPolicy");
+
+            if (!authResult.Succeeded)
+            {
+                return Forbid();
+            }
+
+            return Ok(await _dbSync.GetLegCoordinatesAsync(id));
         }
 
         // POST api/geocoding/update
         [HttpPost("update")]
-        public async void Post()
+        [Authorize]
+        public async Task Post()
         {
             await _dbSync.UpdateAllAsync();
         }
 
         // POST api/geocoding/update/5
         [HttpPost("update/{id}")]
-        public async void Post(int id)
+        [Authorize]
+        public async Task Post(int id)
         {
             await _dbSync.UpdateLegAsync(id);
         }
