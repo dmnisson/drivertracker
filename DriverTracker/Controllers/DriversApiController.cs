@@ -12,21 +12,25 @@ using DriverTracker.Domain;
 
 namespace DriverTracker.Controllers
 {
-    [Authorize(Roles = "Admin, Analyst, Driver")]
     [Route("api/[controller]")]
     public class DriversApiController : ControllerBase
     {
         private readonly IDriverRepository _driverRepository;
         private readonly ILegRepository _legRepository;
+        private readonly IAuthorizationService _authorizationService;
 
-        public DriversApiController(IDriverRepository driverRepository, ILegRepository legRepository)
+        public DriversApiController(IDriverRepository driverRepository, 
+            ILegRepository legRepository,
+            IAuthorizationService authorizationService)
         {
             _driverRepository = driverRepository;
             _legRepository = legRepository;
+            _authorizationService = authorizationService;
         }
 
         // GET: api/driversapi
         [HttpGet]
+        [Authorize(Roles = "Admin,Analyst")]
         public async Task<IEnumerable<Driver>> Get()
         {
             return await _driverRepository.ListAsync();
@@ -34,13 +38,27 @@ namespace DriverTracker.Controllers
 
         // GET api/driversapi/5
         [HttpGet("{id}", Name = "GetDriver")]
-        public async Task<Driver> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return await _driverRepository.GetAsync(id);
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Challenge();
+            }
+
+            var driver = await _driverRepository.GetAsync(id);
+            var authResult = await _authorizationService.AuthorizeAsync(User, driver, "DriverInfoPolicy");
+
+            if (!authResult.Succeeded)
+            {
+                return Forbid();
+            }
+
+            return Ok(driver);
         }
 
         // POST api/driversapi/new
         [HttpPost("new")]
+        [Authorize(Roles = "Admin,Driver")]
         public async Task<IActionResult> Post([FromBody] Driver driver)
         {
             await _driverRepository.AddAsync(driver);
@@ -50,18 +68,31 @@ namespace DriverTracker.Controllers
 
         // PUT api/driversapi/5
         [HttpPut("{id}")]
-        public async void Put(int id, [FromBody] Driver driver)
+        public async Task<IActionResult> Put(int id, [FromBody] Driver driver)
         {
             var existingDriver = await _driverRepository.GetAsync(id);
             if (existingDriver == null) {
-                return;
+                return NotFound();
             }
 
-            existingDriver.UserID = driver.UserID;
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Challenge();
+            }
+
+            var authResult = await _authorizationService.AuthorizeAsync(User, existingDriver, "DriverInfoPolicy");
+
+            if (!authResult.Succeeded)
+            {
+                return Forbid();
+            }
+
             existingDriver.Name = driver.Name;
             existingDriver.LicenseNumber = driver.LicenseNumber;
 
-            await _driverRepository.EditAsync(driver);
+            await _driverRepository.EditAsync(existingDriver);
+
+            return Ok();
         }
 
         // DELETE api/driversapi/5

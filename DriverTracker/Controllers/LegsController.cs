@@ -11,17 +11,20 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DriverTracker.Controllers
 {
-    [Authorize(Roles="Admin,Driver")]
     public class LegsController : Controller
     {
         private readonly MvcDriverContext _context;
+        private readonly IAuthorizationService _authorizationService;
 
-        public LegsController(MvcDriverContext context)
+        public LegsController(MvcDriverContext context,
+            IAuthorizationService authorizationService)
         {
             _context = context;
+            _authorizationService = authorizationService;
         }
 
         // GET: Legs
+        [Authorize(Roles = "Admin,Analyst")]
         public async Task<IActionResult> Index()
         {
             var mvcDriverContext = _context.Legs.Include(l => l.Driver);
@@ -31,6 +34,11 @@ namespace DriverTracker.Controllers
         // GET: Legs/Details/5
         public async Task<IActionResult> Details(int? id, int? driver)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Challenge();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -44,20 +52,45 @@ namespace DriverTracker.Controllers
                 return NotFound();
             }
 
+            var authResult = await _authorizationService.AuthorizeAsync(User, leg.Driver, "DriverInfoPolicy");
+
+            if (!authResult.Succeeded)
+            {
+                return Forbid();
+            }
+
             if (driver != null)
             {
-                ViewData["DriverID"] = driver;
+                var referralDriver = await _context.Drivers.FirstOrDefaultAsync(m => m.DriverID == driver);
+                var refAuthResult = await _authorizationService.AuthorizeAsync(User, referralDriver, "DriverInfoPolicy");
+                if (refAuthResult.Succeeded)
+                    ViewData["DriverID"] = driver;
             }
 
             return View(leg);
         }
 
         // GET: Legs/Create/1
-        public IActionResult Create(int? id, bool? fromdriver)
+        public async Task<IActionResult> Create(int? id, bool? fromdriver)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Challenge();
+            }
+
             if (id == null)
             {
                 ViewData["DriverID"] = new SelectList(_context.Drivers, "DriverID", "DriverID");
+            }
+            else
+            {
+                var driver = await _context.Drivers.FirstOrDefaultAsync(m => m.DriverID == id);
+                var authResult = await _authorizationService.AuthorizeAsync(User, driver, "DriverInfoPolicy");
+
+                if (!authResult.Succeeded)
+                {
+                    return Forbid();
+                }
             }
 
             ViewData["FromDriverPage"] = fromdriver.GetValueOrDefault(false) ? id : null;
@@ -72,8 +105,20 @@ namespace DriverTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(bool? fromdriver, [Bind("LegID,DriverID,StartAddress,PickupRequestTime,StartTime,DestinationAddress,ArrivalTime,Distance,Fare,NumOfPassengersAboard,NumOfPassengersPickedUp,FuelCost")] Leg leg)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Challenge();
+            }
+
             if (ModelState.IsValid)
             {
+                var driver = await _context.Drivers.FirstOrDefaultAsync(m => m.DriverID == leg.DriverID);
+                var authResult = await _authorizationService.AuthorizeAsync(User, driver, "DriverInfoPolicy");
+                if (!authResult.Succeeded)
+                {
+                    return Forbid();
+                }
+
                 _context.Add(leg);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(DriverTracker.Controllers.DriversController.Details),
@@ -90,6 +135,11 @@ namespace DriverTracker.Controllers
         // GET: Legs/Edit/5
         public async Task<IActionResult> Edit(int? id, int? driver)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Challenge();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -100,9 +150,25 @@ namespace DriverTracker.Controllers
             {
                 return NotFound();
             }
+
+            var driverObj = await _context.Drivers.FirstOrDefaultAsync(m => m.DriverID == id);
+            var authResult = await _authorizationService.AuthorizeAsync(User, driverObj, "DriverInfoPolicy");
+
+            if (!authResult.Succeeded)
+            {
+                return Forbid();
+            }
+
             ViewData["DriverID"] = new SelectList(_context.Drivers, "DriverID", "DriverID", leg.DriverID);
 
-            ViewData["FromDriverPage"] = driver;
+            if (driver != null)
+            {
+                var referralDriver = await _context.Drivers.FirstOrDefaultAsync(m => m.DriverID == driver);
+                var refAuthResult = await _authorizationService.AuthorizeAsync(User, referralDriver, "DriverInfoPolicy");
+                if (refAuthResult.Succeeded)
+                    ViewData["FromDriverPage"] = driver;
+            }
+                    
 
             return View(leg);
         }
@@ -110,10 +176,16 @@ namespace DriverTracker.Controllers
         // POST: Legs/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // TODO troubleshoot why access is denied to admin users
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, int? driver, [Bind("LegID,DriverID,StartAddress,PickupRequestTime,StartTime,DestinationAddress,ArrivalTime,Distance,Fare,NumOfPassengersAboard,NumOfPassengersPickedUp,FuelCost")] Leg leg)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Challenge();
+            }
+
             if (id != leg.LegID)
             {
                 return NotFound();
@@ -121,6 +193,14 @@ namespace DriverTracker.Controllers
 
             if (ModelState.IsValid)
             {
+                var driverObj = await _context.Drivers.FirstOrDefaultAsync(m => m.DriverID == leg.DriverID);
+                var authResult = await _authorizationService.AuthorizeAsync(User, driverObj, "DriverInfoPolicy");
+
+                if (!authResult.Succeeded)
+                {
+                    return Forbid();
+                }
+
                 try
                 {
                     _context.Update(leg);
@@ -143,7 +223,13 @@ namespace DriverTracker.Controllers
             }
             ViewData["DriverID"] = new SelectList(_context.Drivers, "DriverID", "DriverID", leg.DriverID);
 
-            ViewData["FromDriverPage"] = driver;
+            if (driver != null)
+            {
+                var referralDriver = await _context.Drivers.FirstOrDefaultAsync(m => m.DriverID == driver);
+                var refAuthResult = await _authorizationService.AuthorizeAsync(User, referralDriver, "DriverInfoPolicy");
+                if (refAuthResult.Succeeded)
+                    ViewData["FromDriverPage"] = driver;
+            }
 
             return View(leg);
         }
@@ -151,6 +237,11 @@ namespace DriverTracker.Controllers
         // GET: Legs/Delete/5
         public async Task<IActionResult> Delete(int? id, int? driver)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Challenge();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -164,7 +255,19 @@ namespace DriverTracker.Controllers
                 return NotFound();
             }
 
-            ViewData["FromDriverPage"] = driver;
+            var authResult = await _authorizationService.AuthorizeAsync(User, leg.Driver, "DriverInfoPolicy");
+            if (!authResult.Succeeded)
+            {
+                return Forbid();
+            }
+
+            if (driver != null)
+            {
+                var referralDriver = await _context.Drivers.FirstOrDefaultAsync(m => m.DriverID == driver);
+                var refAuthResult = await _authorizationService.AuthorizeAsync(User, referralDriver, "DriverInfoPolicy");
+                if (refAuthResult.Succeeded)
+                    ViewData["FromDriverPage"] = driver;
+            }
 
             return View(leg);
         }
@@ -174,7 +277,21 @@ namespace DriverTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id, int? driver)
         {
-            var leg = await _context.Legs.FindAsync(id);
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Challenge();
+            }
+
+
+            var leg = await _context.Legs.Include(l => l.Driver).FirstOrDefaultAsync(l => l.LegID == id);
+
+            var authResult = await _authorizationService.AuthorizeAsync(User, leg.Driver, "DriverInfoPolicy");
+
+            if (!authResult.Succeeded)
+            {
+                return Forbid();
+            }
+
             _context.Legs.Remove(leg);
             await _context.SaveChangesAsync();
             if (driver == null)
@@ -183,9 +300,18 @@ namespace DriverTracker.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(DriverTracker.Controllers.DriversController.Details),
-                                        "Drivers",
-                                        new { id = leg.DriverID });
+                var referralDriver = await _context.Drivers.FirstOrDefaultAsync(m => m.DriverID == driver);
+                var refAuthResult = await _authorizationService.AuthorizeAsync(User, referralDriver, "DriverInfoPolicy");
+                if (refAuthResult.Succeeded)
+                {
+                    return RedirectToAction(nameof(DriverTracker.Controllers.DriversController.Details),
+                                            "Drivers",
+                                            new { id = leg.DriverID });
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
         }
 

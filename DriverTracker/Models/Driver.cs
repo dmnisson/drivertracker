@@ -6,7 +6,11 @@ using System.ComponentModel.DataAnnotations;
 namespace DriverTracker.Models {
 	public class Driver {
         public int DriverID { get; set; }
+
+        [Obsolete("Integer User ID is not supported. Please use UserIDString.", true)]
         public int UserID { get; set; }
+
+        public string UserIDString { get; set; }
 
         [Display(Name = "Name")]
         [Required(ErrorMessage = "A driver name is required.")]
