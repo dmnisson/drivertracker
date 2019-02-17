@@ -29,7 +29,6 @@
     <Compile Remove="Areas\Identity\Data\DriverIdentityContext.cs" />
     <Compile Remove="Areas\Identity\Data\MvcDataContext.cs" />
     <Compile Remove="Domain\CompanyStatisticResults.cs" />
-    <Compile Remove="Domain\GeographicDistance.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\lib\bootstrap\.bower.json" />
