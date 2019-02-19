@@ -15,7 +15,7 @@ namespace DriverTracker.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            ViewData["CookiePolicyMessage"] = _configuration.GetSection("CompanyInfo")["CookiePolicyMessage"];
+            ViewData["CookiePolicyMessage"] = await Task.Run(() => _configuration.GetSection("CompanyInfo")["CookiePolicyMessage"]);
 
             return View();
         }

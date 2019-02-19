@@ -15,6 +15,7 @@ using DriverTracker.Models;
 using DriverTracker.Data;
 using DriverTracker.Domain;
 using DriverTracker.Authorization;
+using Accord.Statistics.Analysis;
 
 namespace DriverTracker
 {
@@ -50,10 +51,21 @@ namespace DriverTracker
             });
             services.AddScoped<IAuthorizationHandler, UserInfoPermissionHandler>();
 
-            services.AddTransient<IDriverRepository>(provider => new DriverRepository(provider.GetService<MvcDriverContext>()));
-            services.AddTransient<ILegRepository>(provider => new LegRepository(provider.GetService<MvcDriverContext>()));
-            services.AddTransient<IGeocodingDbSync>(provider => new GeocodingDbSync(
+            services.AddScoped<IDriverRepository>(provider => new DriverRepository(provider.GetService<MvcDriverContext>()));
+            services.AddScoped<ILegRepository>(provider => new LegRepository(provider.GetService<MvcDriverContext>()));
+            services.AddScoped<IGeocodingDbSync>(provider => new GeocodingDbSync(
                 this.Configuration, provider.GetService<MvcDriverContext>()));
+            services.AddScoped<ILocationClustering, LocationClustering>();
+            services.AddScoped<IPickupPrediction>(provider => new PickupPrediction(
+                provider.GetService<ILocationClustering>(),
+                provider.GetService<ILegRepository>(),
+                provider.GetService<IGeocodingDbSync>(),
+                new LogisticRegressionAnalysis
+                {
+                    Inputs = new string[] { "pickupDelay", "duration" },
+                    Output = "inFareClass"
+                }
+                ));
             services.AddSingleton(this.Configuration);
                                                                   
         }

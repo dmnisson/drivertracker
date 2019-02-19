@@ -1,0 +1,83 @@
+<h2>Pickup predictions</h2>
+<p>
+    Predict probability of completing given leg and collecting fares.
+</p>
+
+<form (ngSubmit)="onSubmit()" #pickupPredictionForm="ngForm">
+    <h3>Leg information</h3>
+    <div class="m-5">
+        <div class="form-group">
+            <label for="startAddress">Start address</label>
+            <input type="text" name="startAddress" required [(ngModel)]="startAddress" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="endAddress">End address</label>
+            <input type="text" name="endAddress" required [(ngModel)]="endAddress" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="pickupDelay">Pickup delay (min)</label>
+            <input type="number" name="pickupDelay" required [(ngModel)]="delay" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="duration">Duration (min)</label>
+            <input type="number" name="duration" required [(ngModel)]="duration" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="interval">Interval over which to predict probabilities (min)</label>
+            <input type="number" name="interval" required [(ngModel)]="interval" class="form-control" />
+        </div>
+    </div>
+    <h3>Fare class probabilities</h3>
+    <div class="m-5">
+        <div class="form-group">
+            <label for="pickups">Number of pickups</label>
+            <input type="number" name="pickups" [(ngModel)]="pickups" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-success">Predict fare class probabilities</button>
+    </div>
+    <h3>Pickup probabilities</h3>
+    <div class="m-5">
+        <div class="form-group">
+            <label for="fare">Fare</label>
+            <input type="number" name="fare" [(ngModel)]="fare" class="form-control" />
+        </div>
+        <button type="button" class="btn btn-success" (click)="predictPickupProbabilities()">Predict pickup probabilities</button>
+    </div>
+</form>
+
+<h2>Results</h2>
+<ng-template [ngIf]="fareClassProbabilities != null">
+    <h3>Fare class probabilities</h3>
+    <div class="row" *ngFor="let i of fareClassIndices">
+        <div class="col">
+            <p class="pl-5">${{i == 0 ? 0 : fareClassIntervalBoundaries[i-1]}} to ${{fareClassIntervalBoundaries[i]}}:</p>
+        </div>
+        <div class="col">
+            <p class="pr-5">{{fareClassProbabilities[i] * 100}}%</p>
+        </div>
+    </div>
+    <div class="row" *ngIf="fareClassIntervalBoundaries.length > 0">
+        <div class="col">
+            <p class="pl-5">${{fareClassIntervalBoundaries[fareClassIntervalBoundaries.length - 1]}}+:</p>
+        </div>
+        <div class="col">
+            <p class="pr-5">{{fareClassProbabilities[fareClassIntervalBoundaries.length] * 100}}%</p>
+        </div>
+    </div>
+</ng-template>
+<ng-template [ngIf]="pickupProbabilities != null">
+    <h3>Pickup probabilities</h3>
+    <div class="row" *ngFor="let i of pickupProbabilityIndices">
+        <div class="col">
+            <p class="pl-5" *ngIf="i == 0">
+                Probability of failure to collect:
+            </p>
+            <p class="pl-5" *ngIf="i > 0">
+                Probability of collecting {{i}} passenger<ng-template [ngIf]="i != 1">s</ng-template>:
+            </p>
+        </div>
+        <div class="col">
+            <p class="pr-5">{{pickupProbabilities[i] * 100}}%</p>
+        </div>
+    </div>
+</ng-template>

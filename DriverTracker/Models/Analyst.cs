@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 public enum AccountStatusType
 {
@@ -31,6 +33,23 @@ namespace DriverTracker.Models
         public bool ReceivesSMSAlertsDriversTerminated { get; set; }
         public bool ReceivesSMSAlertsLongDriverWaits { get; set; }
         public double SMSAlertDriverWaitTime { get; set; }
+
+        [NotMapped]
+        public double[] FareClassIntervals
+        {
+            get
+            {
+                return Array.ConvertAll(FareClassIntervalsString.Split(','), double.Parse);
+            }
+
+            set
+            {
+                double[] _fci = value;
+                FareClassIntervalsString = string.Join(',', 
+                    _fci.Select(b => b.ToString()));
+            }
+        }
+        public string FareClassIntervalsString { get; set; }
 
         public ICollection<Analysis> Analyses { get; set; }
     }

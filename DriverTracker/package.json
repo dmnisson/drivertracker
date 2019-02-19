@@ -41,6 +41,9 @@
     "@angular/router": "^7.2.0",
     "@ng-bootstrap/ng-bootstrap": "^4.0.1",
     "@types/bootstrap": "^4.2.0",
+    "ajv": "^6.9.1",
+    "braces": "^2.3.2",
+    "clean-css": "^4.2.1",
     "core-js": "^2.6.1",
     "gulp": "^4.0.0",
     "gulp-concat": "^2.6.1",
@@ -49,9 +52,7 @@
     "gulp-uglify": "3.0.0",
     "jasmine-core": "^3.3.0",
     "jquery": "^3.3.1",
-    "karma-chrome-launcher": "^2.2.0",
     "karma-cli": "^1.0.1",
-    "karma-jasmine": "^1.1.2",
     "merge-stream": "1.0.1",
     "rimraf": "^2.6.3",
     "rxjs": "^6.3.3",
@@ -67,16 +68,12 @@
     "@types/jasminewd2": "^2.0.6",
     "@types/node": "~8.9.4",
     "codelyzer": "~4.5.0",
-    "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
-    "karma": "^3.1.4",
-    "karma-chrome-launcher": "~2.2.0",
+    "karma": "^4.0.0",
     "karma-coverage-istanbul-reporter": "~2.0.1",
-    "karma-jasmine": "~1.1.2",
-    "karma-jasmine-html-reporter": "^1.4.0",
     "protractor": "^5.4.2",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
-    "typescript": "^3.1.6"
+    "typescript": "^3.2.4"
   }
 }

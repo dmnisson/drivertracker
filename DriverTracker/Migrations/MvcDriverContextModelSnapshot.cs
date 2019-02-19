@@ -43,6 +43,8 @@ namespace DriverTracker.Migrations
 
                     b.Property<string>("Email");
 
+                    b.Property<string>("FareClassIntervalsString");
+
                     b.Property<string>("FullName");
 
                     b.Property<string>("PhoneNumber");

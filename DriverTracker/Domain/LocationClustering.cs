@@ -28,7 +28,7 @@ namespace DriverTracker.Domain
             _geocodingDbSync = geocodingDbSync;
         }
 
-        public int NumberOfClusters => ClusterCollection == null ? 0 : ClusterCollection.Count;
+        public int NumberOfClusters => ClusterCollection == null ? 1 : ClusterCollection.Count;
 
         /// <summary>
         /// Train on number of clusters using gap statistic
@@ -126,10 +126,11 @@ namespace DriverTracker.Domain
 
         private double[][] GetDataset(IEnumerable<Leg> legs)
         {
-            return legs.Select(leg =>
-            {
-                LegCoordinates coordinates = _geocodingDbSync.GetLegCoordinatesAsync(leg.LegID).Result;
-                return new double[] {
+            return legs.Select(leg => _geocodingDbSync.GetLegCoordinatesAsync(leg.LegID).Result)
+                .Where(coordinates => coordinates != null)
+                .Select(coordinates =>
+                {
+                    return new double[] {
                     Convert.ToDouble(coordinates.StartLatitude),
                     Convert.ToDouble(coordinates.StartLongitude),
                     Convert.ToDouble(coordinates.DestLatitude),
@@ -263,7 +264,7 @@ namespace DriverTracker.Domain
         private async Task RetrainAsync(Expression<Func<Leg, bool>> predicate)
         {
             await _geocodingDbSync.UpdateAllAsync();
-            KMeans kMeans = new KMeans(ClusterCollection.Count)
+            KMeans kMeans = new KMeans(NumberOfClusters)
             {
                 Distance = new GeographicDistance()
             };

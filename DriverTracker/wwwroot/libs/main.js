@@ -37,6 +37,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
 /* harmony import */ var _drivers_drivers_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./drivers/drivers.component */ "./src/app/drivers/drivers.component.ts");
 /* harmony import */ var _predictor_predictor_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./predictor/predictor.component */ "./src/app/predictor/predictor.component.ts");
+/* harmony import */ var _pickup_predictor_pickup_predictor_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pickup-predictor/pickup-predictor.component */ "./src/app/pickup-predictor/pickup-predictor.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -47,9 +48,11 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 const routes = [
     { path: 'Drivers', component: _drivers_drivers_component__WEBPACK_IMPORTED_MODULE_2__["DriversComponent"] },
-    { path: 'Predictor/Index/:id', component: _predictor_predictor_component__WEBPACK_IMPORTED_MODULE_3__["PredictorComponent"] }
+    { path: 'Predictor/Index/:id', component: _predictor_predictor_component__WEBPACK_IMPORTED_MODULE_3__["PredictorComponent"] },
+    { path: 'PickupPredictor', component: _pickup_predictor_pickup_predictor_component__WEBPACK_IMPORTED_MODULE_4__["PickupPredictorComponent"] }
 ];
 let AppRoutingModule = class AppRoutingModule {
 };
@@ -86,7 +89,7 @@ module.exports = "<router-outlet></router-outlet>"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2FzcyJ9 */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJhcHAuY29tcG9uZW50LnNhc3MifQ== */"
 
 /***/ }),
 
@@ -145,12 +148,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _legs_legs_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./legs/legs.component */ "./src/app/legs/legs.component.ts");
 /* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
 /* harmony import */ var _predictor_predictor_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./predictor/predictor.component */ "./src/app/predictor/predictor.component.ts");
+/* harmony import */ var _pickup_predictor_pickup_predictor_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pickup-predictor/pickup-predictor.component */ "./src/app/pickup-predictor/pickup-predictor.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -169,7 +174,8 @@ AppModule = __decorate([
             _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
             _drivers_drivers_component__WEBPACK_IMPORTED_MODULE_6__["DriversComponent"],
             _legs_legs_component__WEBPACK_IMPORTED_MODULE_7__["LegsComponent"],
-            _predictor_predictor_component__WEBPACK_IMPORTED_MODULE_9__["PredictorComponent"]
+            _predictor_predictor_component__WEBPACK_IMPORTED_MODULE_9__["PredictorComponent"],
+            _pickup_predictor_pickup_predictor_component__WEBPACK_IMPORTED_MODULE_10__["PickupPredictorComponent"]
         ],
         imports: [
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -272,7 +278,7 @@ module.exports = "<ng-template [ngIf]=\"companyStatistics != null\">\r\n<h2>Stat
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2RyaXZlcnMvZHJpdmVycy5jb21wb25lbnQuc2FzcyJ9 */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJkcml2ZXJzL2RyaXZlcnMuY29tcG9uZW50LnNhc3MifQ== */"
 
 /***/ }),
 
@@ -408,6 +414,57 @@ DriversComponent = __decorate([
 
 /***/ }),
 
+/***/ "./src/app/geocoding.service.ts":
+/*!**************************************!*\
+  !*** ./src/app/geocoding.service.ts ***!
+  \**************************************/
+/*! exports provided: GeocodingService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GeocodingService", function() { return GeocodingService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+const httpOptions = {
+    headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({ 'Content-Type': 'application/json' })
+};
+let GeocodingService = class GeocodingService {
+    constructor(http) {
+        this.http = http;
+        this.geocodingUrl = "/api/geocoding";
+    }
+    getLegCoordinates(id) {
+        const url = `${this.geocodingUrl}/${id}`;
+        return this.http.get(url, httpOptions);
+    }
+    getAddressCoordinates(address) {
+        const url = `${this.geocodingUrl}/direct/${address}`;
+        return this.http.get(url, httpOptions);
+    }
+};
+GeocodingService = __decorate([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+        providedIn: 'root'
+    }),
+    __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+], GeocodingService);
+
+
+
+/***/ }),
+
 /***/ "./src/app/leg.service.ts":
 /*!********************************!*\
   !*** ./src/app/leg.service.ts ***!
@@ -461,7 +518,7 @@ module.exports = "<p>\n  legs works!\n</p>\n"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2xlZ3MvbGVncy5jb21wb25lbnQuc2FzcyJ9 */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJsZWdzL2xlZ3MuY29tcG9uZW50LnNhc3MifQ== */"
 
 /***/ }),
 
@@ -499,6 +556,167 @@ LegsComponent = __decorate([
     }),
     __metadata("design:paramtypes", [])
 ], LegsComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/pickup-predictor.service.ts":
+/*!*********************************************!*\
+  !*** ./src/app/pickup-predictor.service.ts ***!
+  \*********************************************/
+/*! exports provided: PickupPredictorService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PickupPredictorService", function() { return PickupPredictorService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+const httpOptions = {
+    headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({ 'Content-Type': 'application/json' })
+};
+let PickupPredictorService = class PickupPredictorService {
+    constructor(http) {
+        this.http = http;
+        this.analysisUrl = '/api/analysisapi';
+    }
+    getFareClassIntervals() {
+        const url = `${this.analysisUrl}/fareclassintervals`;
+        return this.http.get(url, httpOptions);
+    }
+    setFareClassIntervals(intervalBounds) {
+        const url = `${this.analysisUrl}/fareclassintervals`;
+        return this.http.put(url, intervalBounds, httpOptions);
+    }
+    getFareClassProbabilities(startCoords, endCoords, delay, duration, pickups, interval) {
+        const url = `${this.analysisUrl}/fareclassprob/${startCoords[0]}/${startCoords[1]}/${endCoords[0]}/${endCoords[1]}/${delay}/${duration}/${pickups}/${interval}`;
+        return this.http.get(url, httpOptions);
+    }
+    getPickupProbabilities(startCoords, endCoords, delay, duration, fare, interval) {
+        const url = `${this.analysisUrl}/pickupprob/${startCoords[0]}/${startCoords[1]}/${endCoords[0]}/${endCoords[1]}/${delay}/${duration}/${fare}/${interval}`;
+        return this.http.get(url, httpOptions);
+    }
+};
+PickupPredictorService = __decorate([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+        providedIn: 'root'
+    }),
+    __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+], PickupPredictorService);
+
+
+
+/***/ }),
+
+/***/ "./src/app/pickup-predictor/pickup-predictor.component.html":
+/*!******************************************************************!*\
+  !*** ./src/app/pickup-predictor/pickup-predictor.component.html ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<h2>Pickup predictions</h2>\n<p>\n    Predict probability of completing given leg and collecting fares.\n</p>\n\n<form (ngSubmit)=\"onSubmit()\" #pickupPredictionForm=\"ngForm\">\r\n    <h3>Leg information</h3>\r\n    <div class=\"m-5\">\r\n        <div class=\"form-group\">\r\n            <label for=\"startAddress\">Start address</label>\r\n            <input type=\"text\" name=\"startAddress\" required [(ngModel)]=\"startAddress\" class=\"form-control\" />\r\n        </div>\r\n        <div class=\"form-group\">\r\n            <label for=\"endAddress\">End address</label>\r\n            <input type=\"text\" name=\"endAddress\" required [(ngModel)]=\"endAddress\" class=\"form-control\" />\r\n        </div>\r\n        <div class=\"form-group\">\r\n            <label for=\"pickupDelay\">Pickup delay (min)</label>\r\n            <input type=\"number\" name=\"pickupDelay\" required [(ngModel)]=\"delay\" class=\"form-control\" />\r\n        </div>\r\n        <div class=\"form-group\">\r\n            <label for=\"duration\">Duration (min)</label>\r\n            <input type=\"number\" name=\"duration\" required [(ngModel)]=\"duration\" class=\"form-control\" />\r\n        </div>\r\n        <div class=\"form-group\">\r\n            <label for=\"interval\">Interval over which to predict probabilities (min)</label>\r\n            <input type=\"number\" name=\"interval\" required [(ngModel)]=\"interval\" class=\"form-control\" />\r\n        </div>\r\n    </div>\r\n    <h3>Fare class probabilities</h3>\r\n    <div class=\"m-5\">\r\n        <div class=\"form-group\">\r\n            <label for=\"pickups\">Number of pickups</label>\r\n            <input type=\"number\" name=\"pickups\" [(ngModel)]=\"pickups\" class=\"form-control\" />\r\n        </div>\r\n        <button type=\"submit\" class=\"btn btn-success\">Predict fare class probabilities</button>\r\n    </div>\r\n    <h3>Pickup probabilities</h3>\r\n    <div class=\"m-5\">\r\n        <div class=\"form-group\">\r\n            <label for=\"fare\">Fare</label>\r\n            <input type=\"number\" name=\"fare\" [(ngModel)]=\"fare\" class=\"form-control\" />\r\n        </div>\r\n        <button type=\"button\" class=\"btn btn-success\" (click)=\"predictPickupProbabilities()\">Predict pickup probabilities</button>\r\n    </div>\r\n</form>\n\n<h2>Results</h2>\n<ng-template [ngIf]=\"fareClassProbabilities != null\">\n    <h3>Fare class probabilities</h3>\n    <div class=\"row\" *ngFor=\"let i of fareClassIndices\">\n        <div class=\"col\">\n            <p class=\"pl-5\">${{i == 0 ? 0 : fareClassIntervalBoundaries[i-1]}} to ${{fareClassIntervalBoundaries[i]}}:</p>\n        </div>\n        <div class=\"col\">\n            <p class=\"pr-5\">{{fareClassProbabilities[i] * 100}}%</p>\n        </div>\n    </div>\n    <div class=\"row\" *ngIf=\"fareClassIntervalBoundaries.length > 0\">\r\n        <div class=\"col\">\r\n            <p class=\"pl-5\">${{fareClassIntervalBoundaries[fareClassIntervalBoundaries.length - 1]}}+:</p>\r\n        </div>\r\n        <div class=\"col\">\r\n            <p class=\"pr-5\">{{fareClassProbabilities[fareClassIntervalBoundaries.length] * 100}}%</p>\r\n        </div>\r\n    </div>\n</ng-template>\n<ng-template [ngIf]=\"pickupProbabilities != null\">\r\n    <h3>Pickup probabilities</h3>\r\n    <div class=\"row\" *ngFor=\"let i of pickupProbabilityIndices\">\r\n        <div class=\"col\">\r\n            <p class=\"pl-5\" *ngIf=\"i == 0\">\n                Probability of failure to collect:\n            </p>\n            <p class=\"pl-5\" *ngIf=\"i > 0\">\r\n                Probability of collecting {{i}} passenger<ng-template [ngIf]=\"i != 1\">s</ng-template>:\r\n            </p>\r\n        </div>\r\n        <div class=\"col\">\r\n            <p class=\"pr-5\">{{pickupProbabilities[i] * 100}}%</p>\r\n        </div>\r\n    </div>\r\n</ng-template>"
+
+/***/ }),
+
+/***/ "./src/app/pickup-predictor/pickup-predictor.component.scss":
+/*!******************************************************************!*\
+  !*** ./src/app/pickup-predictor/pickup-predictor.component.scss ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJwaWNrdXAtcHJlZGljdG9yL3BpY2t1cC1wcmVkaWN0b3IuY29tcG9uZW50LnNjc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/pickup-predictor/pickup-predictor.component.ts":
+/*!****************************************************************!*\
+  !*** ./src/app/pickup-predictor/pickup-predictor.component.ts ***!
+  \****************************************************************/
+/*! exports provided: PickupPredictorComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PickupPredictorComponent", function() { return PickupPredictorComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _pickup_predictor_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../pickup-predictor.service */ "./src/app/pickup-predictor.service.ts");
+/* harmony import */ var _geocoding_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../geocoding.service */ "./src/app/geocoding.service.ts");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+let PickupPredictorComponent = class PickupPredictorComponent {
+    constructor(pickupPredictorService, geocodingService, aRoute) {
+        this.pickupPredictorService = pickupPredictorService;
+        this.geocodingService = geocodingService;
+        this.aRoute = aRoute;
+    }
+    geocodeInputAddresses(geoDependent) {
+        const startCoords$ = this.geocodingService.getAddressCoordinates(this.startAddress);
+        const endCoords$ = this.geocodingService.getAddressCoordinates(this.endAddress);
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["combineLatest"])(startCoords$, endCoords$, (startCoords, endCoords) => ({ startCoords, endCoords }))
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["switchMap"])(pair => {
+            this.startCoords = pair.startCoords;
+            this.endCoords = pair.endCoords;
+            return geoDependent(this.startCoords, this.endCoords);
+        }));
+    }
+    onSubmit() {
+        this.geocodeInputAddresses((s, e) => this.pickupPredictorService.getFareClassProbabilities(s, e, this.delay, this.duration, this.pickups, this.interval))
+            .subscribe(probs => this.fareClassProbabilities = probs);
+    }
+    predictPickupProbabilities() {
+        this.geocodeInputAddresses((s, e) => this.pickupPredictorService.getPickupProbabilities(s, e, this.delay, this.duration, this.fare, this.interval))
+            .subscribe(probs => {
+            this.pickupProbabilities = probs;
+            this.pickupProbabilityIndices = (new Array(probs.length)).fill(0).map((x, i) => i);
+        });
+    }
+    ngOnInit() {
+        this.pickupPredictorService.getFareClassIntervals()
+            .subscribe(bounds => this.fareClassIntervalBoundaries = bounds);
+        this.fareClassIndices = (new Array(this.fareClassIntervalBoundaries.length))
+            .fill(0).map((x, i) => i);
+    }
+};
+PickupPredictorComponent = __decorate([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+        selector: 'app-pickup-predictor',
+        template: __webpack_require__(/*! ./pickup-predictor.component.html */ "./src/app/pickup-predictor/pickup-predictor.component.html"),
+        styles: [__webpack_require__(/*! ./pickup-predictor.component.scss */ "./src/app/pickup-predictor/pickup-predictor.component.scss")]
+    }),
+    __metadata("design:paramtypes", [_pickup_predictor_service__WEBPACK_IMPORTED_MODULE_2__["PickupPredictorService"],
+        _geocoding_service__WEBPACK_IMPORTED_MODULE_3__["GeocodingService"],
+        _angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"]])
+], PickupPredictorComponent);
 
 
 
@@ -558,7 +776,7 @@ PredictorService = __decorate([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Ridership Prediction for Driver: {{driver.name}}</h2>\n\n<form (ngSubmit)=\"onSubmit()\" #riderPredictionForm=\"ngForm\">\n    <div class=\"form-group\">\n        <label for=\"delay\">Anticipated delay (min)</label>\n        <input type=\"number\" name=\"delay\" required [(ngModel)]=\"delay\" class=\"form-control\" />\n    </div>\n    <div class=\"form-group\">\r\n        <label for=\"duration\">Leg duration (min)</label>\r\n        <input type=\"number\" name=\"duration\" required [(ngModel)]=\"duration\" class=\"form-control\" />\r\n    </div>\n    <div class=\"form-group\">\r\n        <label for=\"fare\">Fare ($)</label>\r\n        <input type=\"number\" name=\"fare\" required [(ngModel)]=\"fare\" class=\"form-control\" />\r\n    </div>\n    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!riderPredictionForm.form.valid\">Predict</button>\n</form>\n\n<ng-template [ngIf]=\"ridershipProbabilities != null\">\r\n    <div class=\"row\" *ngFor=\"let i of ridershipProbabilityIndices\">\r\n        <div class=\"col\">\r\n            <p class=\"pl-5\">Probability of {{i+2}}<ng-template [ngIf]=\"i == 3\">+</ng-template> riders:</p>\r\n        </div>\r\n        <div class=\"col\">\r\n            <p class=\"pr-5\">{{ridershipProbabilities[i] * 100}}%</p>\r\n        </div>\r\n    </div>\r\n</ng-template>"
+module.exports = "<h2>Ridership Prediction for Driver: {{driver.name}}</h2>\n\n<p>\n    Predict how many riders are likely <em>if a pickup occurs</em>.\n</p>\n\n<form (ngSubmit)=\"onSubmit()\" #riderPredictionForm=\"ngForm\">\n    <div class=\"form-group\">\n        <label for=\"delay\">Anticipated delay (min)</label>\n        <input type=\"number\" name=\"delay\" required [(ngModel)]=\"delay\" class=\"form-control\" />\n    </div>\n    <div class=\"form-group\">\r\n        <label for=\"duration\">Leg duration (min)</label>\r\n        <input type=\"number\" name=\"duration\" required [(ngModel)]=\"duration\" class=\"form-control\" />\r\n    </div>\n    <div class=\"form-group\">\r\n        <label for=\"fare\">Fare ($)</label>\r\n        <input type=\"number\" name=\"fare\" required [(ngModel)]=\"fare\" class=\"form-control\" />\r\n    </div>\n    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!riderPredictionForm.form.valid\">Predict</button>\n</form>\n\n<ng-template [ngIf]=\"ridershipProbabilities != null\">\r\n    <div class=\"row\" *ngFor=\"let i of ridershipProbabilityIndices\">\r\n        <div class=\"col\">\r\n            <p class=\"pl-5\">Probability of {{i+2}}<ng-template [ngIf]=\"i == 3\">+</ng-template> riders:</p>\r\n        </div>\r\n        <div class=\"col\">\r\n            <p class=\"pr-5\">{{ridershipProbabilities[i] * 100}}%</p>\r\n        </div>\r\n    </div>\r\n</ng-template>"
 
 /***/ }),
 
@@ -569,7 +787,7 @@ module.exports = "<h2>Ridership Prediction for Driver: {{driver.name}}</h2>\n\n<
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3ByZWRpY3Rvci9wcmVkaWN0b3IuY29tcG9uZW50LnNhc3MifQ== */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJwcmVkaWN0b3IvcHJlZGljdG9yLmNvbXBvbmVudC5zYXNzIn0= */"
 
 /***/ }),
 
