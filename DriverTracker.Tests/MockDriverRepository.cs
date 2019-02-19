@@ -23,7 +23,7 @@ namespace DriverTracker.Tests
         public async Task AddAsync(Driver driver)
         {
             Console.WriteLine("AddAsync called");
-            Console.Write(JsonConvert.SerializeObject(driver));
+            Console.Write(await Task.Run(() => JsonConvert.SerializeObject(driver)));
             Console.WriteLine();
         }
 

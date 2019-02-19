@@ -10,13 +10,15 @@ import { DriversComponent } from './drivers/drivers.component';
 import { LegsComponent } from './legs/legs.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PredictorComponent } from './predictor/predictor.component';
+import { PickupPredictorComponent } from './pickup-predictor/pickup-predictor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DriversComponent,
     LegsComponent,
-    PredictorComponent
+    PredictorComponent,
+    PickupPredictorComponent
   ],
   imports: [
       BrowserModule,
