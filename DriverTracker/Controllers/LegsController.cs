@@ -145,13 +145,14 @@ namespace DriverTracker.Controllers
                 return NotFound();
             }
 
-            var leg = await _context.Legs.FindAsync(id);
+            var leg = await _context.Legs.Include(l => l.Driver)
+                .FirstOrDefaultAsync(l => l.LegID == id);
             if (leg == null)
             {
                 return NotFound();
             }
 
-            var driverObj = await _context.Drivers.FirstOrDefaultAsync(m => m.DriverID == id);
+            var driverObj = leg.Driver;
             var authResult = await _authorizationService.AuthorizeAsync(User, driverObj, "DriverInfoPolicy");
 
             if (!authResult.Succeeded)
@@ -176,7 +177,6 @@ namespace DriverTracker.Controllers
         // POST: Legs/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        // TODO troubleshoot why access is denied to admin users
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, int? driver, [Bind("LegID,DriverID,StartAddress,PickupRequestTime,StartTime,DestinationAddress,ArrivalTime,Distance,Fare,NumOfPassengersAboard,NumOfPassengersPickedUp,FuelCost")] Leg leg)

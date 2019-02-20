@@ -145,6 +145,8 @@ namespace DriverTracker.Controllers
             await TrainPickupPrediction();
 
             return _pickupPrediction.GetPickupProbabilities(
+                
+                
                 new double[] { startlat, startlon },
                 new double[] { endlat, endlon },
                 delay, duration, fare, interval
