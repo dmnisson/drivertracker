@@ -89,7 +89,7 @@ module.exports = "<router-outlet></router-outlet>"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJhcHAuY29tcG9uZW50LnNhc3MifQ== */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2FzcyJ9 */"
 
 /***/ }),
 
@@ -278,7 +278,7 @@ module.exports = "<ng-template [ngIf]=\"companyStatistics != null\">\r\n<h2>Stat
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJkcml2ZXJzL2RyaXZlcnMuY29tcG9uZW50LnNhc3MifQ== */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2RyaXZlcnMvZHJpdmVycy5jb21wb25lbnQuc2FzcyJ9 */"
 
 /***/ }),
 
@@ -518,7 +518,7 @@ module.exports = "<p>\n  legs works!\n</p>\n"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJsZWdzL2xlZ3MuY29tcG9uZW50LnNhc3MifQ== */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2xlZ3MvbGVncy5jb21wb25lbnQuc2FzcyJ9 */"
 
 /***/ }),
 
@@ -627,7 +627,7 @@ PickupPredictorService = __decorate([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Pickup predictions</h2>\n<p>\n    Predict probability of completing given leg and collecting fares.\n</p>\n\n<form (ngSubmit)=\"onSubmit()\" #pickupPredictionForm=\"ngForm\">\r\n    <h3>Leg information</h3>\r\n    <div class=\"m-5\">\r\n        <div class=\"form-group\">\r\n            <label for=\"startAddress\">Start address</label>\r\n            <input type=\"text\" name=\"startAddress\" required [(ngModel)]=\"startAddress\" class=\"form-control\" />\r\n        </div>\r\n        <div class=\"form-group\">\r\n            <label for=\"endAddress\">End address</label>\r\n            <input type=\"text\" name=\"endAddress\" required [(ngModel)]=\"endAddress\" class=\"form-control\" />\r\n        </div>\r\n        <div class=\"form-group\">\r\n            <label for=\"pickupDelay\">Pickup delay (min)</label>\r\n            <input type=\"number\" name=\"pickupDelay\" required [(ngModel)]=\"delay\" class=\"form-control\" />\r\n        </div>\r\n        <div class=\"form-group\">\r\n            <label for=\"duration\">Duration (min)</label>\r\n            <input type=\"number\" name=\"duration\" required [(ngModel)]=\"duration\" class=\"form-control\" />\r\n        </div>\r\n        <div class=\"form-group\">\r\n            <label for=\"interval\">Interval over which to predict probabilities (min)</label>\r\n            <input type=\"number\" name=\"interval\" required [(ngModel)]=\"interval\" class=\"form-control\" />\r\n        </div>\r\n    </div>\r\n    <h3>Fare class probabilities</h3>\r\n    <div class=\"m-5\">\r\n        <div class=\"form-group\">\r\n            <label for=\"pickups\">Number of pickups</label>\r\n            <input type=\"number\" name=\"pickups\" [(ngModel)]=\"pickups\" class=\"form-control\" />\r\n        </div>\r\n        <button type=\"submit\" class=\"btn btn-success\">Predict fare class probabilities</button>\r\n    </div>\r\n    <h3>Pickup probabilities</h3>\r\n    <div class=\"m-5\">\r\n        <div class=\"form-group\">\r\n            <label for=\"fare\">Fare</label>\r\n            <input type=\"number\" name=\"fare\" [(ngModel)]=\"fare\" class=\"form-control\" />\r\n        </div>\r\n        <button type=\"button\" class=\"btn btn-success\" (click)=\"predictPickupProbabilities()\">Predict pickup probabilities</button>\r\n    </div>\r\n</form>\n\n<h2>Results</h2>\n<ng-template [ngIf]=\"fareClassProbabilities != null\">\n    <h3>Fare class probabilities</h3>\n    <div class=\"row\" *ngFor=\"let i of fareClassIndices\">\n        <div class=\"col\">\n            <p class=\"pl-5\">${{i == 0 ? 0 : fareClassIntervalBoundaries[i-1]}} to ${{fareClassIntervalBoundaries[i]}}:</p>\n        </div>\n        <div class=\"col\">\n            <p class=\"pr-5\">{{fareClassProbabilities[i] * 100}}%</p>\n        </div>\n    </div>\n    <div class=\"row\" *ngIf=\"fareClassIntervalBoundaries.length > 0\">\r\n        <div class=\"col\">\r\n            <p class=\"pl-5\">${{fareClassIntervalBoundaries[fareClassIntervalBoundaries.length - 1]}}+:</p>\r\n        </div>\r\n        <div class=\"col\">\r\n            <p class=\"pr-5\">{{fareClassProbabilities[fareClassIntervalBoundaries.length] * 100}}%</p>\r\n        </div>\r\n    </div>\n</ng-template>\n<ng-template [ngIf]=\"pickupProbabilities != null\">\r\n    <h3>Pickup probabilities</h3>\r\n    <div class=\"row\" *ngFor=\"let i of pickupProbabilityIndices\">\r\n        <div class=\"col\">\r\n            <p class=\"pl-5\" *ngIf=\"i == 0\">\n                Probability of failure to collect:\n            </p>\n            <p class=\"pl-5\" *ngIf=\"i > 0\">\r\n                Probability of collecting {{i}} passenger<ng-template [ngIf]=\"i != 1\">s</ng-template>:\r\n            </p>\r\n        </div>\r\n        <div class=\"col\">\r\n            <p class=\"pr-5\">{{pickupProbabilities[i] * 100}}%</p>\r\n        </div>\r\n    </div>\r\n</ng-template>"
+module.exports = "<h2>Pickup predictions</h2>\r\n<p>\r\n    Predict probability of completing given leg and collecting fares.\r\n</p>\r\n\r\n<form (ngSubmit)=\"onSubmit()\" #pickupPredictionForm=\"ngForm\">\r\n    <h3>Leg information</h3>\r\n    <div class=\"m-5\">\r\n        <div class=\"form-group\">\r\n            <label for=\"startAddress\">Start address</label>\r\n            <input type=\"text\" name=\"startAddress\" required [(ngModel)]=\"startAddress\" class=\"form-control\" />\r\n        </div>\r\n        <div class=\"form-group\">\r\n            <label for=\"endAddress\">End address</label>\r\n            <input type=\"text\" name=\"endAddress\" required [(ngModel)]=\"endAddress\" class=\"form-control\" />\r\n        </div>\r\n        <div class=\"form-group\">\r\n            <label for=\"pickupDelay\">Pickup delay (min)</label>\r\n            <input type=\"number\" name=\"pickupDelay\" required [(ngModel)]=\"delay\" class=\"form-control\" />\r\n        </div>\r\n        <div class=\"form-group\">\r\n            <label for=\"duration\">Duration (min)</label>\r\n            <input type=\"number\" name=\"duration\" required [(ngModel)]=\"duration\" class=\"form-control\" />\r\n        </div>\r\n        <div class=\"form-group\">\r\n            <label for=\"interval\">Interval over which to predict probabilities (min)</label>\r\n            <input type=\"number\" name=\"interval\" required [(ngModel)]=\"interval\" class=\"form-control\" />\r\n        </div>\r\n    </div>\r\n    <h3>Fare class probabilities</h3>\r\n    <div class=\"m-5\">\r\n        <div class=\"form-group\">\r\n            <label for=\"pickups\">Number of pickups</label>\r\n            <input type=\"number\" name=\"pickups\" [(ngModel)]=\"pickups\" class=\"form-control\" />\r\n        </div>\r\n        <button type=\"submit\" class=\"btn btn-success\">Predict fare class probabilities</button>\r\n    </div>\r\n    <h3>Pickup probabilities</h3>\r\n    <div class=\"m-5\">\r\n        <div class=\"form-group\">\r\n            <label for=\"fare\">Fare</label>\r\n            <input type=\"number\" name=\"fare\" [(ngModel)]=\"fare\" class=\"form-control\" />\r\n        </div>\r\n        <button type=\"button\" class=\"btn btn-success\" (click)=\"predictPickupProbabilities()\">Predict pickup probabilities</button>\r\n    </div>\r\n</form>\r\n\r\n<h2>Results</h2>\r\n<ng-template [ngIf]=\"fareClassProbabilities != null\">\r\n    <h3>Fare class probabilities</h3>\r\n    <div class=\"row\" *ngFor=\"let i of fareClassIndices\">\r\n        <div class=\"col\">\r\n            <p class=\"pl-5\">${{i == 0 ? 0 : fareClassIntervalBoundaries[i-1]}} to ${{fareClassIntervalBoundaries[i]}}:</p>\r\n        </div>\r\n        <div class=\"col\">\r\n            <p class=\"pr-5\">{{fareClassProbabilities[i] * 100}}%</p>\r\n        </div>\r\n    </div>\r\n    <div class=\"row\" *ngIf=\"fareClassIntervalBoundaries.length > 0\">\r\n        <div class=\"col\">\r\n            <p class=\"pl-5\">${{fareClassIntervalBoundaries[fareClassIntervalBoundaries.length - 1]}}+:</p>\r\n        </div>\r\n        <div class=\"col\">\r\n            <p class=\"pr-5\">{{fareClassProbabilities[fareClassIntervalBoundaries.length] * 100}}%</p>\r\n        </div>\r\n    </div>\r\n</ng-template>\r\n<ng-template [ngIf]=\"pickupProbabilities != null\">\r\n    <h3>Pickup probabilities</h3>\r\n    <div class=\"row\" *ngFor=\"let i of pickupProbabilityIndices\">\r\n        <div class=\"col\">\r\n            <p class=\"pl-5\" *ngIf=\"i == 0\">\r\n                Probability of failure to collect:\r\n            </p>\r\n            <p class=\"pl-5\" *ngIf=\"i > 0\">\r\n                Probability of collecting {{i}} passenger<ng-template [ngIf]=\"i != 1\">s</ng-template>:\r\n            </p>\r\n        </div>\r\n        <div class=\"col\">\r\n            <p class=\"pr-5\">{{pickupProbabilities[i] * 100}}%</p>\r\n        </div>\r\n    </div>\r\n</ng-template>\r\n<div class=\"row\" id=\"pickupPredictionResults\">\r\n    <div class=\"col\"></div>\r\n</div>"
 
 /***/ }),
 
@@ -638,7 +638,7 @@ module.exports = "<h2>Pickup predictions</h2>\n<p>\n    Predict probability of c
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJwaWNrdXAtcHJlZGljdG9yL3BpY2t1cC1wcmVkaWN0b3IuY29tcG9uZW50LnNjc3MifQ== */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3BpY2t1cC1wcmVkaWN0b3IvcGlja3VwLXByZWRpY3Rvci5jb21wb25lbnQuc2NzcyJ9 */"
 
 /***/ }),
 
@@ -653,11 +653,12 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PickupPredictorComponent", function() { return PickupPredictorComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
-/* harmony import */ var _pickup_predictor_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../pickup-predictor.service */ "./src/app/pickup-predictor.service.ts");
-/* harmony import */ var _geocoding_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../geocoding.service */ "./src/app/geocoding.service.ts");
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _pickup_predictor_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../pickup-predictor.service */ "./src/app/pickup-predictor.service.ts");
+/* harmony import */ var _geocoding_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../geocoding.service */ "./src/app/geocoding.service.ts");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -673,17 +674,19 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 let PickupPredictorComponent = class PickupPredictorComponent {
-    constructor(pickupPredictorService, geocodingService, aRoute) {
+    constructor(pickupPredictorService, geocodingService, aRoute, viewportScroller) {
         this.pickupPredictorService = pickupPredictorService;
         this.geocodingService = geocodingService;
         this.aRoute = aRoute;
+        this.viewportScroller = viewportScroller;
     }
     geocodeInputAddresses(geoDependent) {
         const startCoords$ = this.geocodingService.getAddressCoordinates(this.startAddress);
         const endCoords$ = this.geocodingService.getAddressCoordinates(this.endAddress);
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["combineLatest"])(startCoords$, endCoords$, (startCoords, endCoords) => ({ startCoords, endCoords }))
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["switchMap"])(pair => {
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["combineLatest"])(startCoords$, endCoords$, (startCoords, endCoords) => ({ startCoords, endCoords }))
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["switchMap"])(pair => {
             this.startCoords = pair.startCoords;
             this.endCoords = pair.endCoords;
             return geoDependent(this.startCoords, this.endCoords);
@@ -691,20 +694,36 @@ let PickupPredictorComponent = class PickupPredictorComponent {
     }
     onSubmit() {
         this.geocodeInputAddresses((s, e) => this.pickupPredictorService.getFareClassProbabilities(s, e, this.delay, this.duration, this.pickups, this.interval))
-            .subscribe(probs => this.fareClassProbabilities = probs);
+            .subscribe(probs => {
+            this.resultsJustComputed = true;
+            this.fareClassProbabilities = probs;
+        });
     }
     predictPickupProbabilities() {
         this.geocodeInputAddresses((s, e) => this.pickupPredictorService.getPickupProbabilities(s, e, this.delay, this.duration, this.fare, this.interval))
             .subscribe(probs => {
+            this.resultsJustComputed = true;
             this.pickupProbabilities = probs;
             this.pickupProbabilityIndices = (new Array(probs.length)).fill(0).map((x, i) => i);
         });
     }
     ngOnInit() {
+        this.resultsJustComputed = false;
         this.pickupPredictorService.getFareClassIntervals()
-            .subscribe(bounds => this.fareClassIntervalBoundaries = bounds);
-        this.fareClassIndices = (new Array(this.fareClassIntervalBoundaries.length))
-            .fill(0).map((x, i) => i);
+            .subscribe(bounds => {
+            this.fareClassIntervalBoundaries = bounds;
+            this.fareClassIndices = (new Array(this.fareClassIntervalBoundaries.length))
+                .fill(0).map((x, i) => i);
+        });
+    }
+    ngAfterViewChecked() {
+        if (this.resultsJustComputed) {
+            this.scrollToResults();
+            this.resultsJustComputed = false;
+        }
+    }
+    scrollToResults() {
+        this.viewportScroller.scrollToAnchor("pickupPredictionResults");
     }
 };
 PickupPredictorComponent = __decorate([
@@ -713,9 +732,10 @@ PickupPredictorComponent = __decorate([
         template: __webpack_require__(/*! ./pickup-predictor.component.html */ "./src/app/pickup-predictor/pickup-predictor.component.html"),
         styles: [__webpack_require__(/*! ./pickup-predictor.component.scss */ "./src/app/pickup-predictor/pickup-predictor.component.scss")]
     }),
-    __metadata("design:paramtypes", [_pickup_predictor_service__WEBPACK_IMPORTED_MODULE_2__["PickupPredictorService"],
-        _geocoding_service__WEBPACK_IMPORTED_MODULE_3__["GeocodingService"],
-        _angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"]])
+    __metadata("design:paramtypes", [_pickup_predictor_service__WEBPACK_IMPORTED_MODULE_3__["PickupPredictorService"],
+        _geocoding_service__WEBPACK_IMPORTED_MODULE_4__["GeocodingService"],
+        _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"],
+        _angular_common__WEBPACK_IMPORTED_MODULE_1__["ViewportScroller"]])
 ], PickupPredictorComponent);
 
 
@@ -787,7 +807,7 @@ module.exports = "<h2>Ridership Prediction for Driver: {{driver.name}}</h2>\n\n<
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJwcmVkaWN0b3IvcHJlZGljdG9yLmNvbXBvbmVudC5zYXNzIn0= */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3ByZWRpY3Rvci9wcmVkaWN0b3IuY29tcG9uZW50LnNhc3MifQ== */"
 
 /***/ }),
 
