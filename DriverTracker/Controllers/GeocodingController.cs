@@ -8,12 +8,14 @@ using Microsoft.AspNetCore.Authorization;
 
 using DriverTracker.Domain;
 using DriverTracker.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DriverTracker.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class GeocodingController : Controller
     {
         private readonly IGeocodingDbSync _dbSync;
