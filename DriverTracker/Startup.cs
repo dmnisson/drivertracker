@@ -15,6 +15,8 @@ using DriverTracker.Models;
 using DriverTracker.Data;
 using DriverTracker.Domain;
 using DriverTracker.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace DriverTracker
 {
@@ -40,6 +42,8 @@ namespace DriverTracker
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+
+
             services.AddDbContext<MvcDriverContext>(options => options.UseSqlite("Data Source=DriverTracker.db"));
             services.AddDbContext<DriverTrackerIdentityDbContext>(options =>
                                                                   options.UseSqlite("Data Source=DriverTracker.db"));
@@ -53,8 +57,8 @@ namespace DriverTracker
             services.AddTransient<IDriverRepository>(provider => new DriverRepository(provider.GetService<MvcDriverContext>()));
             services.AddTransient<ILegRepository>(provider => new LegRepository(provider.GetService<MvcDriverContext>()));
             services.AddTransient<IGeocodingDbSync>(provider => new GeocodingDbSync(
-                this.Configuration, provider.GetService<MvcDriverContext>()));
-            services.AddSingleton(this.Configuration);
+                Configuration, provider.GetService<MvcDriverContext>()));
+            services.AddSingleton(Configuration);
                                                                   
         }
 
@@ -73,6 +77,7 @@ namespace DriverTracker
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCors("AuthCors");
             app.UseAuthentication();
             app.UseCookiePolicy();
 
