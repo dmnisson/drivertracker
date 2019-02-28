@@ -8,10 +8,11 @@ using Accord.Statistics.Models.Regression;
 
 using DriverTracker.Models;
 using DriverTracker.Domain;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace DriverTracker.Controllers
 {
-    [Authorize(Roles = "Admin,Analyst")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,Analyst")]
     [Route("api/[controller]")]
     public class AnalysisApiController : Controller
     {

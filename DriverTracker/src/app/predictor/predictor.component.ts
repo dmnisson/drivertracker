@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Driver } from '../driver';
 import { PredictorService } from '../predictor.service';
 import { DriverService } from '../driver.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-predictor',
@@ -32,13 +33,14 @@ export class PredictorComponent implements OnInit {
 
     constructor(private predictorService: PredictorService, 
         private driverService: DriverService,
-        private aRoute: ActivatedRoute) { 
+        private aRoute: ActivatedRoute,
+        private authService: AuthService) { 
         this.aRoute.params.subscribe(p => this.getDriver(p['id']));
         this.ridershipProbabilityIndices = (new Array(4)).fill(0).map((x,i) => i);
     }
 
     ngOnInit() {
-
+        this.authService.makeSessionUserToken();
     }
 
 }
