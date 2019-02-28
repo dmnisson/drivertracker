@@ -30,6 +30,7 @@
     <Compile Remove="Areas\Identity\Data\MvcDataContext.cs" />
     <Compile Remove="Domain\CompanyStatisticResults.cs" />
     <Compile Remove="Domain\GeographicDistance.cs" />
+    <Compile Remove="Models\Token.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\lib\bootstrap\.bower.json" />
@@ -110,6 +111,8 @@
     <Content Remove="drivertracker\src\tsconfig.app.json" />
     <Content Remove="drivertracker\src\tsconfig.spec.json" />
     <Content Remove="drivertracker\src\tslint.json" />
+    <Content Remove="wwwroot\libs\runtime.js" />
+    <Content Remove="wwwroot\libs\styles.js" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="NPM_Task_Runner_v1.4.90 %281%29.vsix" />

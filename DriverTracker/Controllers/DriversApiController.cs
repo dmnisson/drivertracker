@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Authorization;
 
 using DriverTracker.Models;
 using DriverTracker.Domain;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DriverTracker.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class DriversApiController : ControllerBase
     {
         private readonly IDriverRepository _driverRepository;

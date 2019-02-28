@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map, flatMap } from 'rxjs/operators';
+import { AuthService } from './auth.service';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+const jsonHeader = { 'Content-Type': 'application/json' };
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +14,11 @@ export class PredictorService {
 
     getRidershipProbabilities(driverID: number, delay: number, duration: number, fare: number): Observable<number[]> {
         const url = `${this.analysisUrl}/multipickupprob/${driverID}/${delay}/${duration}/${fare}`;
-        return this.http.get<number[]>(url, httpOptions);
+        return this.authService.authHeader().pipe(
+                map(ah => {return {headers: new HttpHeaders(Object.assign(ah, jsonHeader))};}),
+                flatMap(options => this.http.get<number[]>(url, options)));
     }
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient,
+        private authService: AuthService) { }
 }

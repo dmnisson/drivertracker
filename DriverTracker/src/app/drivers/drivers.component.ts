@@ -5,7 +5,8 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Driver } from '../driver';
 import { DriverService } from '../driver.service';
 import { CompanyStatistics } from '../statistics';
-import { StatisticsService } from '../statistics.service';
+import { StatisticsService } from '../statistics.service'
+import { AuthService } from '../auth.service';
 
 const DELETE_CONFIRMED: string = "deleteConfirmed";
 const DELETE_CANCELLED: string = "deleteCancelled";
@@ -23,6 +24,8 @@ export class DriversComponent implements OnInit {
     editing: number;
     adding: boolean;
     toDelete: Driver;
+
+    token: string;
 
     getDrivers(): void {
         this.driverService.getDrivers().subscribe(drivers => this.drivers = drivers);
@@ -108,12 +111,14 @@ export class DriversComponent implements OnInit {
 
     constructor(private driverService: DriverService, 
         private statisticsService: StatisticsService,
+        private authService: AuthService,
         private modalService: NgbModal) {
         this.editing = 0;
         this.adding = false;
     }
 
     ngOnInit() {
+        this.authService.makeSessionUserToken();
         this.getDrivers();
         this.getCompanyStatistics();
     }
