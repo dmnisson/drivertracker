@@ -23,7 +23,7 @@ namespace DriverTracker.Tests
         public async Task AddAsync(Driver driver)
         {
             Console.WriteLine("AddAsync called");
-            Console.Write(JsonConvert.SerializeObject(driver));
+            Console.Write(await Task.Run(() => JsonConvert.SerializeObject(driver)));
             Console.WriteLine();
         }
 
@@ -31,7 +31,7 @@ namespace DriverTracker.Tests
         {
             Console.WriteLine("CountAsync called");
             Console.WriteLine();
-            return _drivers.Length;
+            return await Task.Run(() => _drivers.Length);
         }
 
         public async Task<int> CountAsync(Expression<Func<Driver, bool>> predicate)
@@ -39,13 +39,13 @@ namespace DriverTracker.Tests
             Console.WriteLine("CountAsync called");
             Console.Write(predicate);
             Console.WriteLine();
-            return _drivers.AsQueryable().Where(predicate).Count();
+            return await Task.Run(() => _drivers.AsQueryable().Where(predicate).Count());
         }
 
         public async Task DeleteAsync(Driver driver)
         {
             Console.WriteLine("DeleteAsync called");
-            Console.Write(JsonConvert.SerializeObject(driver));
+            Console.Write(await Task.Run(() => JsonConvert.SerializeObject(driver)));
             Console.WriteLine();
         }
 
@@ -58,26 +58,26 @@ namespace DriverTracker.Tests
         public async Task EditAsync(Driver driver)
         {
             Console.WriteLine("EditAsync called");
-            Console.Write(JsonConvert.SerializeObject(driver));
+            Console.Write(await Task.Run(() => JsonConvert.SerializeObject(driver)));
             Console.WriteLine();
         }
 
         public async Task<Driver> GetAsync(int id)
         {
             Console.WriteLine("GetAsync called");
-            return _drivers.FirstOrDefault(driver => driver.DriverID == id);
+            return await Task.Run(() => _drivers.FirstOrDefault(driver => driver.DriverID == id));
         }
 
         public async Task<IEnumerable<Driver>> ListAsync()
         {
             Console.WriteLine("ListAsync called");
-            return _drivers.AsEnumerable();
+            return await Task.Run(() => _drivers.AsEnumerable());
         }
 
         public async Task<IEnumerable<Driver>> ListAsync(Expression<Func<Driver, bool>> predicate)
         {
             Console.WriteLine("ListAsync called");
-            return _drivers.AsQueryable().Where(predicate);
+            return await Task.Run(() => _drivers.AsQueryable().Where(predicate));
         }
     }
 }

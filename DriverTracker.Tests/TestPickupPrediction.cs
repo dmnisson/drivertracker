@@ -94,13 +94,13 @@ namespace DriverTracker.Tests
                 {
                     double[] startCoordinates = startLocationClusters[i / largestClusterSize][i % largestClusterSize];
                     double[] endCoordinates = endLocationClusters[i / largestClusterSize][i % largestClusterSize];
-                    return new LegCoordinates
+                    return await Task.Run(() => new LegCoordinates
                     {
                         StartLatitude = Convert.ToDecimal(startCoordinates[0]),
                         StartLongitude = Convert.ToDecimal(startCoordinates[1]),
                         DestLatitude = Convert.ToDecimal(endCoordinates[0]),
                         DestLongitude = Convert.ToDecimal(endCoordinates[1])
-                    };
+                    });
                 });
 
             // mock logistic regression analysis
