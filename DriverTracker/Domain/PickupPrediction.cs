@@ -200,6 +200,12 @@ namespace DriverTracker.Domain
                 {
                     double[][] dataSubset = dataset.Where((dp, k) => pickupNumbers[k] == n).ToArray();
                     int[] fareClassesSubset = fareClasses.Where((fc, k) => pickupNumbers[k] == n).ToArray();
+
+                    if (dataSubset.Length == 0)
+                    {
+                        throw new ApplicationException("Insufficient data to make a reliable prediction");
+                    }
+
                     // for each fare class interval boundary
                     for (int j = 0; j < NumberOfFareClassIntervals; j++)
                     {

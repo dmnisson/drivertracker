@@ -20,12 +20,13 @@ namespace DriverTracker.Domain
     public class GeocodingDbSync : IGeocodingDbSync
     {
         private MvcDriverContext _context;
-        private IGeocoder _geocoder;
+
+        public IGeocoder Geocoder { get; }
 
         public GeocodingDbSync(IConfiguration configuration, MvcDriverContext context)
         {
             _context = context;
-            _geocoder = GeocoderFactory.GetGeocoder(configuration);
+            Geocoder = GeocoderFactory.GetGeocoder(configuration);
         }
 
         public async Task<bool> UpdateAllAsync()
@@ -96,8 +97,14 @@ namespace DriverTracker.Domain
         }
 
         private async Task<LegCoordinates> GeocodeLeg(Leg leg) {
-            IEnumerable<Address> startAddressList = await _geocoder.GeocodeAsync(leg.StartAddress);
-            IEnumerable<Address> endAddressList = await _geocoder.GeocodeAsync(leg.DestinationAddress);
+            IEnumerable<Address> startAddressList = await Geocoder.GeocodeAsync(leg.StartAddress);
+            IEnumerable<Address> endAddressList = await Geocoder.GeocodeAsync(leg.DestinationAddress);
+
+            if (!startAddressList.Any() || !endAddressList.Any())
+            {
+                return null;
+            }
+
             return new LegCoordinates
             {
                 LegID = leg.LegID,
@@ -119,14 +126,17 @@ namespace DriverTracker.Domain
         {
             LegCoordinates legCoordinates = await GeocodeLeg(leg);
 
-            _context.LegCoordinates.Add(legCoordinates);
+            if (legCoordinates != null)
+                _context.LegCoordinates.Add(legCoordinates);
         }
 
         private async Task UpdateLegCoordinatesAsync(Leg leg)
         {
             LegCoordinates legCoordinates = await GeocodeLeg(leg);
-
-            _context.LegCoordinates.Update(legCoordinates);
+            if (legCoordinates != null)
+            {
+                _context.LegCoordinates.Update(legCoordinates);
+            }
         }
     }
 }
