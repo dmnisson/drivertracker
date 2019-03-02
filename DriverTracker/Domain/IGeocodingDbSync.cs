@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 using DriverTracker.Models;
+using Geocoding;
 
 namespace DriverTracker.Domain
 {
@@ -53,5 +54,9 @@ namespace DriverTracker.Domain
         /// <param name="predicate">Predicate.</param>
         Task<IEnumerable<LegCoordinates>> ListLegCoordinatesAsync(Expression<Func<Leg, bool>> predicate);
 
+        /// <summary>
+        /// The geocoder used by this object
+        /// </summary>
+        IGeocoder Geocoder { get; }
     }
 }

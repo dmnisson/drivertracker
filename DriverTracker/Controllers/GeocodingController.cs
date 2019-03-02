@@ -60,6 +60,18 @@ namespace DriverTracker.Controllers
             return Ok(await _dbSync.GetLegCoordinatesAsync(id));
         }
 
+        // GET api/geocoding/direct/670%20Sycamore
+        [HttpGet("direct/{address}")]
+        [Authorize]
+        public async Task<IActionResult> Get(string address)
+        {
+            IEnumerable<Geocoding.Address> geoAddress = await _dbSync.Geocoder.GeocodeAsync(address);
+            return Ok(new double[] { 
+                geoAddress.Average(a => a.Coordinates.Latitude),
+                geoAddress.Average(a => a.Coordinates.Longitude) 
+                });
+        }
+
         // POST api/geocoding/update
         [HttpPost("update")]
         [Authorize]

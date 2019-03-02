@@ -17,6 +17,7 @@ using DriverTracker.Domain;
 using DriverTracker.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Accord.Statistics.Analysis;
 
 namespace DriverTracker
 {
@@ -54,12 +55,23 @@ namespace DriverTracker
             });
             services.AddScoped<IAuthorizationHandler, UserInfoPermissionHandler>();
 
-            services.AddTransient<IDriverRepository>(provider => new DriverRepository(provider.GetService<MvcDriverContext>()));
-            services.AddTransient<ILegRepository>(provider => new LegRepository(provider.GetService<MvcDriverContext>()));
-            services.AddTransient<IGeocodingDbSync>(provider => new GeocodingDbSync(
-                Configuration, provider.GetService<MvcDriverContext>()));
-            services.AddSingleton(Configuration);
-                                                                  
+            services.AddScoped<IDriverRepository>(provider => new DriverRepository(provider.GetService<MvcDriverContext>()));
+            services.AddScoped<ILegRepository>(provider => new LegRepository(provider.GetService<MvcDriverContext>()));
+            services.AddScoped<IGeocodingDbSync>(provider => new GeocodingDbSync(
+                this.Configuration, provider.GetService<MvcDriverContext>()));
+            services.AddScoped<ILocationClustering, LocationClustering>();
+            services.AddScoped<IPickupPrediction>(provider => new PickupPrediction(
+                provider.GetService<ILocationClustering>(),
+                provider.GetService<ILegRepository>(),
+                provider.GetService<IGeocodingDbSync>(),
+                new LogisticRegressionAnalysis
+                {
+                    Inputs = new string[] { "pickupDelay", "duration" },
+                    Output = "inFareClass"
+                }
+                ));
+            services.AddSingleton(this.Configuration);
+                                                                 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
