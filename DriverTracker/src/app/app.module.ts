@@ -11,6 +11,7 @@ import { LegsComponent } from './legs/legs.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PredictorComponent } from './predictor/predictor.component';
 import { PickupPredictorComponent } from './pickup-predictor/pickup-predictor.component';
+import { DriverDetailsComponent } from './driver-details/driver-details.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { PickupPredictorComponent } from './pickup-predictor/pickup-predictor.co
     DriversComponent,
     LegsComponent,
     PredictorComponent,
-    PickupPredictorComponent
+    PickupPredictorComponent,
+    DriverDetailsComponent,
   ],
   imports: [
       BrowserModule,

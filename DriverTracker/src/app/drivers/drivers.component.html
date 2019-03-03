@@ -14,60 +14,61 @@
 
 <h2>Drivers</h2>
 <form (ngSubmit)="onSubmit()" #driversForm="ngForm">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Name
-                </th>
-                <th>
-                    License Number
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let driver of drivers">
-                <td [ngSwitch]="editing">
-                    <input type="text" class="form-control" id="name" required name="name_{{driver.driverID}}" [(ngModel)]="driver.name"
-                           *ngSwitchCase="driver.driverID" />
-                    <span *ngSwitchDefault>{{driver.name}}</span>
-                </td>
-                <td [ngSwitch]="editing">
-                    <input type="text" class="form-control" id="licenseNumber" required name="licenseNumber_{{driver.driverID}}" [(ngModel)]="driver.licenseNumber"
-                           *ngSwitchCase="driver.driverID" />
-                    <span *ngSwitchDefault>{{driver.licenseNumber}}</span>
-                </td>
-                <td [ngSwitch]="editing">
-                    <div class="btn-toolbar" role="toolbar" *ngSwitchCase="driver.driverID">
-                        <button type="submit" class="btn btn-success mr-2" [disabled]="!driversForm.form.valid">Save</button>
-                        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
-                    </div>
-                    <span class="btn-group" role="group" *ngSwitchDefault>
-                        <a class="btn btn-secondary" href="/Drivers/Details/{{driver.driverID}}">Details</a>
-                        <button type="button" class="btn btn-secondary" (click)="editClicked(driver)">Edit</button>
-                        <button type="button" class="btn btn-secondary" (click)="showDeleteConfirm(content, driver)">Delete</button>
-                        <a class="btn btn-secondary" href="/Predictor/Index/{{driver.driverID}}">Predict ridership</a>
-                    </span>
-                </td>
-            </tr>
-            <tr *ngIf="adding; else addLink">
-                <td>
-                    <input class="form-control" required #name />
-                </td>
-                <td>
-                    <input class="form-control" required #licenseNumber />
-                </td>
-                <td>
-                    <button type="submit" class="btn btn-success mr-2" [disabled]="!driversForm.form.valid" (click)="saveNew(name.value, licenseNumber.value); name.value=''; licenseNumber.value=''">Save</button>
-                    <button type="button" class="btn btn-secondary" (click)="cancelAdd()">Cancel</button>
-                </td>
-            </tr>
-            <ng-template #addLink>
-                <button type="button" class="btn btn-success" (click)="addNew()">New Driver</button>
-            </ng-template>
-        </tbody>
-    </table>
+    <div class="table-responsive-md">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        License Number
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let driver of drivers">
+                    <td [ngSwitch]="editing">
+                        <input type="text" class="form-control" id="name" required name="name_{{driver.driverID}}" [(ngModel)]="driver.name"
+                               *ngSwitchCase="driver.driverID" />
+                        <span *ngSwitchDefault>{{driver.name}}</span>
+                    </td>
+                    <td [ngSwitch]="editing">
+                        <input type="text" class="form-control" id="licenseNumber" required name="licenseNumber_{{driver.driverID}}" [(ngModel)]="driver.licenseNumber"
+                               *ngSwitchCase="driver.driverID" />
+                        <span *ngSwitchDefault>{{driver.licenseNumber}}</span>
+                    </td>
+                    <td [ngSwitch]="editing">
+                        <div class="btn-toolbar" role="toolbar" *ngSwitchCase="driver.driverID">
+                            <button type="submit" class="btn btn-success mr-2" [disabled]="!driversForm.form.valid">Save</button>
+                            <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+                        </div>
+                        <span class="btn-group" role="group" *ngSwitchDefault>
+                            <a class="btn btn-secondary" href="/Drivers/Details/{{driver.driverID}}">Details</a>
+                            <button type="button" class="btn btn-secondary" (click)="editClicked(driver)">Edit</button>
+                            <button type="button" class="btn btn-secondary" (click)="showDeleteConfirm(content, driver)">Delete</button>
+                        </span>
+                    </td>
+                </tr>
+                <tr *ngIf="adding; else addLink">
+                    <td>
+                        <input class="form-control" required #name />
+                    </td>
+                    <td>
+                        <input class="form-control" required #licenseNumber />
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-success mr-2" [disabled]="!driversForm.form.valid" (click)="saveNew(name.value, licenseNumber.value); name.value=''; licenseNumber.value=''">Save</button>
+                        <button type="button" class="btn btn-secondary" (click)="cancelAdd()">Cancel</button>
+                    </td>
+                </tr>
+                <ng-template #addLink>
+                    <button type="button" class="btn btn-success" (click)="addNew()">New Driver</button>
+                </ng-template>
+            </tbody>
+        </table>
+    </div>
 </form>
 <!-- delete confirm modal -->
 <ng-template #content let-modal>

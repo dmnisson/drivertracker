@@ -60,7 +60,7 @@ namespace DriverTracker.Controllers
 
         // POST api/driversapi/new
         [HttpPost("new")]
-        [Authorize(Roles = "Admin,Driver")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Post([FromBody] Driver driver)
         {
             await _driverRepository.AddAsync(driver);
@@ -72,15 +72,17 @@ namespace DriverTracker.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] Driver driver)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Challenge();
+            }
+
             var existingDriver = await _driverRepository.GetAsync(id);
             if (existingDriver == null) {
                 return NotFound();
             }
 
-            if (!User.Identity.IsAuthenticated)
-            {
-                return Challenge();
-            }
+
 
             var authResult = await _authorizationService.AuthorizeAsync(User, existingDriver, "DriverInfoPolicy");
 

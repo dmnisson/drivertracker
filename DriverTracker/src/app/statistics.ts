@@ -7,3 +7,12 @@
     totalCosts: number;
     netProfit: number;
 }
+
+export class DriverStatistics {
+    driverID: number;
+    pickups: number; // total pickups
+    milesDriven: number; // total miles driven
+    averagePickupDelay: number; // average pickup delay in minutes
+    totalFares: number;
+    totalCosts: number;
+}

@@ -1,6 +1,6 @@
 ﻿export class Driver {
     driverID: number;
-    userID: number;
+    userIDString: string;
     name: string;
     licenseNumber: string;
 }

@@ -38,6 +38,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _drivers_drivers_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./drivers/drivers.component */ "./src/app/drivers/drivers.component.ts");
 /* harmony import */ var _predictor_predictor_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./predictor/predictor.component */ "./src/app/predictor/predictor.component.ts");
 /* harmony import */ var _pickup_predictor_pickup_predictor_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pickup-predictor/pickup-predictor.component */ "./src/app/pickup-predictor/pickup-predictor.component.ts");
+/* harmony import */ var _driver_details_driver_details_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./driver-details/driver-details.component */ "./src/app/driver-details/driver-details.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -49,9 +50,11 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 const routes = [
     { path: 'Drivers', component: _drivers_drivers_component__WEBPACK_IMPORTED_MODULE_2__["DriversComponent"] },
     { path: 'Predictor/Index/:id', component: _predictor_predictor_component__WEBPACK_IMPORTED_MODULE_3__["PredictorComponent"] },
+    { path: 'Drivers/Details/:id', component: _driver_details_driver_details_component__WEBPACK_IMPORTED_MODULE_5__["DriverDetailsComponent"] },
     { path: 'PickupPredictor', component: _pickup_predictor_pickup_predictor_component__WEBPACK_IMPORTED_MODULE_4__["PickupPredictorComponent"] }
 ];
 let AppRoutingModule = class AppRoutingModule {
@@ -149,12 +152,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
 /* harmony import */ var _predictor_predictor_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./predictor/predictor.component */ "./src/app/predictor/predictor.component.ts");
 /* harmony import */ var _pickup_predictor_pickup_predictor_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pickup-predictor/pickup-predictor.component */ "./src/app/pickup-predictor/pickup-predictor.component.ts");
+/* harmony import */ var _driver_details_driver_details_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./driver-details/driver-details.component */ "./src/app/driver-details/driver-details.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -175,7 +180,8 @@ AppModule = __decorate([
             _drivers_drivers_component__WEBPACK_IMPORTED_MODULE_6__["DriversComponent"],
             _legs_legs_component__WEBPACK_IMPORTED_MODULE_7__["LegsComponent"],
             _predictor_predictor_component__WEBPACK_IMPORTED_MODULE_9__["PredictorComponent"],
-            _pickup_predictor_pickup_predictor_component__WEBPACK_IMPORTED_MODULE_10__["PickupPredictorComponent"]
+            _pickup_predictor_pickup_predictor_component__WEBPACK_IMPORTED_MODULE_10__["PickupPredictorComponent"],
+            _driver_details_driver_details_component__WEBPACK_IMPORTED_MODULE_11__["DriverDetailsComponent"],
         ],
         imports: [
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -242,12 +248,12 @@ let AuthService = class AuthService {
     }
     makeSessionUserToken(force = false) {
         const url = this.authUrl + '/makesessionusertoken';
-        this.token.asObservable().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["filter"])(token => force || token == null), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["flatMap"])(token => this.http.post(url, "", { responseType: 'text' })))
+        this.token.asObservable().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["filter"])(token => force || token == null), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["switchMap"])(token => this.http.post(url, "", { responseType: 'text' })))
             .subscribe(t => this.updateToken(t));
     }
     refreshToken() {
         const url = this.authUrl + '/refreshtoken';
-        this.authHeader().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(ah => new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"](ah)), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["flatMap"])(ah => this.http.post(url, "", { headers: ah })))
+        this.authHeader().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(ah => new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"](ah)), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["switchMap"])(ah => this.http.post(url, "", { headers: ah })))
             .subscribe(t => this.updateToken(t));
     }
     getCurrentToken() {
@@ -273,6 +279,214 @@ AuthService = __decorate([
     }),
     __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
 ], AuthService);
+
+
+
+/***/ }),
+
+/***/ "./src/app/driver-details/driver-details.component.html":
+/*!**************************************************************!*\
+  !*** ./src/app/driver-details/driver-details.component.html ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<ng-template [ngIf]=\"driverStatistics != null\">\r\n    <h2>Driver Statistics</h2>\r\n    <ul>\r\n        <li>Pickups: {{driverStatistics.pickups}}</li>\r\n        <li>Miles driven: {{driverStatistics.milesDriven}}</li>\r\n        <li *ngIf=\"driverStatistics.averagePickupDelay != null\">Average pickup delay: {{driverStatistics.averagePickupDelay}}</li>\r\n        <li>Total fares: {{driverStatistics.totalFares}}</li>\r\n        <li>Total fuel costs: {{driverStatistics.totalCosts}}</li>\r\n    </ul>\r\n</ng-template>\r\n\r\n<ng-template [ngIf]=\"driver != null\">\r\n    <h2>Driver Details\r\n        <button class=\"btn btn-primary\" (click)=\"clickEditDriverDetails()\" [disabled]=\"editingDriverDetails\">\r\n            <i class=\"fas fa-edit\"></i><span class=\"sr-only\">Edit</span>\r\n        </button>\r\n    </h2>\r\n\r\n    <div>\r\n        <h4>Driver</h4>\r\n        <hr />\r\n        <ng-template [ngIf]=\"editingDriverDetails\">\r\n            <form (ngSubmit)=\"onSubmitDriverDetails()\" #driverDetailsForm=\"ngForm\">\r\n                <dl class=\"row\">\r\n                    <dt class=\"col-sm-5\">\r\n                        Name\r\n                    </dt>\r\n                    <dd class=\"col-sm-5\">\r\n                        <input type=\"text\" class=\"form-control\" id=\"name\" required name=\"name\" [(ngModel)]=\"driver.name\" />\r\n                    </dd>\r\n                    <dt class=\"col-sm-5\">\r\n                        License Number\r\n                    </dt>\r\n                    <dd class=\"col-sm-5\">\r\n                        <input type=\"text\" class=\"form-control\" id=\"licenseNumber\" required name=\"licenseNumber\" [(ngModel)]=\"driver.licenseNumber\" />\r\n                    </dd>\r\n                </dl>\r\n                <button type=\"submit\" class=\"btn btn-success mr-2\" [disabled]=\"!driverDetailsForm.form.valid\">Save</button>\r\n                <button type=\"button\" class=\"btn btn-secondary\" (click)=\"cancelEditDriverDetails()\">Cancel</button>\r\n            </form>\r\n        </ng-template>\r\n        <ng-template [ngIf]=\"!editingDriverDetails\">\r\n            <dl class=\"row\">\r\n                <dt class=\"col-sm-5\">\r\n                    Name\r\n                </dt>\r\n                <dd class=\"col-sm-5\">\r\n                    {{driver.name}}\r\n                </dd>\r\n                <dt class=\"col-sm-5\">\r\n                    License Number\r\n                </dt>\r\n                <dd class=\"col-sm-5\">\r\n                    {{driver.licenseNumber}}\r\n                </dd>\r\n            </dl>\r\n        </ng-template>\r\n    </div>\r\n</ng-template>\r\n\r\n<h3>Driver's Legs</h3>\r\n\r\n<ng-template [ngIf]=\"legs != null && legs.length > 0\">\r\n    <div class=\"table-responsive-lg\">\r\n        <table class=\"table\">\r\n            <thead>\r\n                <tr>\r\n                    <th>\r\n                        Start Address\r\n                    </th>\r\n                    <th>\r\n                        Requested Pickup Time\r\n                    </th>\r\n                    <th>\r\n                        Actual Start Time\r\n                    </th>\r\n                    <th>\r\n                        Destination Address\r\n                    </th>\r\n                    <th>\r\n                        Arrival Time\r\n                    </th>\r\n                    <th class=\"d-none d-md-table-cell\">\r\n                        Distance\r\n                    </th>\r\n                    <th>\r\n                        Fare\r\n                    </th>\r\n                    <th class=\"d-none d-md-table-cell\">\r\n                        Passengers Aboard\r\n                    </th>\r\n                    <th>\r\n                        Pickups\r\n                    </th>\r\n                    <th></th>\r\n                </tr>\r\n            </thead>\r\n            <tbody>\r\n                <tr *ngFor=\"let leg of legs\">\r\n                    <td>\r\n                        {{leg.startAddress}}\r\n                    </td>\r\n                    <td>\r\n                        {{leg.pickupRequestTime | date:'short'}}\r\n                    </td>\r\n                    <td>\r\n                        {{leg.startTime | date:'short'}}\r\n                    </td>\r\n                    <td>\r\n                        {{leg.destinationAddress}}\r\n                    </td>\r\n                    <td>\r\n                        {{leg.arrivalTime | date:'short'}}\r\n                    </td>\r\n                    <td class=\"d-none d-md-table-cell\">\r\n                        {{leg.distance}}\r\n                    </td>\r\n                    <td>\r\n                        {{leg.fare}}\r\n                    </td>\r\n                    <td class=\"d-none d-md-table-cell\">\r\n                        {{leg.numOfPassengersAboard}}\r\n                    </td>\r\n                    <td>\r\n                        {{leg.numOfPassengersPickedUp}}\r\n                    </td>\r\n                    <td>\r\n                        <span class=\"btn-group\" role=\"group\">\r\n                            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"showLegDetails(leg, legDetails)\">Details</button>\r\n                            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"showDeleteConfirm(leg, deleteConfirm)\">Delete</button>\r\n                        </span>\r\n                    </td>\r\n                </tr>\r\n                <tr>\r\n                    <td colspan=\"10\">\r\n                        <button type=\"button\" class=\"btn btn-primary\" (click)=\"showLegDetails(null, legDetails)\">New Leg</button>\r\n                    </td>\r\n                </tr>\r\n            </tbody>\r\n        </table>\r\n    </div>\r\n</ng-template>\r\n<ng-template [ngIf]=\"legs == null || legs.length == 0\">\r\n    <p>No legs have been entered.</p>\r\n</ng-template>\r\n\r\n<div>\r\n    <a class=\"btn btn-default\" href=\"/Drivers/\">Back to Drivers List</a>\r\n</div>\r\n\r\n<ng-template #legDetails let-modal>\r\n    <div class=\"modal-dialog\" role=\"document\">\r\n        <form (ngSubmit)=\"onSubmitLegDetails()\" #legDetailsForm=\"ngForm\">\r\n            <div class=\"modal-content\">\r\n                <div class=\"modal-header\">\r\n                    <h2>\r\n                        Leg Details\r\n                        <button type=\"button\" class=\"btn btn-primary\" (click)=\"editShowingLeg()\">\r\n                            <i class=\"fas fa-edit\"></i><span class=\"sr-only\">Edit</span>\r\n                        </button>\r\n                    </h2>\r\n                    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"modal.dismiss('legDetailsCrossClick')\">\r\n                        <span aria-hidden=\"true\">&times;</span>\r\n                    </button>\r\n                </div>\r\n                <div class=\"modal-body\">\r\n                    <div>\r\n                        <h4>Leg</h4>\r\n                        <hr />\r\n                        <dl class=\"row\">\r\n                            <dt class=\"col-sm-5\">\r\n                                Start Address\r\n                            </dt>\r\n                            <dd class=\"col-sm-5\">\r\n                                <input class=\"form-control\" type=\"text\" id=\"startAddress\" name=\"startAddress\" required [(ngModel)]=\"showingLeg.startAddress\"\r\n                                       *ngIf=\"editingLegDetails; else readOnlyStartAddress\" />\r\n                                <ng-template #readOnlyStartAddress>{{showingLeg.startAddress}}</ng-template>\r\n                            </dd>\r\n                            <dt class=\"col-sm-5\">\r\n                                Pickup Request Time\r\n                            </dt>\r\n                            <dd class=\"col-sm-5\">\r\n                                <input class=\"form-control\" type=\"text\" id=\"pickupRequestTime\" name=\"pickupRequestTime\" [(ngModel)]=\"showingLeg.pickupRequestTime\"\r\n                                       *ngIf=\"editingLegDetails; else readOnlyPickupRequestTime\" />\r\n                                <ng-template #readOnlyPickupRequestTime>{{showingLeg.pickupRequestTime | date:'short'}}</ng-template>\r\n                            </dd>\r\n                            <dt class=\"col-sm-5\">\r\n                                Start Time\r\n                            </dt>\r\n                            <dd class=\"col-sm-5\">\r\n                                <input class=\"form-control\" type=\"text\" id=\"startTime\" name=\"startTime\" required [(ngModel)]=\"showingLeg.startTime\"\r\n                                       *ngIf=\"editingLegDetails; else startTime\" />\r\n                                <ng-template #readOnlyStartTime>{{showingLeg.startTime | date:'short'}}</ng-template>\r\n                            </dd>\r\n                            <dt class=\"col-sm-5\">\r\n                                Destination Address\r\n                            </dt>\r\n                            <dd class=\"col-sm-5\">\r\n                                <input class=\"form-control\" type=\"text\" id=\"destinationAddress\" name=\"destinationAddress\" required [(ngModel)]=\"showingLeg.destinationAddress\"\r\n                                       *ngIf=\"editingLegDetails; else readOnlyDestinationAddress\" />\r\n                                <ng-template #readOnlyDestinationAddress>{{showingLeg.destinationAddress}}</ng-template>\r\n                            </dd>\r\n                            <dt class=\"col-sm-5\">\r\n                                Arrival Time\r\n                            </dt>\r\n                            <dd class=\"col-sm-5\">\r\n                                <input class=\"form-control\" type=\"text\" id=\"arrivalTime\" name=\"arrivalTime\" required [(ngModel)]=\"showingLeg.arrivalTime\"\r\n                                       *ngIf=\"editingLegDetails; else readOnlyArrivalTime\" />\r\n                                <ng-template #readOnlyArrivalTime>{{showingLeg.arrivalTime | date:'short'}}</ng-template>\r\n                            </dd>\r\n                            <dt class=\"col-sm-5\">\r\n                                Distance\r\n                            </dt>\r\n                            <dd class=\"col-sm-5\">\r\n                                <input class=\"form-control\" type=\"number\" id=\"distance\" name=\"distance\" required [(ngModel)]=\"showingLeg.distance\"\r\n                                       *ngIf=\"editingLegDetails; else readOnlyDistance\" />\r\n                                <ng-template #readOnlyDistance>{{showingLeg.distance}}</ng-template>\r\n                            </dd>\r\n                            <dt class=\"col-sm-5\">\r\n                                Fare\r\n                            </dt>\r\n                            <dd class=\"col-sm-5\">\r\n                                <input class=\"form-control\" type=\"number\" id=\"fare\" name=\"fare\" required [(ngModel)]=\"showingLeg.fare\"\r\n                                       *ngIf=\"editingLegDetails; else readOnlyFare\" />\r\n                                <ng-template #readOnlyFare>{{showingLeg.fare}}</ng-template>\r\n                            </dd>\r\n                            <dt class=\"col-sm-5\">\r\n                                Number of Passengers Aboard\r\n                            </dt>\r\n                            <dd class=\"col-sm-5\">\r\n                                <input class=\"form-control\" type=\"number\" id=\"numOfPassengersAboard\" name=\"numOfPassengersAboard\" required [(ngModel)]=\"showingLeg.numOfPassengersAboard\"\r\n                                       *ngIf=\"editingLegDetails; else readOnlyNumOfPassengersAboard\" />\r\n                                <ng-template #readOnlyNumOfPassengersAboard>{{showingLeg.numOfPassengersAboard}}</ng-template>\r\n                            </dd>\r\n                            <dt class=\"col-sm-5\">\r\n                                Number of Passengers Picked Up\r\n                            </dt>\r\n                            <dd class=\"col-sm-5\">\r\n                                <input class=\"form-control\" type=\"number\" id=\"numOfPassengersPickedUp\" name=\"numOfPassengersPickedUp\" required [(ngModel)]=\"showingLeg.numOfPassengersPickedUp\"\r\n                                       *ngIf=\"editingLegDetails; else readOnlyNumOfPassengersPickedUp\" />\r\n                                <ng-template #readOnlyNumOfPassengersPickedUp>{{showingLeg.numOfPassengersPickedUp}}</ng-template>\r\n                            </dd>\r\n                            <dt class=\"col-sm-5\">\r\n                                Fuel Cost\r\n                            </dt>\r\n                            <dd class=\"col-sm-5\">\r\n                                <input class=\"form-control\" type=\"number\" id=\"fuelCost\" name=\"fuelCost\" required [(ngModel)]=\"showingLeg.fuelCost\"\r\n                                       *ngIf=\"editingLegDetails; else readOnlyFuelCost\" />\r\n                                <ng-template #readOnlyFuelCost>{{showingLeg.fuelCost}}</ng-template>\r\n                            </dd>\r\n                        </dl>\r\n                    </div>\r\n                </div>\r\n                <div class=\"modal-footer\">\r\n                    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!legDetailsForm.form.valid\" *ngIf=\"editingLegDetails\" (click)=\"modal.close('legDetailsSaveClick')\">\r\n                        Save\r\n                    </button>\r\n                    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"modal.close('legDetailsCloseClick')\">Close</button>\r\n                </div>\r\n            </div>\r\n        </form>\r\n    </div>\r\n</ng-template>\r\n\r\n<ng-template #deleteConfirm let-modal>\r\n    <div class=\"modal-dialog\" role=\"document\">\r\n        <div class=\"modal-content\">\r\n            <div class=\"modal-header\">\r\n                <h2>Confirm</h2>\r\n                <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"modal.dismiss('legDeleteConfirmCrossClick')\">\r\n                    <span aria-hidden=\"true\">&times;</span>\r\n                </button>\r\n            </div>\r\n            <div class=\"modal-body\">\r\n                Are you sure you want to delete this leg?\r\n            </div>\r\n            <div class=\"modal-footer\">\r\n                <button type=\"button\" class=\"btn btn-danger mr-2\" (click)=\"modal.close('legDeleteConfirmClick')\">\r\n                    Delete\r\n                </button>\r\n                <button type=\"button\" class=\"btn btn-secondary\" (click)=\"modal.close('legDeleteCancelClick')\">\r\n                    Cancel\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</ng-template>"
+
+/***/ }),
+
+/***/ "./src/app/driver-details/driver-details.component.sass":
+/*!**************************************************************!*\
+  !*** ./src/app/driver-details/driver-details.component.sass ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2RyaXZlci1kZXRhaWxzL2RyaXZlci1kZXRhaWxzLmNvbXBvbmVudC5zYXNzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/driver-details/driver-details.component.ts":
+/*!************************************************************!*\
+  !*** ./src/app/driver-details/driver-details.component.ts ***!
+  \************************************************************/
+/*! exports provided: DriverDetailsComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DriverDetailsComponent", function() { return DriverDetailsComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm2015/ng-bootstrap.js");
+/* harmony import */ var _leg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../leg */ "./src/app/leg.ts");
+/* harmony import */ var _driver_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../driver.service */ "./src/app/driver.service.ts");
+/* harmony import */ var _leg_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../leg.service */ "./src/app/leg.service.ts");
+/* harmony import */ var _statistics_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../statistics.service */ "./src/app/statistics.service.ts");
+/* harmony import */ var _auth_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../auth.service */ "./src/app/auth.service.ts");
+/* harmony import */ var _node_modules_angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../node_modules/@angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+const LEG_DETAILS_CROSS_CLICK = 'legDetailsCrossClick';
+const LEG_DETAILS_SAVE_CLICK = 'legDetailsSaveClick';
+const LEG_DETAILS_CLOSE_CLICK = 'legDetailsCloseClick';
+const LEG_DELETE_CONFIRM_CROSS_CLICK = 'legDeleteConfirmCrossClick';
+const LEG_DELETE_CONFIRM_CLICK = 'legDeleteConfirmClick';
+const LEG_DELETE_CANCEL_CLICK = 'legDeleteCancelClick';
+let DriverDetailsComponent = class DriverDetailsComponent {
+    constructor(driverService, legService, statisticsService, authService, aRoute, ngbModal) {
+        this.driverService = driverService;
+        this.legService = legService;
+        this.statisticsService = statisticsService;
+        this.authService = authService;
+        this.aRoute = aRoute;
+        this.ngbModal = ngbModal;
+        this.editingDriverDetails = false;
+        this.editingLegDetails = false;
+        this.addingLeg = false;
+        this.aRoute.params.subscribe(p => this.loadDriver(p['id']));
+    }
+    ngOnInit() {
+        this.authService.makeSessionUserToken();
+    }
+    loadDriver(id) {
+        this.driverService.getDriver(id).
+            subscribe(d => {
+            this.driver = d;
+            this.getDriverStatistics();
+            this.loadLegs();
+        });
+    }
+    getDriverStatistics() {
+        this.statisticsService.getDriverStatistics(this.driver.driverID)
+            .subscribe(s => { this.driverStatistics = s; });
+    }
+    loadLegs() {
+        this.legService.getLegs(this.driver.driverID)
+            .subscribe(a => { this.legs = a; });
+    }
+    clickEditDriverDetails() {
+        this.editingDriverDetails = true;
+    }
+    cancelEditDriverDetails() {
+        this.driverService.getDriver(this.driver.driverID)
+            .subscribe(drv => { this.driver = drv; this.editingDriverDetails = false; });
+    }
+    onSubmitDriverDetails() {
+        if (this.editingDriverDetails) {
+            this.driverService.updateDriver(this.driver)
+                .subscribe(x => { this.editingDriverDetails = false; });
+        }
+    }
+    showLegDetails(leg, legDetails) {
+        if (leg == null) {
+            this.showingLeg = new _leg__WEBPACK_IMPORTED_MODULE_2__["Leg"]();
+            this.showingLeg.driverID = this.driver.driverID;
+            this.addingLeg = true;
+            this.editingLegDetails = true;
+        }
+        else {
+            this.showingLeg = leg;
+            this.addingLeg = false;
+        }
+        this.ngbModal.open(legDetails, { ariaLabelledBy: 'legDetailsLabel' }).result
+            .then((result) => {
+            if (result == LEG_DETAILS_SAVE_CLICK) {
+                console.log(result);
+                this.onSubmitLegDetails();
+            }
+            else {
+                this.cancelEditLegDetails();
+            }
+        }, (reason) => {
+            this.cancelEditLegDetails();
+        });
+    }
+    editShowingLeg() {
+        this.editingLegDetails = true;
+    }
+    onSubmitLegDetails() {
+        if (this.editingLegDetails) {
+            var cuObs;
+            if (this.addingLeg) {
+                cuObs = this.legService.createLeg(this.showingLeg);
+            }
+            else {
+                cuObs = this.legService.updateLeg(this.showingLeg);
+            }
+            cuObs.subscribe(x => {
+                this.editingLegDetails = false;
+                this.getDriverStatistics();
+                if (this.addingLeg) {
+                    this.legs.push(this.showingLeg);
+                    this.addingLeg = false;
+                }
+                this.showingLeg = null;
+            });
+        }
+    }
+    cancelEditLegDetails() {
+        if (this.editingLegDetails) {
+            this.legService.getLeg(this.showingLeg.legID)
+                .subscribe(leg => {
+                var indexToRestore = this.legs.indexOf(this.showingLeg);
+                this.legs[indexToRestore] = leg;
+                this.showingLeg = null;
+                this.editingLegDetails = false;
+            });
+        }
+    }
+    showDeleteConfirm(leg, deleteConfirm) {
+        this.legToDelete = leg;
+        this.ngbModal.open(deleteConfirm, { ariaLabelledBy: 'legDeleteConfirmLabel' }).result
+            .then((result) => {
+            if (result == LEG_DELETE_CONFIRM_CLICK) {
+                this.confirmDeleteLeg();
+            }
+            else {
+                this.cancelDeleteLeg();
+            }
+        }, (reason) => { this.cancelDeleteLeg(); });
+    }
+    confirmDeleteLeg() {
+        this.legService.deleteLeg(this.legToDelete).subscribe(x => {
+            var indexToDelete = this.legs.indexOf(this.legToDelete, 0);
+            this.legs.splice(indexToDelete, 1);
+            this.legToDelete = null;
+            this.getDriverStatistics();
+        });
+    }
+    cancelDeleteLeg() {
+        this.legToDelete = null;
+    }
+};
+DriverDetailsComponent = __decorate([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+        selector: 'app-driver-details',
+        template: __webpack_require__(/*! ./driver-details.component.html */ "./src/app/driver-details/driver-details.component.html"),
+        styles: [__webpack_require__(/*! ./driver-details.component.sass */ "./src/app/driver-details/driver-details.component.sass")]
+    }),
+    __metadata("design:paramtypes", [_driver_service__WEBPACK_IMPORTED_MODULE_3__["DriverService"],
+        _leg_service__WEBPACK_IMPORTED_MODULE_4__["LegService"],
+        _statistics_service__WEBPACK_IMPORTED_MODULE_5__["StatisticsService"],
+        _auth_service__WEBPACK_IMPORTED_MODULE_6__["AuthService"],
+        _node_modules_angular_router__WEBPACK_IMPORTED_MODULE_7__["ActivatedRoute"],
+        _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NgbModal"]])
+], DriverDetailsComponent);
 
 
 
@@ -316,24 +530,24 @@ let DriverService = class DriverService {
         this.driversUrl = '/api/driversapi';
     }
     getDrivers() {
-        return this.authService.authHeader().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(ah => { return { headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"](ah) }; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["flatMap"])(h => this.http.get(this.driversUrl, h)));
+        return this.authService.authHeader().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(ah => { return { headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"](ah) }; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["switchMap"])(h => this.http.get(this.driversUrl, h)));
     }
     getDriver(id) {
         const url = `${this.driversUrl}/${id}`;
-        return this.authService.authHeader().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(ah => { return { headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"](ah) }; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["flatMap"])(h => this.http.get(url, h)));
+        return this.authService.authHeader().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(ah => { return { headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"](ah) }; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["switchMap"])(h => this.http.get(url, h)));
     }
     updateDriver(driver) {
         const url = `${this.driversUrl}/${driver.driverID}`;
-        return this.authService.authHeader().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(ah => { return { headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"](Object.assign(ah, jsonHeader)) }; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["flatMap"])(options => this.http.put(url, driver, options)));
+        return this.authService.authHeader().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(ah => { return { headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"](Object.assign(ah, jsonHeader)) }; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["switchMap"])(options => this.http.put(url, driver, options)));
     }
     addDriver(driver) {
         const url = `${this.driversUrl}/new`;
-        return this.authService.authHeader().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(ah => { return { headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"](Object.assign(ah, jsonHeader)) }; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["flatMap"])(options => this.http.post(url, driver, options)));
+        return this.authService.authHeader().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(ah => { return { headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"](Object.assign(ah, jsonHeader)) }; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["switchMap"])(options => this.http.post(url, driver, options)));
     }
     deleteDriver(driver) {
         const id = typeof driver === 'number' ? driver : driver.driverID;
         const url = `${this.driversUrl}/${id}`;
-        return this.authService.authHeader().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(ah => { return { headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"](Object.assign(ah, jsonHeader)) }; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["flatMap"])(options => this.http.delete(url, options)));
+        return this.authService.authHeader().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(ah => { return { headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"](Object.assign(ah, jsonHeader)) }; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["switchMap"])(options => this.http.delete(url, options)));
     }
 };
 DriverService = __decorate([
@@ -356,7 +570,7 @@ DriverService = __decorate([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ng-template [ngIf]=\"companyStatistics != null\">\r\n<h2>Statistics</h2>\r\n<ul>\r\n    <li>{{companyStatistics.numOfDrivers}} driver<ng-template [ngIf]=\"companyStatistics.numOfDrivers != 1\">s</ng-template></li>\r\n    <li>{{companyStatistics.pickups}} passenger pickup<ng-template [ngIf]=\"companyStatistics.numOfPickups != 1\">s</ng-template></li>\r\n    <li>{{companyStatistics.milesDriven}} mile<ng-template [ngIf]=\"companyStatistics.milesDriven != 1\">s</ng-template> driven</li>\r\n    <li *ngIf=\"companyStatistics.averagePickupDelay != null\">Average pickup delay: \r\n    {{companyStatistics.averagePickupDelay}} minute<ng-template [ngIf]=\"companyStatistics.averagePickupDela != 1\">s</ng-template></li>\r\n    <li>Total fares: ${{companyStatistics.totalFares}}</li>\r\n    <li>Total fuel costs: ${{companyStatistics.totalCosts}}</li>\r\n    <li>Net profit: ${{companyStatistics.netProfit}}</li>\r\n</ul>\r\n</ng-template>\r\n\r\n<h2>Drivers</h2>\r\n<form (ngSubmit)=\"onSubmit()\" #driversForm=\"ngForm\">\r\n    <table class=\"table\">\r\n        <thead>\r\n            <tr>\r\n                <th>\r\n                    Name\r\n                </th>\r\n                <th>\r\n                    License Number\r\n                </th>\r\n                <th></th>\r\n            </tr>\r\n        </thead>\r\n        <tbody>\r\n            <tr *ngFor=\"let driver of drivers\">\r\n                <td [ngSwitch]=\"editing\">\r\n                    <input type=\"text\" class=\"form-control\" id=\"name\" required name=\"name_{{driver.driverID}}\" [(ngModel)]=\"driver.name\"\r\n                           *ngSwitchCase=\"driver.driverID\" />\r\n                    <span *ngSwitchDefault>{{driver.name}}</span>\r\n                </td>\r\n                <td [ngSwitch]=\"editing\">\r\n                    <input type=\"text\" class=\"form-control\" id=\"licenseNumber\" required name=\"licenseNumber_{{driver.driverID}}\" [(ngModel)]=\"driver.licenseNumber\"\r\n                           *ngSwitchCase=\"driver.driverID\" />\r\n                    <span *ngSwitchDefault>{{driver.licenseNumber}}</span>\r\n                </td>\r\n                <td [ngSwitch]=\"editing\">\r\n                    <div class=\"btn-toolbar\" role=\"toolbar\" *ngSwitchCase=\"driver.driverID\">\r\n                        <button type=\"submit\" class=\"btn btn-success mr-2\" [disabled]=\"!driversForm.form.valid\">Save</button>\r\n                        <button type=\"button\" class=\"btn btn-secondary\" (click)=\"cancelEdit()\">Cancel</button>\r\n                    </div>\r\n                    <span class=\"btn-group\" role=\"group\" *ngSwitchDefault>\r\n                        <a class=\"btn btn-secondary\" href=\"/Drivers/Details/{{driver.driverID}}\">Details</a>\r\n                        <button type=\"button\" class=\"btn btn-secondary\" (click)=\"editClicked(driver)\">Edit</button>\r\n                        <button type=\"button\" class=\"btn btn-secondary\" (click)=\"showDeleteConfirm(content, driver)\">Delete</button>\r\n                        <a class=\"btn btn-secondary\" href=\"/Predictor/Index/{{driver.driverID}}\">Predict ridership</a>\r\n                    </span>\r\n                </td>\r\n            </tr>\r\n            <tr *ngIf=\"adding; else addLink\">\r\n                <td>\r\n                    <input class=\"form-control\" required #name />\r\n                </td>\r\n                <td>\r\n                    <input class=\"form-control\" required #licenseNumber />\r\n                </td>\r\n                <td>\r\n                    <button type=\"submit\" class=\"btn btn-success mr-2\" [disabled]=\"!driversForm.form.valid\" (click)=\"saveNew(name.value, licenseNumber.value); name.value=''; licenseNumber.value=''\">Save</button>\r\n                    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"cancelAdd()\">Cancel</button>\r\n                </td>\r\n            </tr>\r\n            <ng-template #addLink>\r\n                <button type=\"button\" class=\"btn btn-success\" (click)=\"addNew()\">New Driver</button>\r\n            </ng-template>\r\n        </tbody>\r\n    </table>\r\n</form>\r\n<!-- delete confirm modal -->\r\n<ng-template #content let-modal>\r\n    <div class=\"modal-dialog\" role=\"document\">\r\n        <div class=\"modal-content\">\r\n            <div class=\"modal-header\">\r\n                <h5 class=\"modal-title\">Confirm Delete</h5>\r\n                <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"modal.dismiss('crossClicked')\">\r\n                    <span aria-hidden=\"true\">&times;</span>\r\n                </button>\r\n            </div>\r\n            <div class=\"modal-body\">\r\n                <p>Are you sure you want to delete driver {{toDelete.name}}?</p>\r\n            </div>\r\n            <div class=\"modal-footer\">\r\n                <button type=\"button\" class=\"btn btn-primary\" (click)=\"modal.close('deleteConfirmed')\">Delete</button>\r\n                <button type=\"button\" class=\"btn btn-secondary\" (click)=\"modal.close('deleteCancelled')\">Cancel</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</ng-template>"
+module.exports = "<ng-template [ngIf]=\"companyStatistics != null\">\r\n<h2>Statistics</h2>\r\n<ul>\r\n    <li>{{companyStatistics.numOfDrivers}} driver<ng-template [ngIf]=\"companyStatistics.numOfDrivers != 1\">s</ng-template></li>\r\n    <li>{{companyStatistics.pickups}} passenger pickup<ng-template [ngIf]=\"companyStatistics.numOfPickups != 1\">s</ng-template></li>\r\n    <li>{{companyStatistics.milesDriven}} mile<ng-template [ngIf]=\"companyStatistics.milesDriven != 1\">s</ng-template> driven</li>\r\n    <li *ngIf=\"companyStatistics.averagePickupDelay != null\">Average pickup delay: \r\n    {{companyStatistics.averagePickupDelay}} minute<ng-template [ngIf]=\"companyStatistics.averagePickupDela != 1\">s</ng-template></li>\r\n    <li>Total fares: ${{companyStatistics.totalFares}}</li>\r\n    <li>Total fuel costs: ${{companyStatistics.totalCosts}}</li>\r\n    <li>Net profit: ${{companyStatistics.netProfit}}</li>\r\n</ul>\r\n</ng-template>\r\n\r\n<h2>Drivers</h2>\r\n<form (ngSubmit)=\"onSubmit()\" #driversForm=\"ngForm\">\r\n    <div class=\"table-responsive-md\">\r\n        <table class=\"table\">\r\n            <thead>\r\n                <tr>\r\n                    <th>\r\n                        Name\r\n                    </th>\r\n                    <th>\r\n                        License Number\r\n                    </th>\r\n                    <th></th>\r\n                </tr>\r\n            </thead>\r\n            <tbody>\r\n                <tr *ngFor=\"let driver of drivers\">\r\n                    <td [ngSwitch]=\"editing\">\r\n                        <input type=\"text\" class=\"form-control\" id=\"name\" required name=\"name_{{driver.driverID}}\" [(ngModel)]=\"driver.name\"\r\n                               *ngSwitchCase=\"driver.driverID\" />\r\n                        <span *ngSwitchDefault>{{driver.name}}</span>\r\n                    </td>\r\n                    <td [ngSwitch]=\"editing\">\r\n                        <input type=\"text\" class=\"form-control\" id=\"licenseNumber\" required name=\"licenseNumber_{{driver.driverID}}\" [(ngModel)]=\"driver.licenseNumber\"\r\n                               *ngSwitchCase=\"driver.driverID\" />\r\n                        <span *ngSwitchDefault>{{driver.licenseNumber}}</span>\r\n                    </td>\r\n                    <td [ngSwitch]=\"editing\">\r\n                        <div class=\"btn-toolbar\" role=\"toolbar\" *ngSwitchCase=\"driver.driverID\">\r\n                            <button type=\"submit\" class=\"btn btn-success mr-2\" [disabled]=\"!driversForm.form.valid\">Save</button>\r\n                            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"cancelEdit()\">Cancel</button>\r\n                        </div>\r\n                        <span class=\"btn-group\" role=\"group\" *ngSwitchDefault>\r\n                            <a class=\"btn btn-secondary\" href=\"/Drivers/Details/{{driver.driverID}}\">Details</a>\r\n                            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"editClicked(driver)\">Edit</button>\r\n                            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"showDeleteConfirm(content, driver)\">Delete</button>\r\n                        </span>\r\n                    </td>\r\n                </tr>\r\n                <tr *ngIf=\"adding; else addLink\">\r\n                    <td>\r\n                        <input class=\"form-control\" required #name />\r\n                    </td>\r\n                    <td>\r\n                        <input class=\"form-control\" required #licenseNumber />\r\n                    </td>\r\n                    <td>\r\n                        <button type=\"submit\" class=\"btn btn-success mr-2\" [disabled]=\"!driversForm.form.valid\" (click)=\"saveNew(name.value, licenseNumber.value); name.value=''; licenseNumber.value=''\">Save</button>\r\n                        <button type=\"button\" class=\"btn btn-secondary\" (click)=\"cancelAdd()\">Cancel</button>\r\n                    </td>\r\n                </tr>\r\n                <ng-template #addLink>\r\n                    <button type=\"button\" class=\"btn btn-success\" (click)=\"addNew()\">New Driver</button>\r\n                </ng-template>\r\n            </tbody>\r\n        </table>\r\n    </div>\r\n</form>\r\n<!-- delete confirm modal -->\r\n<ng-template #content let-modal>\r\n    <div class=\"modal-dialog\" role=\"document\">\r\n        <div class=\"modal-content\">\r\n            <div class=\"modal-header\">\r\n                <h5 class=\"modal-title\">Confirm Delete</h5>\r\n                <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"modal.dismiss('crossClicked')\">\r\n                    <span aria-hidden=\"true\">&times;</span>\r\n                </button>\r\n            </div>\r\n            <div class=\"modal-body\">\r\n                <p>Are you sure you want to delete driver {{toDelete.name}}?</p>\r\n            </div>\r\n            <div class=\"modal-footer\">\r\n                <button type=\"button\" class=\"btn btn-primary\" (click)=\"modal.close('deleteConfirmed')\">Delete</button>\r\n                <button type=\"button\" class=\"btn btn-secondary\" (click)=\"modal.close('deleteCancelled')\">Cancel</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</ng-template>"
 
 /***/ }),
 
@@ -574,6 +788,9 @@ GeocodingService = __decorate([
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LegService", function() { return LegService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _auth_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./auth.service */ "./src/app/auth.service.ts");
+/* harmony import */ var _node_modules_angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/@angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -584,16 +801,73 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
+
+const jsonHeader = { 'Content-Type': 'application/json' };
 let LegService = class LegService {
-    constructor() { }
+    constructor(http, authService) {
+        this.http = http;
+        this.authService = authService;
+        this.legsUrl = '/api/legsapi';
+    }
+    getLegsAll() {
+        return this.authService.authHeader()
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(ah => { return { headers: new _node_modules_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"](ah) }; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["switchMap"])(h => this.http.get(this.legsUrl, h)));
+    }
+    getLegs(driverID) {
+        const url = `${this.legsUrl}/fordriver/${driverID}`;
+        return this.authService.authHeader()
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(ah => { return { headers: new _node_modules_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"](ah) }; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["switchMap"])(h => { return this.http.get(url, h); }));
+    }
+    getLeg(id) {
+        const url = `${this.legsUrl}/${id}`;
+        return this.authService.authHeader()
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(ah => { return { headers: new _node_modules_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"](ah) }; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["switchMap"])(h => this.http.get(url, h)));
+    }
+    createLeg(leg) {
+        const url = `${this.legsUrl}/new`;
+        return this.authService.authHeader()
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(ah => { return { headers: new _node_modules_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"](Object.assign(ah, jsonHeader)) }; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["switchMap"])(h => this.http.post(url, leg, h)));
+    }
+    updateLeg(leg) {
+        const url = `${this.legsUrl}/${leg.legID}`;
+        return this.authService.authHeader()
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(ah => { return { headers: new _node_modules_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"](Object.assign(ah, jsonHeader)) }; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["switchMap"])(h => this.http.put(url, leg, h)));
+    }
+    deleteLeg(leg) {
+        const url = `${this.legsUrl}/${leg.legID}`;
+        return this.authService.authHeader()
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(ah => { return { headers: new _node_modules_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"](ah) }; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["switchMap"])(h => this.http.delete(url, h)));
+    }
 };
 LegService = __decorate([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
         providedIn: 'root'
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [_node_modules_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"],
+        _auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthService"]])
 ], LegService);
 
+
+
+/***/ }),
+
+/***/ "./src/app/leg.ts":
+/*!************************!*\
+  !*** ./src/app/leg.ts ***!
+  \************************/
+/*! exports provided: Leg */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Leg", function() { return Leg; });
+class Leg {
+    getTotalFuelCost() {
+        return this.fuelCost * this.distance;
+    }
+}
 
 
 /***/ }),
@@ -1046,6 +1320,11 @@ let StatisticsService = class StatisticsService {
     }
     getCompanyStatistics() {
         const url = `${this.analysisUrl}/company`;
+        return this.authService.authHeader()
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(ah => { return { headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"](ah) }; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["flatMap"])(h => this.httpClient.get(url, h)));
+    }
+    getDriverStatistics(id) {
+        const url = `${this.analysisUrl}/${id}`;
         return this.authService.authHeader()
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(ah => { return { headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"](ah) }; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["flatMap"])(h => this.httpClient.get(url, h)));
     }
