@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, BehaviorSubject, timer } from 'rxjs';
-import { filter, map, flatMap, skipWhile } from 'rxjs/operators';
+import { filter, map, switchMap, skipWhile } from 'rxjs/operators';
 import { LoginModel } from './login-model';
 import * as jwt_decode from 'jwt-decode';
 
@@ -33,7 +33,7 @@ export class AuthService {
         const url = this.authUrl + '/makesessionusertoken';
         this.token.asObservable().pipe(
             filter(token => force || token == null),
-            flatMap(token => this.http.post<string>(url, "", {responseType: 'text' as 'json'})))
+            switchMap(token => this.http.post<string>(url, "", {responseType: 'text' as 'json'})))
             .subscribe(t => this.updateToken(t));
     }
 
@@ -41,7 +41,7 @@ export class AuthService {
         const url = this.authUrl + '/refreshtoken';
         this.authHeader().pipe(
             map(ah => new HttpHeaders(ah)),
-            flatMap(ah => this.http.post<string>(url, "", {headers: ah})))
+            switchMap(ah => this.http.post<string>(url, "", {headers: ah})))
             .subscribe(t => this.updateToken(t));
     }
 

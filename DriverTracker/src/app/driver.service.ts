@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map, flatMap, catchError } from 'rxjs/operators';
+import { map, switchMap, catchError } from 'rxjs/operators';
 
 import { Driver } from './driver';
 import { LegService } from './leg.service';
@@ -18,14 +18,14 @@ export class DriverService {
     getDrivers(): Observable<Driver[]> {
         return this.authService.authHeader().pipe(
             map(ah => {return {headers: new HttpHeaders(ah)};}),
-            flatMap(h => this.http.get<Driver[]>(this.driversUrl, h)));
+            switchMap(h => this.http.get<Driver[]>(this.driversUrl, h)));
     }
 
     getDriver(id: number): Observable<Driver> {
         const url = `${this.driversUrl}/${id}`;
         return this.authService.authHeader().pipe(
             map(ah => {return {headers: new HttpHeaders(ah)};}),
-            flatMap(h => this.http.get<Driver>(url, h)));
+            switchMap(h => this.http.get<Driver>(url, h)));
     }
 
 
@@ -33,14 +33,14 @@ export class DriverService {
         const url = `${this.driversUrl}/${driver.driverID}`;
         return this.authService.authHeader().pipe(
             map(ah => {return {headers: new HttpHeaders(Object.assign(ah, jsonHeader))};}),
-            flatMap(options => this.http.put(url, driver, options)));
+            switchMap(options => this.http.put(url, driver, options)));
     }
 
     addDriver(driver: Driver): Observable<Driver> {
         const url = `${this.driversUrl}/new`;
         return this.authService.authHeader().pipe(
             map(ah => {return {headers: new HttpHeaders(Object.assign(ah, jsonHeader))};}),
-            flatMap(options => this.http.post<Driver>(url, driver, options)));
+            switchMap(options => this.http.post<Driver>(url, driver, options)));
     }
 
     deleteDriver(driver: Driver | number): Observable<Driver> {
@@ -48,7 +48,7 @@ export class DriverService {
         const url = `${this.driversUrl}/${id}`;
         return this.authService.authHeader().pipe(
             map(ah => {return {headers: new HttpHeaders(Object.assign(ah, jsonHeader))};}),
-            flatMap(options => this.http.delete<Driver>(url, options)));
+            switchMap(options => this.http.delete<Driver>(url, options)));
     }
     
 
