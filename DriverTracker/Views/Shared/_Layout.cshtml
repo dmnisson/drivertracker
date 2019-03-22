@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>@ViewData["Title"] - DriverTracker Transportation Analysis</title>
 
-        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Raleway|Passion+One|Seymour+One" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <environment include="Development">
             <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -35,21 +35,17 @@
                     <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="PickupPredictor" asp-action="Index">Pickup Predictions</a></li>
                 </ul>
             </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+            <form class="text-md-right p-3 d-inline" method="post" action="~/Identity/Account/Logout">
+                <button type="submit" id="logout-btn" class="btn btn-default" value="Log out">Log out</button>
+            </form>
+            }
         </nav>
 
         @await Component.InvokeAsync("CookieConsent")
 
         <div class="container body-content">
-            @if (User.Identity.IsAuthenticated)
-            {
-            <div class="row">
-                <div class="col">
-                    <form class="text-right p-3" method="post" action="~/Identity/Account/Logout">
-                        <button type="submit" id="logout-btn" class="btn btn-default" value="Log out">Log out</button>
-                    </form>
-                </div>
-            </div>
-            }
             @RenderBody()
             <hr />
             <footer>
