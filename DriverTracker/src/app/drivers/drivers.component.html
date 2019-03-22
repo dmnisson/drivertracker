@@ -1,75 +1,91 @@
 <ng-template [ngIf]="companyStatistics != null">
-<h2>Statistics</h2>
-<ul>
-    <li>{{companyStatistics.numOfDrivers}} driver<ng-template [ngIf]="companyStatistics.numOfDrivers != 1">s</ng-template></li>
-    <li>{{companyStatistics.pickups}} passenger pickup<ng-template [ngIf]="companyStatistics.numOfPickups != 1">s</ng-template></li>
-    <li>{{companyStatistics.milesDriven}} mile<ng-template [ngIf]="companyStatistics.milesDriven != 1">s</ng-template> driven</li>
-    <li *ngIf="companyStatistics.averagePickupDelay != null">Average pickup delay: 
-    {{companyStatistics.averagePickupDelay}} minute<ng-template [ngIf]="companyStatistics.averagePickupDela != 1">s</ng-template></li>
-    <li>Total fares: ${{companyStatistics.totalFares}}</li>
-    <li>Total fuel costs: ${{companyStatistics.totalCosts}}</li>
-    <li>Net profit: ${{companyStatistics.netProfit}}</li>
-</ul>
+    <div class="card w-md-50 mb-3">
+        <div class="card-header">
+            Company
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">Statistics</h2>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">{{companyStatistics.numOfDrivers}} driver<ng-template [ngIf]="companyStatistics.numOfDrivers != 1">s</ng-template></li>
+            <li class="list-group-item">{{companyStatistics.pickups}} passenger pickup<ng-template [ngIf]="companyStatistics.numOfPickups != 1">s</ng-template></li>
+            <li class="list-group-item">{{companyStatistics.milesDriven}} mile<ng-template [ngIf]="companyStatistics.milesDriven != 1">s</ng-template> driven</li>
+            <li class="list-group-item" *ngIf="companyStatistics.averagePickupDelay != null">
+                Average pickup delay:
+                {{companyStatistics.averagePickupDelay}} minute<ng-template [ngIf]="companyStatistics.averagePickupDela != 1">s</ng-template>
+            </li>
+            <li class="list-group-item">Total fares: ${{companyStatistics.totalFares}}</li>
+            <li class="list-group-item">Total fuel costs: ${{companyStatistics.totalCosts}}</li>
+            <li class="list-group-item">Net profit: ${{companyStatistics.netProfit}}</li>
+        </ul>
+    </div>
 </ng-template>
 
-<h2>Drivers</h2>
-<form (ngSubmit)="onSubmit()" #driversForm="ngForm">
-    <div class="table-responsive-md">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        License Number
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let driver of drivers">
-                    <td [ngSwitch]="editing">
-                        <input type="text" class="form-control" id="name" required name="name_{{driver.driverID}}" [(ngModel)]="driver.name"
-                               *ngSwitchCase="driver.driverID" />
-                        <span *ngSwitchDefault>{{driver.name}}</span>
-                    </td>
-                    <td [ngSwitch]="editing">
-                        <input type="text" class="form-control" id="licenseNumber" required name="licenseNumber_{{driver.driverID}}" [(ngModel)]="driver.licenseNumber"
-                               *ngSwitchCase="driver.driverID" />
-                        <span *ngSwitchDefault>{{driver.licenseNumber}}</span>
-                    </td>
-                    <td [ngSwitch]="editing">
-                        <div class="btn-toolbar" role="toolbar" *ngSwitchCase="driver.driverID">
-                            <button type="submit" class="btn btn-success mr-2" [disabled]="!driversForm.form.valid">Save</button>
-                            <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
-                        </div>
-                        <span class="btn-group" role="group" *ngSwitchDefault>
-                            <a class="btn btn-secondary" href="/Drivers/Details/{{driver.driverID}}">Details</a>
-                            <button type="button" class="btn btn-secondary" (click)="editClicked(driver)">Edit</button>
-                            <button type="button" class="btn btn-secondary" (click)="showDeleteConfirm(content, driver)">Delete</button>
-                        </span>
-                    </td>
-                </tr>
-                <tr *ngIf="adding; else addLink">
-                    <td>
-                        <input class="form-control" required #name />
-                    </td>
-                    <td>
-                        <input class="form-control" required #licenseNumber />
-                    </td>
-                    <td>
-                        <button type="submit" class="btn btn-success mr-2" [disabled]="!driversForm.form.valid" (click)="saveNew(name.value, licenseNumber.value); name.value=''; licenseNumber.value=''">Save</button>
-                        <button type="button" class="btn btn-secondary" (click)="cancelAdd()">Cancel</button>
-                    </td>
-                </tr>
-                <ng-template #addLink>
-                    <button type="button" class="btn btn-success" (click)="addNew()">New Driver</button>
-                </ng-template>
-            </tbody>
-        </table>
+<div class="card w-100">
+    <div class="card-header">
+         Data
     </div>
-</form>
+    <div class="card-body">
+        <h2 class="card-title">Drivers</h2>
+        <form (ngSubmit)="onSubmit()" #driversForm="ngForm">
+            <div class="table-responsive-md">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                License Number
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let driver of drivers">
+                            <td [ngSwitch]="editing">
+                                <input type="text" class="form-control" id="name" required name="name_{{driver.driverID}}" [(ngModel)]="driver.name"
+                                       *ngSwitchCase="driver.driverID" />
+                                <span *ngSwitchDefault>{{driver.name}}</span>
+                            </td>
+                            <td [ngSwitch]="editing">
+                                <input type="text" class="form-control" id="licenseNumber" required name="licenseNumber_{{driver.driverID}}" [(ngModel)]="driver.licenseNumber"
+                                       *ngSwitchCase="driver.driverID" />
+                                <span *ngSwitchDefault>{{driver.licenseNumber}}</span>
+                            </td>
+                            <td [ngSwitch]="editing">
+                                <div class="btn-toolbar" role="toolbar" *ngSwitchCase="driver.driverID">
+                                    <button type="submit" class="btn btn-success mr-2" [disabled]="!driversForm.form.valid">Save</button>
+                                    <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+                                </div>
+                                <span class="btn-group" role="group" *ngSwitchDefault>
+                                    <a class="btn btn-secondary" href="/Drivers/Details/{{driver.driverID}}">Details</a>
+                                    <button type="button" class="btn btn-secondary" (click)="editClicked(driver)">Edit</button>
+                                    <button type="button" class="btn btn-secondary" (click)="showDeleteConfirm(content, driver)">Delete</button>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr *ngIf="adding; else addLink">
+                            <td>
+                                <input class="form-control" required #name />
+                            </td>
+                            <td>
+                                <input class="form-control" required #licenseNumber />
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-success mr-2" [disabled]="!driversForm.form.valid" (click)="saveNew(name.value, licenseNumber.value); name.value=''; licenseNumber.value=''">Save</button>
+                                <button type="button" class="btn btn-secondary" (click)="cancelAdd()">Cancel</button>
+                            </td>
+                        </tr>
+                        <ng-template #addLink>
+                            <button type="button" class="btn btn-primary" (click)="addNew()">New Driver</button>
+                        </ng-template>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+     </div>
+</div>
 <!-- delete confirm modal -->
 <ng-template #content let-modal>
     <div class="modal-dialog" role="document">
