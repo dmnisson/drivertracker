@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 
 using DriverTracker.Models;
+using System.Security.Claims;
 
 namespace DriverTracker.Domain
 {
@@ -19,5 +20,8 @@ namespace DriverTracker.Domain
         Task AddAsync(Driver driver);
         Task DeleteAsync(Driver driver);
         Task EditAsync(Driver driver);
+
+        bool IsDriver(ClaimsPrincipal user);
+        Driver GetDriverModel(ClaimsPrincipal user);
     }
 }

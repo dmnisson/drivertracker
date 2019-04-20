@@ -22,5 +22,6 @@ namespace DriverTracker.Models {
 
         public ICollection<Analysis> Analyses { get; set; }
         public ICollection<Leg> Legs { get; set; }
-	}
+        public ICollection<PickupDriverAssignment> PickupDriverAssignments { get; set; }
+    }
 }

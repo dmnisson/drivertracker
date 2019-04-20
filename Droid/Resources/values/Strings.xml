@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, Click Me!</string>
+    <string name="pickupRequests">Pickup Requests</string>
+    <string name="startLegAtAddress">Start Leg At Address</string>
+    <string name="startLegHere">Start Leg Here</string>
+    <string name="manageLegs">Manage Legs</string>
+    <string name="infoForDriver">Info For Driver</string>
+    <string name="editLeg">Edit Leg</string>
+    <string name="switchUser">Switch User</string>
     <string name="app_name">DriverTracker.Mobile.Droid</string>
+    <string name="host">10.0.2.2:5001</string>
 </resources>

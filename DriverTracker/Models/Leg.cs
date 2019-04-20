@@ -68,5 +68,7 @@ namespace DriverTracker.Models
         public decimal GetTotalFuelCost() {
             return this.FuelCost * this.Distance;
         }
+
+        public virtual AnsweredPickupRequest AnsweredPickupRequest { get; set; }
     }
 }
