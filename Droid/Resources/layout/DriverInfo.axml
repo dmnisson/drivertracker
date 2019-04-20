@@ -1,3 +1,94 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:text="Name"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/textView1" />
+    <EditText
+        android:inputType="textPersonName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/DriverNameField" />
+    <TextView
+        android:text="License Number"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/LicenseNumberField" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/space1"
+        android:layout_marginBottom="43.5dp" />
+    <TextView
+        android:text="Statistics"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3" />
+    <GridLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/gridLayout1"
+        android:rowCount="5"
+        android:columnCount="2"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="15dp"
+        android:useDefaultMargins="true"
+        android:alignmentMode="alignBounds">
+        <TextView
+            android:text="Pickups"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView4" />
+        <TextView
+            android:id="@+id/PickupsTextView"
+            android:text="--"
+            style="@android:style/TextAppearance.DeviceDefault.Medium"/>
+        <TextView
+            android:text="Miles Driven"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView5" />
+        <TextView
+            android:id="@+id/textView6"
+            android:text="--"
+            style="@android:style/TextAppearance.DeviceDefault.Medium"/>
+        <TextView
+            android:text="Average Pickup Delay"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView7" />
+        <TextView
+            android:id="@+id/AveragePickupDelayTextView"
+            android:text="--"
+            style="@android:style/TextAppearance.DeviceDefault.Medium" />
+        <TextView
+            android:text="Total Fares"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView8" />
+        <TextView
+            android:id="@+id/TotalFaresTextView"
+            android:text="--"
+            style="@android:style/TextAppearance.DeviceDefault.Medium" />
+        <TextView
+            android:text="Total Costs"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView9" />
+        <TextView
+            android:id="@+id/TotalCostsTextView"
+            android:text="--"
+            style="@android:style/TextAppearance.DeviceDefault.Medium" />
+    </GridLayout>
 </LinearLayout>

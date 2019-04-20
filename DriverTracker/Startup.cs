@@ -51,12 +51,16 @@ namespace DriverTracker
 
             services.AddAuthorization(options => {
                 options.AddPolicy("DriverInfoPolicy", policy => policy.Requirements.Add(new SameDriverRequirement()));
-
             });
+            services.AddAuthorization(options => {
+                options.AddPolicy("DriverInfoPolicyPickupAllowed", policy => policy.Requirements.Add(new SameDriverRequirement(true)));
+            });
+
             services.AddScoped<IAuthorizationHandler, UserInfoPermissionHandler>();
 
-            services.AddScoped<IDriverRepository>(provider => new DriverRepository(provider.GetService<MvcDriverContext>()));
-            services.AddScoped<ILegRepository>(provider => new LegRepository(provider.GetService<MvcDriverContext>()));
+            services.AddScoped<IDriverRepository, DriverRepository>();
+            services.AddScoped<ILegRepository, LegRepository>();
+            services.AddScoped<IPickupRequestRepository, PickupRequestRepository>();
             services.AddScoped<IGeocodingDbSync>(provider => new GeocodingDbSync(
                 this.Configuration, provider.GetService<MvcDriverContext>()));
             services.AddScoped<ILocationClustering, LocationClustering>();
@@ -109,7 +113,7 @@ namespace DriverTracker
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-            string[] dtRoleNames = { "Admin", "Analyst", "Driver" };
+            string[] dtRoleNames = { "Admin", "Analyst", "Driver", "PickupRequestSystem" };
             IdentityResult roleResult;
 
             foreach (var roleName in dtRoleNames)

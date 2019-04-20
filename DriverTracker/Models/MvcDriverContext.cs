@@ -14,5 +14,8 @@ namespace DriverTracker.Models
         public DbSet<Analysis> Analyses { get; set; }
         public DbSet<Leg> Legs { get; set; }
         public DbSet<LegCoordinates> LegCoordinates { get; set; }
+        public DbSet<PickupRequest> PickupRequests { get; set; }
+        public DbSet<AnsweredPickupRequest> AnsweredPickupRequests { get; set; }
+        public DbSet<PickupDriverAssignment> PickupDriverAssignments { get; set; }
     }
 }

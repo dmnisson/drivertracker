@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using DriverTracker.Domain;
 using DriverTracker.Models;
@@ -66,6 +67,18 @@ namespace DriverTracker.Tests
         {
             Console.WriteLine("GetAsync called");
             return await Task.Run(() => _drivers.FirstOrDefault(driver => driver.DriverID == id));
+        }
+
+        public Driver GetDriverModel(ClaimsPrincipal user)
+        {
+            Console.WriteLine("GetDriverModel called");
+            return _drivers.FirstOrDefault(d => d.UserIDString == user.Identity.Name + "@test");
+        }
+
+        public bool IsDriver(ClaimsPrincipal user)
+        {
+            Console.WriteLine("IsDriver called");
+            return _drivers.Any(d => d.UserIDString == user.Identity.Name + "@test");
         }
 
         public async Task<IEnumerable<Driver>> ListAsync()
