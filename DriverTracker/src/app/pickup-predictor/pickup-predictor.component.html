@@ -85,7 +85,7 @@
                             <p class="card-text pl-5">${{i == 0 ? 0 : fareClassIntervalBoundaries[i-1]}} to ${{fareClassIntervalBoundaries[i]}}:</p>
                         </div>
                         <div class="col">
-                            <p class="card-text pr-5">{{fareClassProbabilities[i] * 100}}%</p>
+                            <p class="card-text pr-5">{{fareClassProbabilities[i] * 100 | number:'1.1-1'}}%</p>
                         </div>
                     </div>
                     <div class="row" *ngIf="fareClassIntervalBoundaries.length > 0">
@@ -117,7 +117,7 @@
                             </p>
                         </div>
                         <div class="col">
-                            <p class="pr-5 card-text">{{pickupProbabilities[i] * 100}}%</p>
+                            <p class="pr-5 card-text">{{pickupProbabilities[i] * 100 | number:'1.1-1'}}%</p>
                         </div>
                     </div>
                 </div>

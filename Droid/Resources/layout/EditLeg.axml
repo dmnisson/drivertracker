@@ -1,3 +1,118 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:text="Start Address"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/textView1" />
+    <AutoCompleteTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/StartAddressTextView" />
+    <TextView
+        android:text="Destination Address"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2" />
+    <AutoCompleteTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/DestinationAddressField" />
+    <GridLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="350.5dp"
+        android:id="@+id/gridLayout1"
+        android:alignmentMode="alignBounds"
+        android:useDefaultMargins="true"
+        android:columnCount="2"
+        android:layout_marginBottom="0.0dp">
+        <TextView
+            android:text="Start Time"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView3" />
+        <TextView
+            android:text="Arrival Time"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView4" />
+        <EditText
+            android:inputType="time"
+            android:id="@+id/StartTimeField"
+            android:layout_width="wrap_content"
+            android:minWidth="100dp"
+            android:width="150dp" />
+        <EditText
+            android:inputType="time"
+            android:id="@+id/ArrivalTimeField"
+            android:width="150dp"
+            android:minWidth="100dp" />
+        <TextView
+            android:text="Duration (min)"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView5" />
+        <TextView
+            android:text="Pickup Delay (min)"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView6" />
+        <EditText
+            android:inputType="numberDecimal"
+            android:id="@+id/DurationField"
+            android:width="150dp"
+            android:minWidth="100dp" />
+        <EditText
+            android:inputType="numberDecimal"
+            android:id="@+id/PickupDelayField"
+            android:width="150dp"
+            android:minWidth="100dp" />
+        <TextView
+            android:text="Fare"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView7" />
+        <TextView
+            android:text="Fuel Cost"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView8" />
+        <EditText
+            android:inputType="numberDecimal"
+            android:id="@+id/FareField"
+            android:width="150dp"
+            android:minWidth="100dp" />
+        <EditText
+            android:inputType="numberDecimal"
+            android:id="@+id/FuelCostField"
+            android:width="150dp"
+            android:minWidth="100dp" />
+        <TextView
+            android:text="Aboard"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView9" />
+        <TextView
+            android:text="Pickups"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView10" />
+        <EditText
+            android:inputType="number"
+            android:id="@+id/AboardField"
+            android:width="150dp"
+            android:minWidth="100dp" />
+        <EditText
+            android:inputType="number"
+            android:id="@+id/PickupsField"
+            android:width="150dp"
+            android:minWidth="100dp" />
+    </GridLayout>
+    <Button
+        android:text="Save Leg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/SaveLegButton" />
 </LinearLayout>

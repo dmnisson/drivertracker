@@ -1,9 +1,10 @@
 ﻿using System;
+
 namespace DriverTracker.Mobile
 {
-    public class MyClass
+    public class PickupRequest
     {
-        public MyClass()
+        public PickupRequest()
         {
         }
     }
