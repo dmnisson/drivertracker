@@ -57,7 +57,9 @@ namespace DriverTracker.Mobile.Droid
 
             SetContentView(Resource.Layout.PickupRequests);
 
+            // TODO make user-configurable
             string host = GetString(Resource.String.host);
+
             string pickupRequestsPath = "/api/pickuprequestapi";
             ListView listView = FindViewById<ListView>(Resource.Id.PickupRequestListView);
             ArrayAdapter<PickupRequest> adapter = new ArrayAdapter<PickupRequest>(this, Resource.Id.PickupRequestListView, pickupRequests);

@@ -10,8 +10,8 @@
     <TemplateGuid>{84dd83c5-0fe3-4294-9419-09e7c8ba324f}</TemplateGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DriverTracker2</RootNamespace>
-    <AssemblyName>DriverTracker2</AssemblyName>
+    <RootNamespace>DriverTracker.Mobile.Droid</RootNamespace>
+    <AssemblyName>DriverTracker.Mobile.Droid</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
@@ -101,6 +101,7 @@
     <AndroidResource Include="Resources\layout\PickupRequests.axml" />
     <AndroidResource Include="Resources\layout\StartLegAtAddress.axml" />
     <AndroidResource Include="Resources\layout\SwitchUser.axml" />
+    <AndroidResource Include="Resources\layout\ChooseServer.axml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.1" />

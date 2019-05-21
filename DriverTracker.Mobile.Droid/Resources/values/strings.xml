@@ -8,6 +8,6 @@
     <string name="editLeg">Edit Leg</string>
     <string name="switchUser">Switch User</string>
     <string name="host">10.0.2.2:5001</string>
-    <string name="app_name">DriverTracker2</string>
+    <string name="app_name">DriverTracker</string>
     <string name="action_settings">Settings</string>
 </resources>
