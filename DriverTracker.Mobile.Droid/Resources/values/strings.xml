@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="pickupRequests">Pickup Requests</string>
+    <string name="startLegAtAddress">Start Leg At Address</string>
+    <string name="startLegHere">Start Leg Here</string>
+    <string name="manageLegs">Manage Legs</string>
+    <string name="infoForDriver">Info For Driver</string>
+    <string name="editLeg">Edit Leg</string>
+    <string name="switchUser">Switch User</string>
+    <string name="host">10.0.2.2:5001</string>
+    <string name="app_name">DriverTracker2</string>
+    <string name="action_settings">Settings</string>
+</resources>
