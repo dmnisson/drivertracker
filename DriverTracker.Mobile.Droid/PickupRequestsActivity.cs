@@ -15,35 +15,9 @@ using Newtonsoft.Json;
 
 using System.Net.Http;
 using System.Net;
-using Javax.Net.Ssl;
-using Xamarin.Android.Net;
-using Android.Net;
 
 namespace DriverTracker.Mobile.Droid
 {
-#if DEBUG
-    // from https://softwareproduction.eu/2017/08/26/xamarin-on-android-bypass-ssl-verification-with-httpclient/
-    internal class BypassHostnameVerifier : Java.Lang.Object, IHostnameVerifier
-    {
-        public bool Verify(string hostname, ISSLSession session)
-        {
-            return true;
-        }
-    }
-
-    internal class BypassSslValidationClientHandler : AndroidClientHandler
-    {
-        protected override SSLSocketFactory ConfigureCustomSSLSocketFactory(HttpsURLConnection connection)
-        {
-            return SSLCertificateSocketFactory.GetInsecure(1000, null);
-        }
-
-        protected override IHostnameVerifier GetSSLHostnameVerifier(HttpsURLConnection connection)
-        {
-            return new BypassHostnameVerifier();
-        }
-    }
-#endif
 
     [Activity(Label = "PickupRequestsActivity")]
     public class PickupRequestsActivity : Activity
