@@ -2360,9 +2360,6 @@ namespace DriverTracker.Mobile.Droid
 			// aapt resource value: 0x7f0800bd
 			public const int EditLegButton = 2131230909;
 			
-			// aapt resource value: 0x7f08008c
-			public const int EmailAddressField = 2131230860;
-			
 			// aapt resource value: 0x7f0800db
 			public const int EndLegButton = 2131230939;
 			
@@ -2618,11 +2615,11 @@ namespace DriverTracker.Mobile.Droid
 			// aapt resource value: 0x7f080020
 			public const int disableHome = 2131230752;
 			
-			// aapt resource value: 0x7f08008e
-			public const int editText1 = 2131230862;
-			
 			// aapt resource value: 0x7f08007e
 			public const int edit_query = 2131230846;
+			
+			// aapt resource value: 0x7f08008c
+			public const int emailAddressField = 2131230860;
 			
 			// aapt resource value: 0x7f080030
 			public const int end = 2131230768;
@@ -2764,6 +2761,9 @@ namespace DriverTracker.Mobile.Droid
 			
 			// aapt resource value: 0x7f08000b
 			public const int parent_matrix = 2131230731;
+			
+			// aapt resource value: 0x7f08008e
+			public const int passwordField = 2131230862;
 			
 			// aapt resource value: 0x7f08004d
 			public const int pin = 2131230797;

@@ -88,7 +88,11 @@ namespace DriverTracker.Mobile.Droid
                             // show alert dialog
                             AlertDialog.Builder alert = new AlertDialog.Builder(this);
                             alert.SetTitle("Cannot Connect");
+#if DEBUG
                             alert.SetMessage("Could not connect to server: " + ex.Message);
+#else
+                            alert.SetMessage("Could not connect to server");
+#endif
                             _ = alert.SetPositiveButton("Try Again", async (senderAlert, args) => await AttemptRetrievePickupRequests(host, client));
                             _ = alert.SetNegativeButton("Cancel", (senderAlert, args) => { });
 
@@ -131,10 +135,8 @@ namespace DriverTracker.Mobile.Droid
             {
                 if (resultCode == Result.Ok)
                 {
-
                     ServerConnection connection = connectionStore.CurrentConnection;
-
-                    await connection.Authenticate(data.GetStringExtra("user"), data.GetStringExtra("pass"), new AndroidAuthenticationService());
+                    connection.Jwt = data.GetStringExtra("token");
 
 #if DEBUG
                     using (HttpClientHandler handler = new BypassSslValidationClientHandler())
