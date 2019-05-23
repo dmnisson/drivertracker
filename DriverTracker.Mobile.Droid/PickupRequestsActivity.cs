@@ -39,7 +39,8 @@ namespace DriverTracker.Mobile.Droid
             ArrayAdapter<PickupRequest> adapter = new ArrayAdapter<PickupRequest>(this, Resource.Id.PickupRequestListView, pickupRequests);
             listView.Adapter = adapter;
 
-            string host = connectionStore.CurrentConnection.Host;
+            ServerConnection connection = connectionStore.CurrentConnection;
+            string host = connection.Host;
 
             // retrieve list
 #if DEBUG
@@ -49,6 +50,7 @@ namespace DriverTracker.Mobile.Droid
 #endif
             using (HttpClient client = new HttpClient(handler))
             {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", connection.Jwt);
                 await AttemptRetrievePickupRequests(host, client);
             }
         }
@@ -63,7 +65,6 @@ namespace DriverTracker.Mobile.Droid
 
             bool successfulOrCancelledRequest = false;
             int tryCount = 0;
-            IAuthenticationService authenticationService = new AndroidAuthenticationService();
             while (!successfulOrCancelledRequest)
             {
                 try
