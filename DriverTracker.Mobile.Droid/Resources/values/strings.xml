@@ -7,7 +7,14 @@
     <string name="infoForDriver">Info For Driver</string>
     <string name="editLeg">Edit Leg</string>
     <string name="switchUser">Switch User</string>
-    <string name="host">10.0.2.2:5001</string>
+    <string name="chooseServer">Choose Server</string>
+    <string name="companyName">Company Name</string>
+    <string name="hostname">Hostname</string>
+    <string name="continueStr">Continue</string>
+    <string name="currentServer">Current Server</string>
+    <string name="edit">Edit</string>
+    <string name="addNew">Add New</string>
+    <string name="changeServer">Change Server</string>
     <string name="app_name">DriverTracker</string>
     <string name="action_settings">Settings</string>
 </resources>

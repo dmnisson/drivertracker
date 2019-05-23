@@ -6,22 +6,28 @@ namespace DriverTracker.Mobile
     public class ServerConnection
     {
         /// <summary>
+        /// A unique identifier for this connection in the device-local store
+        /// </summary>
+        /// <value>The identifier.</value>
+        public int ID { get; set; }
+
+        /// <summary>
         /// The name of the company to which the server belongs.
         /// </summary>
         /// <value>The name of the company.</value>
-        public string CompanyName { get; private set; }
+        public string CompanyName { get; set; }
 
         /// <summary>
         /// The host to which to connect (may include a port number)
         /// </summary>
         /// <value>The host.</value>
-        public string Host { get; private set; }
+        public string Host { get; set; }
 
         /// <summary>
         /// The JWT token.
         /// </summary>
         /// <value>The token, or null if not yet authenticated.</value>
-        public string Jwt { get; private set; }
+        public string Jwt { get; set; }
 
         public ServerConnection(string host, string companyName = null)
         {

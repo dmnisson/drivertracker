@@ -65,6 +65,8 @@
     <Compile Include="AndroidAuthenticationService.cs" />
     <Compile Include="BypassHostnameVerifier.cs" />
     <Compile Include="BypassSslValidationClientHandler.cs" />
+    <Compile Include="AndroidServerConnectionStore.cs" />
+    <Compile Include="AuthenticateActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -105,6 +107,7 @@
     <AndroidResource Include="Resources\layout\StartLegAtAddress.axml" />
     <AndroidResource Include="Resources\layout\SwitchUser.axml" />
     <AndroidResource Include="Resources\layout\ChooseServer.axml" />
+    <AndroidResource Include="Resources\layout\ChooseStoredServer.axml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.1" />
