@@ -113,7 +113,6 @@ namespace DriverTracker.Mobile.Droid
         }
 
         static readonly int AUTHENTICATE_REQUEST = 1;
-        static readonly int RESULT_OK = 0;
 
         /// <summary>
         /// Authenticates the user via the AuthenticateActivity.
@@ -130,7 +129,7 @@ namespace DriverTracker.Mobile.Droid
         {
             if (requestCode == AUTHENTICATE_REQUEST)
             {
-                if (resultCode == RESULT_OK)
+                if (resultCode == Result.Ok)
                 {
 
                     ServerConnection connection = connectionStore.CurrentConnection;
