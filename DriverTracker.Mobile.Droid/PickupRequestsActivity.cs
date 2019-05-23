@@ -50,7 +50,9 @@ namespace DriverTracker.Mobile.Droid
 #endif
             using (HttpClient client = new HttpClient(handler))
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", connection.Jwt);
+                if (connection.IsAuthenticated)
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", connection.Jwt);
+
                 await AttemptRetrievePickupRequests(host, client);
             }
         }
