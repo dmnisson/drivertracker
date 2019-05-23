@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DriverTracker.Mobile
 {
@@ -52,6 +54,23 @@ namespace DriverTracker.Mobile
         /// Gets a value indicating whether this <see cref="T:DriverTracker.Mobile.ServerConnection"/> is authenticated.
         /// </summary>
         /// <value><c>true</c> if is authenticated; otherwise, <c>false</c>.</value>
-        public bool IsAuthenticated => Jwt != null;
+        public bool IsAuthenticated 
+        { get
+            {
+                if (Jwt != null)
+                {
+                    var payload = JWT.JsonWebToken.DecodeToObject(Jwt, "", false) as IDictionary<string, object>;
+
+                    // check if token has expired
+                    if (payload.ContainsKey("exp") && payload["exp"] != null)
+                    {
+                        int exp = Convert.ToInt32(payload["exp"]);
+                        var secondsSinceEpoch = Math.Round((DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds);
+                        if (secondsSinceEpoch >= exp) return false;
+                    }
+                }
+                return Jwt != null;
+            }
+        }
     }
 }
