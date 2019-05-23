@@ -129,7 +129,7 @@ namespace DriverTracker.Mobile.Droid
 
         }
 
-        protected async void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        protected override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             if (requestCode == AUTHENTICATE_REQUEST)
             {
