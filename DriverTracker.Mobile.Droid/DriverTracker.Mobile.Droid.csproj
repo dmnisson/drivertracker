@@ -67,6 +67,11 @@
     <Compile Include="BypassSslValidationClientHandler.cs" />
     <Compile Include="AndroidServerConnectionStore.cs" />
     <Compile Include="AuthenticateActivity.cs" />
+    <Compile Include="ChooseServerActivity.cs" />
+    <Compile Include="ChooseStoredServerActivity.cs" />
+    <Compile Include="TaskUtilities.cs" />
+    <Compile Include="IErrorHandler.cs" />
+    <Compile Include="LogErrorHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

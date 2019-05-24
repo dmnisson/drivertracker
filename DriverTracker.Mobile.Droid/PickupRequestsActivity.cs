@@ -17,6 +17,7 @@ using System.Net.Http;
 using System.Net;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
+using Android.Util;
 
 namespace DriverTracker.Mobile.Droid
 {
@@ -29,7 +30,7 @@ namespace DriverTracker.Mobile.Droid
         static readonly IServerConnectionStore connectionStore = new AndroidServerConnectionStore();
         static readonly string pickupRequestsPath = "/api/pickuprequestapi";
 
-        protected override async void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
@@ -39,10 +40,22 @@ namespace DriverTracker.Mobile.Droid
             ArrayAdapter<PickupRequest> adapter = new ArrayAdapter<PickupRequest>(this, Resource.Id.PickupRequestListView, pickupRequests);
             listView.Adapter = adapter;
 
+            string app_name = Resources.GetString(Resource.String.app_name);
+            AttemptRetrievePickupRequests().FireAndForgetSafeAsync(new LogErrorHandler(app_name));
+        }
+
+        private async Task AttemptRetrievePickupRequests()
+        {
             ServerConnection connection = connectionStore.CurrentConnection;
+
+            if (connection == null)
+            {
+                InputServerConnection();
+                return;
+            }
+
             string host = connection.Host;
 
-            // retrieve list
 #if DEBUG
             using (HttpClientHandler handler = new BypassSslValidationClientHandler())
 #else
@@ -50,57 +63,51 @@ namespace DriverTracker.Mobile.Droid
 #endif
             using (HttpClient client = new HttpClient(handler))
             {
-                if (connection.IsAuthenticated)
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", connection.Jwt);
-
-                await AttemptRetrievePickupRequests(host, client);
-            }
-        }
-
-        private async Task AttemptRetrievePickupRequests(string host, HttpClient client)
-        {
-            if (!connectionStore.CurrentConnection.IsAuthenticated)
-            {
-                AuthenticateUser();
-                return;
-            }
-
-            bool successfulOrCancelledRequest = false;
-            int tryCount = 0;
-            while (!successfulOrCancelledRequest)
-            {
-                try
+                if (!connection.IsAuthenticated)
                 {
-                    successfulOrCancelledRequest = await RetrievePickupRequests(host, client);
+                    AuthenticateUser();
+                    return;
                 }
-                catch (Exception ex)
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", connection.Jwt);
+
+                bool successfulOrCancelledRequest = false;
+                int tryCount = 0;
+                while (!successfulOrCancelledRequest)
                 {
-                    if (ex is System.Net.WebException || ex is System.Net.Http.HttpRequestException)
+                    try
                     {
-                        tryCount++;
-
-                        // try 3 times before showing alert
-                        if (tryCount == 3)
+                        successfulOrCancelledRequest = await RetrievePickupRequests(host, client);
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex is System.Net.WebException || ex is System.Net.Http.HttpRequestException)
                         {
-                            // cancel request until user responds
-                            successfulOrCancelledRequest = true;
+                            tryCount++;
 
-                            // show alert dialog
-                            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                            alert.SetTitle("Cannot Connect");
+                            // try 3 times before showing alert
+                            if (tryCount == 3)
+                            {
+                                // cancel request until user responds
+                                successfulOrCancelledRequest = true;
+
+                                // show alert dialog
+                                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                                alert.SetTitle("Cannot Connect");
 #if DEBUG
-                            alert.SetMessage("Could not connect to server: " + ex.Message);
+                                alert.SetMessage("Could not connect to server: " + ex.Message);
 #else
-                            alert.SetMessage("Could not connect to server");
+                                alert.SetMessage("Could not connect to server");
 #endif
-                            _ = alert.SetPositiveButton("Try Again", async (senderAlert, args) => await AttemptRetrievePickupRequests(host, client));
-                            _ = alert.SetNegativeButton("Cancel", (senderAlert, args) => { });
+                                string app_name = Resources.GetString(Resource.String.app_name);
+                                _ = alert.SetPositiveButton("Try Again", (senderAlert, args) => 
+                                    AttemptRetrievePickupRequests().FireAndForgetSafeAsync(new LogErrorHandler(app_name)));
+                                _ = alert.SetNegativeButton("Cancel", (senderAlert, args) => { });
 
-                            Dialog dialog = alert.Create();
-                            dialog.Show();
+                                Dialog dialog = alert.Create();
+                                dialog.Show();
+                            }
                         }
                     }
-                    else throw ex;
                 }
             }
         }
@@ -116,12 +123,12 @@ namespace DriverTracker.Mobile.Droid
             return successfulOrCancelledRequest;
         }
 
-        static readonly int AUTHENTICATE_REQUEST = 1;
+        const int AUTHENTICATE_REQUEST = 1;
+        const int SERVERCONNECTION_REQUEST = 2;
 
         /// <summary>
         /// Authenticates the user via the AuthenticateActivity.
         /// </summary>
-        /// <returns>The task</returns>
         private void AuthenticateUser()
         {
             Intent intent = new Intent(this, typeof(AuthenticateActivity));
@@ -129,26 +136,39 @@ namespace DriverTracker.Mobile.Droid
 
         }
 
-        protected override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        /// <summary>
+        /// Starts the ChooseStoredServer activity to obtain connection information.
+        /// </summary>
+        private void InputServerConnection()
         {
-            if (requestCode == AUTHENTICATE_REQUEST)
-            {
-                if (resultCode == Result.Ok)
-                {
-                    ServerConnection connection = connectionStore.CurrentConnection;
-                    connection.Jwt = data.GetStringExtra("token");
+            Intent intent = new Intent(this, typeof(ChooseStoredServerActivity));
+            StartActivityForResult(intent, SERVERCONNECTION_REQUEST);
+        }
 
-#if DEBUG
-                    using (HttpClientHandler handler = new BypassSslValidationClientHandler())
-#else
-                    using (HttpClientHandler handler = new HttpClientHandler()) 
-#endif
-                    using (HttpClient client = new HttpClient(handler))
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            string app_name = Resources.GetString(Resource.String.app_name);
+
+            switch (requestCode)
+            {
+                case AUTHENTICATE_REQUEST:
                     {
-                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", connection.Jwt);
-                        await AttemptRetrievePickupRequests(connection.Host, client);
+                        if (resultCode == Result.Ok)
+                        {
+                            connectionStore.CurrentConnection.Jwt = data.GetStringExtra("token");
+                            AttemptRetrievePickupRequests().FireAndForgetSafeAsync(new LogErrorHandler(app_name));
+                        }
                     }
-                }
+                    break;
+                case SERVERCONNECTION_REQUEST:
+                    {
+                        if (resultCode == Result.Ok)
+                        {
+
+                            AttemptRetrievePickupRequests().FireAndForgetSafeAsync(new LogErrorHandler(app_name));
+                        }
+                    }
+                    break;
             }
         }
     }

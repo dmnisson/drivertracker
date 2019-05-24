@@ -34,58 +34,66 @@ namespace DriverTracker.Mobile.Droid
 
             IAuthenticationService authenticationService = new AndroidAuthenticationService();
 
-            continueButton.Click += async (sender, e) =>
+            continueButton.Click += (sender, e) =>
             {
-                // attempt authentication
-                string token = null;
-                try
-                {
-                    await authenticationService.MakeToken(emailAddressField.Text, passwordField.Text);
-                }
-                catch (Exception ex)
-                {
-                    if (ex is System.Net.WebException || ex is System.Net.Http.HttpRequestException)
-                    {
-                        // show alert dialog
-                        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                        alert.SetTitle("Error");
-#if DEBUG
-                        alert.SetMessage("Authentication failure:" + ex.Message);
-#else
-                        alert.SetMessage("Authentication failure");
-#endif
+                string app_name = Resources.GetString(Resource.String.app_name);
+                AttemptAuthentication(emailAddressField, passwordField, authenticationService)
+                .FireAndForgetSafeAsync(new LogErrorHandler(app_name));
+            };
+        }
 
-                        Dialog dialog = alert.Create();
-                        dialog.Show();
-                    }
-                    else
-                    {
-                        throw ex;
-                    }
-                }
-
-                if (token != null)
+        private async System.Threading.Tasks.Task AttemptAuthentication(
+            EditText emailAddressField, EditText passwordField, 
+            IAuthenticationService authenticationService)
+        {
+            string token = null;
+            try
+            {
+                token = await authenticationService.MakeToken(emailAddressField.Text, passwordField.Text);
+            }
+            catch (Exception ex)
+            {
+                if (ex is System.Net.WebException || ex is System.Net.Http.HttpRequestException)
                 {
-                    // pass token back to caller
-                    Intent intent = new Intent();
-                    intent.PutExtra("token", token);
-
-                    SetResult(Result.Ok, intent);
-                    Finish();
-                }
-                else
-                {
-                    // alert that username or password is invalid
                     // show alert dialog
                     AlertDialog.Builder alert = new AlertDialog.Builder(this);
                     alert.SetTitle("Error");
-
-                    alert.SetMessage("Invalid username or password");
+#if DEBUG
+                    alert.SetMessage("Authentication failure:" + ex.Message);
+#else
+                    alert.SetMessage("Authentication failure");
+#endif
 
                     Dialog dialog = alert.Create();
                     dialog.Show();
                 }
-            };
+                else
+                {
+                    throw ex;
+                }
+            }
+
+            if (token != null)
+            {
+                // pass token back to caller
+                Intent intent = new Intent();
+                intent.PutExtra("token", token);
+
+                SetResult(Result.Ok, intent);
+                Finish();
+            }
+            else
+            {
+                // alert that username or password is invalid
+                // show alert dialog
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.SetTitle("Error");
+
+                alert.SetMessage("Invalid username or password");
+
+                Dialog dialog = alert.Create();
+                dialog.Show();
+            }
         }
     }
 }

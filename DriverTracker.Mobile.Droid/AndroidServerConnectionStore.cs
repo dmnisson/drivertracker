@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DriverTracker.Mobile.Droid
 {
@@ -6,27 +7,27 @@ namespace DriverTracker.Mobile.Droid
     {
         public ServerConnection CurrentConnection { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
-        public void AddConnection(ServerConnection connection)
+        public async Task AddConnection(ServerConnection connection)
         {
             throw new System.NotImplementedException();
         }
 
-        public void DeleteConnection(int id)
+        public async Task DeleteConnection(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        public ServerConnection GetConnection(int id)
+        public async Task<ServerConnection> GetConnection(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<ServerConnection> ListConnections()
+        public async Task<IEnumerable<ServerConnection>> ListConnections()
         {
             throw new System.NotImplementedException();
         }
 
-        public void UpdateConnection(int id, ServerConnection connection)
+        public async Task UpdateConnection(int id, ServerConnection connection)
         {
             throw new System.NotImplementedException();
         }

@@ -29,6 +29,6 @@
 	<Button
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:id="@+id/continueButton"
+		android:id="@+id/continueChooseServerButton"
 		android:text="@string/continueStr" />
 </LinearLayout>

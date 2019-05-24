@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DriverTracker.Mobile
 {
@@ -18,33 +19,33 @@ namespace DriverTracker.Mobile
         /// Lists the stored server connections.
         /// </summary>
         /// <returns>The stored server connections.</returns>
-        IEnumerable<ServerConnection> ListConnections();
+        Task<IEnumerable<ServerConnection>> ListConnections();
 
         /// <summary>
         /// Gets the stored server connection with the given ID
         /// </summary>
         /// <param name="id">The ID.</param>
         /// <returns>The stored server connection.</returns>
-        ServerConnection GetConnection(int id);
+        Task<ServerConnection> GetConnection(int id);
 
         /// <summary>
         /// Adds a new server connection to the store, and updates the passed
         /// object with the appropriate ID.
         /// </summary>
         /// <param name="connection">The connection.</param>
-       void AddConnection(ServerConnection connection);
+        Task AddConnection(ServerConnection connection);
 
         /// <summary>
         /// Updates the connection with the given ID.
         /// </summary>
         /// <param name="id">The ID.</param>
         /// <param name="connection">The connection.</param>
-        void UpdateConnection(int id, ServerConnection connection);
+        Task UpdateConnection(int id, ServerConnection connection);
 
         /// <summary>
         /// Deletes the connection with the given ID.
         /// </summary>
         /// <param name="id">The ID.</param>
-        void DeleteConnection(int id);
+        Task DeleteConnection(int id);
     }
 }

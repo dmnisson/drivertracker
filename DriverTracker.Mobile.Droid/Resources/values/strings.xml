@@ -7,7 +7,7 @@
     <string name="infoForDriver">Info For Driver</string>
     <string name="editLeg">Edit Leg</string>
     <string name="switchUser">Switch User</string>
-    <string name="chooseServer">Choose Server</string>
+    <string name="chooseServer">Choose</string>
     <string name="companyName">Company Name</string>
     <string name="hostname">Hostname</string>
     <string name="continueStr">Continue</string>
@@ -15,6 +15,7 @@
     <string name="edit">Edit</string>
     <string name="addNew">Add New</string>
     <string name="changeServer">Change Server</string>
+    <string name="notSelected">(not selected)</string>
     <string name="app_name">DriverTracker</string>
     <string name="action_settings">Settings</string>
 </resources>
