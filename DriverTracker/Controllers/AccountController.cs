@@ -27,17 +27,14 @@ namespace DriverTracker.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly MvcDriverContext _context;
         private readonly IConfiguration _configuration;
 
         public AccountController(UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-        MvcDriverContext context,
             IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context;
             _configuration = configuration;
         }
 
@@ -47,7 +44,7 @@ namespace DriverTracker.Controllers
         {
             if (ModelState.IsValid)
             {
-                Microsoft.AspNetCore.Identity.SignInResult loginResult = await _signInManager.PasswordSignInAsync(login.Input.Email, login.Input.Password, isPersistent: false, lockoutOnFailure: false);
+                Microsoft.AspNetCore.Identity.SignInResult loginResult = await _signInManager.PasswordSignInAsync(login.Input.Email, login.Input.Password, false, false);
 
                 if (!loginResult.Succeeded) { return BadRequest(); }
                 IdentityUser user = await _userManager.FindByEmailAsync(login.Input.Email);

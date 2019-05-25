@@ -15,16 +15,13 @@ namespace DriverTracker.Domain
     {
 
         private readonly ILegRepository _legRepository;
-        private readonly IDriverRepository _driverRepository;
         private readonly IGeocodingDbSync _geocodingDbSync;
 
         public LocationClustering(
-            IDriverRepository driverRepository, 
             ILegRepository legRepository, 
             IGeocodingDbSync geocodingDbSync)
         {
             _legRepository = legRepository;
-            _driverRepository = driverRepository;
             _geocodingDbSync = geocodingDbSync;
         }
 

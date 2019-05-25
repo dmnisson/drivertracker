@@ -52,7 +52,7 @@ namespace DriverTracker.Controllers
 
 
             foreach (Driver driver in drivers) {
-                _driverStatistics.ComputeDriverStatistics(driver.DriverID);
+                await _driverStatistics.ComputeDriverStatistics(driver.DriverID);
                 driverStatisticResults.Add(_driverStatistics.GetDriverStatisticResults(driver.DriverID));
             }
 
@@ -61,17 +61,17 @@ namespace DriverTracker.Controllers
 
         // GET api/analysisapi/company
         [HttpGet("company")]
-        public DriverStatistics GetCompany()
+        public async Task<DriverStatistics> GetCompany()
         {
-            _driverStatistics.ComputeCompanyStatistics();
+            await _driverStatistics.ComputeCompanyStatistics();
             return _driverStatistics;
         }
 
         // GET api/analysisapi/5
         [HttpGet("{id}")]
-        public DriverStatisticResults Get(int id)
+        public async Task<DriverStatisticResults> Get(int id)
         {
-            _driverStatistics.ComputeDriverStatistics(id);
+            await _driverStatistics.ComputeDriverStatistics(id);
             return _driverStatistics.GetDriverStatisticResults(id);
         }
 

@@ -36,7 +36,7 @@ namespace DriverTracker.Areas.Identity
                 services.AddAuthentication().AddJwtBearer(options => {
                     options.RequireHttpsMetadata = false; // this line in development version only
                     options.SaveToken = true;
-                    options.TokenValidationParameters = new TokenValidationParameters()
+                    options.TokenValidationParameters = new TokenValidationParameters
                     {
                         IssuerSigningKey = signingKey,
                         ValidateAudience = true,

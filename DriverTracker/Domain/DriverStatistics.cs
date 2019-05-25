@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using DriverTracker.Models;
+using System.Threading.Tasks;
 
 namespace DriverTracker.Domain
 {
@@ -27,7 +28,7 @@ namespace DriverTracker.Domain
             _legRepository = legRepository;
         }
 
-        public async void ComputeCompanyStatistics() {
+        public async Task ComputeCompanyStatistics() {
             numOfDrivers = await _driverRepository.CountAsync();
 
             IEnumerable<Leg> legs = await _legRepository.ListAsync();
@@ -44,7 +45,7 @@ namespace DriverTracker.Domain
             netProfit = totalFares - totalCosts;
         }
 
-        public async void ComputeDriverStatistics(int id) {
+        public async Task ComputeDriverStatistics(int id) {
             if (driverStats == null) {
                 driverStats = new Dictionary<int, DriverStatisticResults>();
             }

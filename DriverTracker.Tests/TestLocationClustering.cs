@@ -60,7 +60,7 @@ namespace DriverTracker.Tests
 
             return new LocationClusteringWithMocks
             {
-                LocationClustering = new LocationClustering(driverRepository.Object, legRepository.Object,
+                LocationClustering = new LocationClustering(legRepository.Object,
                 dbSync.Object),
                 DriverRepository = driverRepository,
                 LegRepository = legRepository,
@@ -93,7 +93,7 @@ namespace DriverTracker.Tests
                 NumOfPassengersAboard = 1,
                 NumOfPassengersPickedUp = 1,
 
-                LegCoordinates = legCoordinates.ElementAt(i),
+                LegCoordinates = legCoordinates.ElementAt(i)
             }
             ).ToList();
 

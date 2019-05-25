@@ -212,10 +212,7 @@ namespace DriverTracker.Controllers
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
                 return RedirectToAction(nameof(DriverTracker.Controllers.DriversController.Details),
                                         "Drivers",
@@ -298,21 +295,16 @@ namespace DriverTracker.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-            else
+
+            var referralDriver = await _context.Drivers.FirstOrDefaultAsync(m => m.DriverID == driver);
+            var refAuthResult = await _authorizationService.AuthorizeAsync(User, referralDriver, "DriverInfoPolicy");
+            if (refAuthResult.Succeeded)
             {
-                var referralDriver = await _context.Drivers.FirstOrDefaultAsync(m => m.DriverID == driver);
-                var refAuthResult = await _authorizationService.AuthorizeAsync(User, referralDriver, "DriverInfoPolicy");
-                if (refAuthResult.Succeeded)
-                {
-                    return RedirectToAction(nameof(DriverTracker.Controllers.DriversController.Details),
-                                            "Drivers",
-                                            new { id = leg.DriverID });
-                }
-                else
-                {
-                    return RedirectToAction(nameof(Index));
-                }
+                return RedirectToAction(nameof(DriverTracker.Controllers.DriversController.Details),
+                                        "Drivers",
+                                        new { id = leg.DriverID });
             }
+            return RedirectToAction(nameof(Index));
         }
 
         private bool LegExists(int id)

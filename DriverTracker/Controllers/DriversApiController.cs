@@ -18,15 +18,12 @@ namespace DriverTracker.Controllers
     public class DriversApiController : ControllerBase
     {
         private readonly IDriverRepository _driverRepository;
-        private readonly ILegRepository _legRepository;
         private readonly IAuthorizationService _authorizationService;
 
         public DriversApiController(IDriverRepository driverRepository, 
-            ILegRepository legRepository,
             IAuthorizationService authorizationService)
         {
             _driverRepository = driverRepository;
-            _legRepository = legRepository;
             _authorizationService = authorizationService;
         }
 
@@ -102,7 +99,7 @@ namespace DriverTracker.Controllers
         // DELETE api/driversapi/5
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public async void Delete(int id)
+        public async Task Delete(int id)
         {
             var existingDriver = await _driverRepository.GetAsync(id);
             if (existingDriver == null)

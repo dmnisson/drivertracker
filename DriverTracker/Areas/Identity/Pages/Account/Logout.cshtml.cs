@@ -38,10 +38,7 @@ namespace DriverTracker.Areas.Identity.Pages.Account
             {
                 return LocalRedirect(returnUrl);
             }
-            else
-            {
-                return Page();
-            }
+            return Page();
         }
     }
 }
