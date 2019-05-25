@@ -24,6 +24,7 @@ namespace DriverTracker.Authorization
         {
             if (context.User.IsInRole("Admin") 
                 || context.User.IsInRole("Analyst")
+                || (requirement.PickupRequestSystemAllowed && context.User.IsInRole("PickupRequestSystem"))
                 || _userManager.GetUserId(context.User) == resource.UserIDString)
             {
                 context.Succeed(requirement);
@@ -33,5 +34,12 @@ namespace DriverTracker.Authorization
         }
     }
 
-    public class SameDriverRequirement : IAuthorizationRequirement { }
+    public class SameDriverRequirement : IAuthorizationRequirement {
+        public SameDriverRequirement(bool pickupRequestAllowed = false)
+        {
+            PickupRequestSystemAllowed = pickupRequestAllowed;
+        }
+
+        public bool PickupRequestSystemAllowed { get; set; }
+    }
 }

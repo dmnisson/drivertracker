@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http.Extensions
+
+<!DOCTYPE html>
 <html>
     <head>
         <base href="/" />
@@ -37,9 +39,19 @@
             </div>
             @if (User.Identity.IsAuthenticated)
             {
-            <form class="text-md-right p-3 d-inline" method="post" action="~/Identity/Account/Logout">
-                <button type="submit" id="logout-btn" class="btn btn-default" value="Log out">Log out</button>
+            <form class="text-md-right d-inline" method="post" action="~/Identity/Account/Logout">
+                <button type="submit" id="logout-btn" class="btn btn-default" value="Log out">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="sr-only">Log out</span>
+                </button>
             </form>
+            }
+            else
+            {
+                <a id="login-btn" class="btn btn-default" href="~/Identity/Account/Login/?ReturnUrl=@Context.Request.Path">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span class="sr-only">Log in</span>
+                </a>
             }
         </nav>
 
