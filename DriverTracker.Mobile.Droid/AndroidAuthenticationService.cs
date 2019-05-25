@@ -27,11 +27,11 @@ namespace DriverTracker.Mobile.Droid
             using (HttpClient client = new HttpClient(handler))
             {
                 var login = new {
-                    Input = new {
-                        Email = user,
-                        Password = pass,
-                        RememberMe = false
-                    }
+                    Input = (
+                        Email: user,
+                        Password: pass,
+                        RememberMe: false
+                    )
                 };
                 StringContent content = new StringContent(
                     JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");

@@ -63,11 +63,11 @@ namespace DriverTracker.Mobile.Droid
             };
 
             string app_name = Resources.GetString(Resource.String.app_name);
-            PopulateViews(currentServerNameView, companiesListView)
+            PopulateViews(currentServerNameView)
                 .FireAndForgetSafeAsync(new LogErrorHandler(app_name));
         }
 
-        private async Task PopulateViews(TextView currentServerNameView, ListView companiesListView)
+        private async Task PopulateViews(TextView currentServerNameView)
         {
             ServerConnection connection = connectionStore.CurrentConnection;
 

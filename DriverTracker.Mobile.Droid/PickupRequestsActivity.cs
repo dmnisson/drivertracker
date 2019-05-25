@@ -149,26 +149,25 @@ namespace DriverTracker.Mobile.Droid
         {
             string app_name = Resources.GetString(Resource.String.app_name);
 
-            switch (requestCode)
+            if (requestCode == AUTHENTICATE_REQUEST)
             {
-                case AUTHENTICATE_REQUEST:
+                {
+                    if (resultCode == Result.Ok)
                     {
-                        if (resultCode == Result.Ok)
-                        {
-                            connectionStore.CurrentConnection.Jwt = data.GetStringExtra("token");
-                            AttemptRetrievePickupRequests().FireAndForgetSafeAsync(new LogErrorHandler(app_name));
-                        }
+                        connectionStore.CurrentConnection.Jwt = data.GetStringExtra("token");
+                        AttemptRetrievePickupRequests().FireAndForgetSafeAsync(new LogErrorHandler(app_name));
                     }
-                    break;
-                case SERVERCONNECTION_REQUEST:
+                }
+            }
+            else if (requestCode == SERVERCONNECTION_REQUEST)
+            {
+                {
+                    if (resultCode == Result.Ok)
                     {
-                        if (resultCode == Result.Ok)
-                        {
 
-                            AttemptRetrievePickupRequests().FireAndForgetSafeAsync(new LogErrorHandler(app_name));
-                        }
+                        AttemptRetrievePickupRequests().FireAndForgetSafeAsync(new LogErrorHandler(app_name));
                     }
-                    break;
+                }
             }
         }
     }
