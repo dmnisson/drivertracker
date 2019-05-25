@@ -32,7 +32,7 @@ namespace DriverTracker.Controllers
         [Authorize(Roles = "Admin,Analyst")]
         public async Task<IActionResult> Index()
         {
-            _driverStatisticsService.ComputeCompanyStatistics();
+            await _driverStatisticsService.ComputeCompanyStatistics();
             // total drivers
             int numOfDrivers = _driverStatisticsService.NumOfDrivers;
             ViewData["NumberOfDrivers"] = numOfDrivers + " driver" + (numOfDrivers == 1 ? "" : "s");
@@ -86,7 +86,7 @@ namespace DriverTracker.Controllers
                 return Forbid();
             }
 
-            _driverStatisticsService.ComputeDriverStatistics(id.Value);
+            await _driverStatisticsService.ComputeDriverStatistics(id.Value);
             // total pickups
             int pickups = _driverStatisticsService.GetPickupsBy(id.Value);
             ViewData["Pickups"] = pickups + " passenger pickup" + (pickups == 1 ? "" : "s");
@@ -219,10 +219,7 @@ namespace DriverTracker.Controllers
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }

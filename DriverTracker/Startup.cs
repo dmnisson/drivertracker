@@ -93,12 +93,12 @@ namespace DriverTracker
             app.UseAuthentication();
             app.UseCookiePolicy();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            _ = app.UseMvc(routes =>
+              {
+                  routes.MapRoute(
+                      "default",
+                      "{controller=Home}/{action=Index}/{id?}");
+              });
 
             CreateRoles(serviceProvider).Wait();
         }

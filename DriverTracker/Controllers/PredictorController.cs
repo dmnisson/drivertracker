@@ -10,7 +10,7 @@ namespace DriverTracker.Controllers
     public class PredictorController : Controller
     {
         [Authorize(Roles = "Admin,Analyst")]
-        public IActionResult Index(int id)
+        public IActionResult Index()
         {
             return View();
         }
