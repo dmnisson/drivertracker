@@ -124,18 +124,6 @@ namespace DriverTracker.Tests
             return point;
         }
 
-        // Helper function to convert double array values to LegCoordinates entity
-        private static LegCoordinates ToLegCoordinates(double[] start, double[] end)
-        {
-            return new LegCoordinates
-            {
-                StartLatitude = Convert.ToDecimal(start[0]),
-                StartLongitude = Convert.ToDecimal(start[1]),
-                DestLatitude = Convert.ToDecimal(end[0]),
-                DestLongitude = Convert.ToDecimal(end[1])
-            };
-        }
-
         [Fact]
         public async Task CheckLogisticRegressions()
         {
@@ -164,7 +152,7 @@ namespace DriverTracker.Tests
                     Intercept = 0,
                     NumberOfClasses = 2,
                     NumberOfInputs = 3,
-                    NumberOfOutputs = 1,
+                    NumberOfOutputs = 1
                 };
                 AssertRegressionsEqual(lrx, regressions.ElementAt(i));
             }
@@ -432,7 +420,7 @@ namespace DriverTracker.Tests
         private static void SetupMockLogisticRegressionAnalysis(LogisticRegression[] lr, Mock<ISupervisedLearning<LogisticRegression, double[], double>> mockLogisticRegressionAnalysis, double[] fareClassIntervals, IEnumerable<Leg> legs, out LogisticRegression[] mockLr)
         {
             mockLogisticRegressionAnalysis.Setup(lra => lra.Learn(It.IsAny<double[][]>(), It.IsAny<double[]>(), It.IsAny<double[]>()))
-                            .Returns<double[][], double[], double[]>((Func<double[][], double[], double[], LogisticRegression>)((input, output, weights) =>
+                            .Returns<double[][], double[], double[]>((input, output, weights) =>
                             {
                                 // determine appropriate logistic regression based on comparing
                                 // output array to 
@@ -464,7 +452,7 @@ namespace DriverTracker.Tests
                                 }
 
                                 return lr[lr.Length - 1];
-                            }));
+                            });
             mockLr = ComputeMockLogisticRegressionModels(mockLogisticRegressionAnalysis, fareClassIntervals, legs);
         }
 

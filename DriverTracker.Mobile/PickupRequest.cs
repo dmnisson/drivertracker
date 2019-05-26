@@ -4,8 +4,5 @@ namespace DriverTracker.Mobile
 {
     public class PickupRequest
     {
-        public PickupRequest()
-        {
-        }
     }
 }

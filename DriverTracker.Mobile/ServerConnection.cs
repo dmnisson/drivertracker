@@ -39,7 +39,7 @@ namespace DriverTracker.Mobile
         }
 
         /// <summary>
-        /// Authenticate the specified user
+        /// Authenticate the specified user. Does NOT automatically set refresh interval.
         /// </summary>
         /// <param name="user">Username.</param>
         /// <param name="pass">Password.</param>
@@ -47,15 +47,15 @@ namespace DriverTracker.Mobile
         public async Task Authenticate(string user, string pass, IAuthenticationService authenticationService)
         {
             Jwt = await authenticationService.MakeToken(user, pass);
-            await authenticationService.SetRefreshInterval((newToken) => Jwt = newToken);
         }
 
         /// <summary>
         /// Gets a value indicating whether this <see cref="T:DriverTracker.Mobile.ServerConnection"/> is authenticated.
         /// </summary>
         /// <value><c>true</c> if is authenticated; otherwise, <c>false</c>.</value>
-        public bool IsAuthenticated 
-        { get
+        public bool IsAuthenticated
+        {
+            get
             {
                 if (Jwt != null)
                 {

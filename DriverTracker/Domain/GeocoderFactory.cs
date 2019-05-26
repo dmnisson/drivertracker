@@ -27,7 +27,7 @@ namespace DriverTracker.Domain
             switch (configuration["GeocodingProviders:Provider"])
             {
                 case "Google":
-                    return new GoogleGeocoder() { ApiKey = configuration["GeocodingProviders:ApiKey"] };
+                    return new GoogleGeocoder { ApiKey = configuration["GeocodingProviders:ApiKey"] };
                 case "MapQuest":
                     return new MapQuestGeocoder(configuration["GeocodingProviders:Key"]) { };
                 case "OpenStreetMap":

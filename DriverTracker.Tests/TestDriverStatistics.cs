@@ -3,6 +3,7 @@ using Xunit;
 
 using DriverTracker.Models;
 using DriverTracker.Domain;
+using System.Threading.Tasks;
 
 namespace DriverTracker.Tests
 {
@@ -64,80 +65,80 @@ namespace DriverTracker.Tests
                     LegID = 1,
                     DriverID = 1,
                     PickupRequestTime = new DateTime(2010, 7, 15, 13, 10, 00),
-                    StartTime = new DateTime(2010, 7, 15, 13, 13, 56),
+                    StartTime = new DateTime(2010, 7, 15, 13, 13, 56)
                 },
                 new Leg
                 {
                     LegID = 2,
                     DriverID = 1,
                     PickupRequestTime = new DateTime(2010, 7, 15, 14, 30, 00),
-                    StartTime = new DateTime(2010, 7, 15, 14, 35, 24),
+                    StartTime = new DateTime(2010, 7, 15, 14, 35, 24)
                 },
                 new Leg
                 {
                     LegID = 3,
                     DriverID = 1,
                     PickupRequestTime = new DateTime(2010, 7, 15, 18, 00, 00),
-                    StartTime = new DateTime(2010, 7, 15, 18, 07, 01),
+                    StartTime = new DateTime(2010, 7, 15, 18, 07, 01)
                 }
             });
 
         [Fact]
-        public void CheckNumberOfDrivers()
+        public async Task CheckNumberOfDrivers()
         {
             var driverStatistics = CreateEmptyInstance();
 
-            driverStatistics.ComputeCompanyStatistics();
+            await driverStatistics.ComputeCompanyStatistics();
 
             Assert.Equal(0, driverStatistics.NumOfDrivers);
         }
 
         [Fact]
-        public void CheckNumberOfDrivers1()
+        public async Task CheckNumberOfDrivers1()
         {
             var driverStatistics = CreateInstance1();
 
-            driverStatistics.ComputeCompanyStatistics();
+            await driverStatistics.ComputeCompanyStatistics();
 
             Assert.Equal(1, driverStatistics.NumOfDrivers);
         }
 
         [Fact]
-        public void CheckNumberOfDrivers2()
+        public async Task CheckNumberOfDrivers2()
         {
             var driverStatistics = CreateInstance2();
 
-            driverStatistics.ComputeCompanyStatistics();
-
+            await driverStatistics.ComputeCompanyStatistics();
+            
             Assert.Equal(5, driverStatistics.NumOfDrivers);
         }
 
         [Fact]
-        public void CheckAveragePickupDelayEmpty()
+        public async Task CheckAveragePickupDelayEmpty()
         {
             var driverStatistics = CreateEmptyInstance();
 
-            driverStatistics.ComputeCompanyStatistics();
+            await driverStatistics.ComputeCompanyStatistics();
 
             Assert.False(driverStatistics.AveragePickupDelay.HasValue);
         }
 
         [Fact]
-        public void CheckAveragePickupDelay1()
+        public async Task CheckAveragePickupDelay1()
         {
             var driverStatistics = CreateInstance1();
 
-            driverStatistics.ComputeCompanyStatistics();
+            await driverStatistics.ComputeCompanyStatistics();
 
             Assert.False(driverStatistics.AveragePickupDelay.HasValue);
         }
 
         [Fact]
-        public void CheckAveragePickupDelay2()
+        public async Task CheckAveragePickupDelay2()
         {
             var driverStatistics = CreateInstance2();
 
-            driverStatistics.ComputeCompanyStatistics();
+            await driverStatistics.ComputeCompanyStatistics();
 
             Assert.Equal(5.45, driverStatistics.AveragePickupDelay.Value, 2);
         }
