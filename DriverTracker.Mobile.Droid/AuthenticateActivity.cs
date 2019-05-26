@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -32,7 +32,10 @@ namespace DriverTracker.Mobile.Droid
             EditText passwordField = FindViewById<EditText>(Resource.Id.passwordField);
 
 
-            IAuthenticationService authenticationService = new AndroidAuthenticationService();
+            IAuthenticationService authenticationService = new AndroidAuthenticationService
+            {
+                Host = Intent.GetStringExtra("hostname")
+            };
 
             continueButton.Click += (sender, e) =>
             {
@@ -42,7 +45,7 @@ namespace DriverTracker.Mobile.Droid
             };
         }
 
-        private async System.Threading.Tasks.Task AttemptAuthentication(
+        private async Task AttemptAuthentication(
             EditText emailAddressField, EditText passwordField, 
             IAuthenticationService authenticationService)
         {

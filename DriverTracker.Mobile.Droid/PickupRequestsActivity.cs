@@ -68,7 +68,22 @@ namespace DriverTracker.Mobile.Droid
                     AuthenticateUser();
                     return;
                 }
+
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", connection.Jwt);
+
+                // make sure token is refreshed before it expires
+                IAuthenticationService authenticationService = new AndroidAuthenticationService
+                {
+                    Host = connectionStore.CurrentConnection.Host
+                };
+                IDictionary<string, object> payload = JWT.JsonWebToken.DecodeToObject(connection.Jwt, "", false) as IDictionary<string, object>;
+                if (payload.ContainsKey("exp") && payload["exp"] != null)
+                {
+                    int exp = Convert.ToInt32(payload["exp"]);
+                    var secondsSinceEpoch = Math.Round((DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds);
+                    await authenticationService.SetRefreshInterval(connection,
+                        (exp - (int)secondsSinceEpoch) / 2);
+                }
 
                 bool successfulOrCancelledRequest = false;
                 int tryCount = 0;
@@ -132,6 +147,7 @@ namespace DriverTracker.Mobile.Droid
         private void AuthenticateUser()
         {
             Intent intent = new Intent(this, typeof(AuthenticateActivity));
+            intent.PutExtra("hostname", connectionStore.CurrentConnection.Host);
             StartActivityForResult(intent, AUTHENTICATE_REQUEST);
 
         }
@@ -155,6 +171,7 @@ namespace DriverTracker.Mobile.Droid
                     if (resultCode == Result.Ok)
                     {
                         connectionStore.CurrentConnection.Jwt = data.GetStringExtra("token");
+
                         AttemptRetrievePickupRequests().FireAndForgetSafeAsync(new LogErrorHandler(app_name));
                     }
                 }
@@ -170,5 +187,6 @@ namespace DriverTracker.Mobile.Droid
                 }
             }
         }
+
     }
 }

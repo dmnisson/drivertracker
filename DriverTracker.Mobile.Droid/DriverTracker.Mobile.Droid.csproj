@@ -72,6 +72,7 @@
     <Compile Include="TaskUtilities.cs" />
     <Compile Include="IErrorHandler.cs" />
     <Compile Include="LogErrorHandler.cs" />
+    <Compile Include="RefreshAlarmReceiver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -121,6 +122,9 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.0.1" />
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Portable.JWT">
+      <Version>1.0.5</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
