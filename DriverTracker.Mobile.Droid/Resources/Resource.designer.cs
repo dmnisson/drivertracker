@@ -3448,14 +3448,14 @@ namespace DriverTracker.Mobile.Droid
 			// aapt resource value: 0x7f090010
 			public const int abc_toolbar_collapse_description = 2131296272;
 			
-			// aapt resource value: 0x7f090038
-			public const int action_settings = 2131296312;
+			// aapt resource value: 0x7f090039
+			public const int action_settings = 2131296313;
 			
 			// aapt resource value: 0x7f090034
 			public const int addNew = 2131296308;
 			
-			// aapt resource value: 0x7f090037
-			public const int app_name = 2131296311;
+			// aapt resource value: 0x7f090038
+			public const int app_name = 2131296312;
 			
 			// aapt resource value: 0x7f09001e
 			public const int appbar_scrolling_view_behavior = 2131296286;
@@ -3475,11 +3475,20 @@ namespace DriverTracker.Mobile.Droid
 			// aapt resource value: 0x7f09002f
 			public const int companyName = 2131296303;
 			
+			// aapt resource value: 0x7f09003a
+			public const int connection_prefs_key = 2131296314;
+			
 			// aapt resource value: 0x7f090031
 			public const int continueStr = 2131296305;
 			
 			// aapt resource value: 0x7f090032
 			public const int currentServer = 2131296306;
+			
+			// aapt resource value: 0x7f09003b
+			public const int current_connection_id_key = 2131296315;
+			
+			// aapt resource value: 0x7f090037
+			public const int defaultHost = 2131296311;
 			
 			// aapt resource value: 0x7f090033
 			public const int edit = 2131296307;

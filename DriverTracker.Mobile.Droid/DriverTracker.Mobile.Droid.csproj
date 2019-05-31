@@ -73,6 +73,8 @@
     <Compile Include="IErrorHandler.cs" />
     <Compile Include="LogErrorHandler.cs" />
     <Compile Include="RefreshAlarmReceiver.cs" />
+    <Compile Include="AndroidServerConnectionStoreFactory.cs" />
+    <Compile Include="DriverTrackerApp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -125,6 +127,12 @@
     </PackageReference>
     <PackageReference Include="Portable.JWT">
       <Version>1.0.5</Version>
+    </PackageReference>
+    <PackageReference Include="sqlite-net-pcl">
+      <Version>1.5.231</Version>
+    </PackageReference>
+    <PackageReference Include="Autofac">
+      <Version>4.9.2</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

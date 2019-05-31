@@ -18,6 +18,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using Android.Util;
+using Autofac;
 
 namespace DriverTracker.Mobile.Droid
 {
@@ -26,20 +27,33 @@ namespace DriverTracker.Mobile.Droid
     public class PickupRequestsActivity : Activity
     {
 
-        static readonly List<DriverTracker.Mobile.PickupRequest> pickupRequests = new List<DriverTracker.Mobile.PickupRequest>();
-        static readonly IServerConnectionStore connectionStore = new AndroidServerConnectionStore();
+        static readonly List<PickupRequest> pickupRequests = new List<PickupRequest>();
+        static IServerConnectionStore connectionStore;
         static readonly string pickupRequestsPath = "/api/pickuprequestapi";
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
+            // obtain the connection store object
+            if (connectionStore == null)
+            {
+                using (ILifetimeScope scope = DriverTrackerApp.Container.BeginLifetimeScope())
+                {
+                    IServerConnectionStoreFactory factory = scope.Resolve<IServerConnectionStoreFactory>(
+                        new NamedParameter("AppContext", this));
+                    connectionStore = factory.CreateConnectionStore();
+                }
+            }
+
             SetContentView(Resource.Layout.PickupRequests);
 
+            // build gui
             ListView listView = FindViewById<ListView>(Resource.Id.PickupRequestListView);
             ArrayAdapter<PickupRequest> adapter = new ArrayAdapter<PickupRequest>(this, Resource.Id.PickupRequestListView, pickupRequests);
             listView.Adapter = adapter;
 
+            // try to retrieve list
             string app_name = Resources.GetString(Resource.String.app_name);
             AttemptRetrievePickupRequests().FireAndForgetSafeAsync(new LogErrorHandler(app_name));
         }

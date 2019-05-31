@@ -32,6 +32,7 @@
     <Compile Include="ServerConnection.cs" />
     <Compile Include="IAuthenticationService.cs" />
     <Compile Include="IServerConnectionStore.cs" />
+    <Compile Include="IServerConnectionStoreFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

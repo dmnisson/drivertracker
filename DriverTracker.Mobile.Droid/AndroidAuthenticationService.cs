@@ -89,9 +89,9 @@ namespace DriverTracker.Mobile.Droid
             pendingIntent = PendingIntent.GetBroadcast(RefreshContext, REFRESH_TOKEN_REQUEST, alarmIntent, 0);
 
             alarmManager = (AlarmManager)RefreshContext.GetSystemService(Context.AlarmService);
-            alarmManager.SetRepeating(AlarmType.RtcWakeup,
+            await Task.Run(() => alarmManager.SetRepeating(AlarmType.RtcWakeup,
                 Convert.ToInt64((DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds),
-                interval, pendingIntent);
+                interval, pendingIntent));
         }
     }
 }

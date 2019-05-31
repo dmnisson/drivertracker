@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SQLite;
 
 namespace DriverTracker.Mobile
 {
     /// <summary>Stores the information needed to connect to a DriverTracker server.</summary>
+    [Table("Connections")]
     public class ServerConnection
     {
         /// <summary>
         /// A unique identifier for this connection in the device-local store
         /// </summary>
         /// <value>The identifier.</value>
+        [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
 
         /// <summary>
@@ -31,6 +34,17 @@ namespace DriverTracker.Mobile
         /// <value>The token, or null if not yet authenticated.</value>
         public string Jwt { get; set; }
 
+        /// <summary>
+        /// Creates an empty ServerConnection object
+        /// </summary>
+        public ServerConnection() { }
+
+        /// <summary>
+        /// Creates a ServerConnection wth the given host and the option of a
+        /// company name. If company name not specified, derives from host.
+        /// </summary>
+        /// <param name="host">Host.</param>
+        /// <param name="companyName">Company name.</param>
         public ServerConnection(string host, string companyName = null)
         {
             CompanyName = companyName ?? "DriverTracker Server at " + host;

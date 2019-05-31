@@ -10,6 +10,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Autofac;
 
 namespace DriverTracker.Mobile.Droid
 {
@@ -21,33 +22,37 @@ namespace DriverTracker.Mobile.Droid
     [Activity(Label = "AuthenticateActivity")]
     public class AuthenticateActivity : Activity
     {
+        private static IAuthenticationService authenticationService;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.Authenticate);
 
+            // layout GUI
             Button continueButton = FindViewById<Button>(Resource.Id.continueButton);
             EditText emailAddressField = FindViewById<EditText>(Resource.Id.emailAddressField);
             EditText passwordField = FindViewById<EditText>(Resource.Id.passwordField);
 
-
-            IAuthenticationService authenticationService = new AndroidAuthenticationService
+            // resolve authentication service
+            using (ILifetimeScope scope = DriverTrackerApp.Container.BeginLifetimeScope())
             {
-                Host = Intent.GetStringExtra("hostname")
-            };
+                authenticationService = scope.Resolve<IAuthenticationService>(
+                    new NamedParameter("Host", Intent.GetStringExtra("hostname")),
+                    new NamedParameter("RefreshContext", this));
+            }
 
             continueButton.Click += (sender, e) =>
             {
                 string app_name = Resources.GetString(Resource.String.app_name);
-                AttemptAuthentication(emailAddressField, passwordField, authenticationService)
-                .FireAndForgetSafeAsync(new LogErrorHandler(app_name));
+                AttemptAuthentication(emailAddressField, passwordField)
+                    .FireAndForgetSafeAsync(new LogErrorHandler(app_name));
             };
         }
 
         private async Task AttemptAuthentication(
-            EditText emailAddressField, EditText passwordField, 
-            IAuthenticationService authenticationService)
+            EditText emailAddressField, EditText passwordField)
         {
             string token = null;
             try

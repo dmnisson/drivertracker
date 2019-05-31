@@ -11,6 +11,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
+using Autofac;
+
 namespace DriverTracker.Mobile.Droid
 {
     [Activity(Label = "ChooseStoredServerActivity")]
@@ -19,15 +21,27 @@ namespace DriverTracker.Mobile.Droid
         const int NEWSERVER_REQUEST = 3;
         const int EDITSERVER_REQUEST = 4;
 
-        private static readonly IServerConnectionStore connectionStore = new AndroidServerConnectionStore();
+        private static IServerConnectionStore connectionStore;
         private static readonly List<ServerConnection> serverConnections = new List<ServerConnection>();
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
+            // obtain connection store object
+            if (connectionStore == null)
+            {
+                using (ILifetimeScope scope = DriverTrackerApp.Container.BeginLifetimeScope())
+                {
+                    IServerConnectionStoreFactory factory = scope.Resolve<IServerConnectionStoreFactory>();
+                    connectionStore = factory.CreateConnectionStore();
+                }
+            }
+
+            // initialize view
             SetContentView(Resource.Layout.ChooseStoredServer);
 
+            // build UI components
             TextView currentServerNameView = FindViewById<TextView>(Resource.Id.currentServerName);
             Button editServerButton = FindViewById<Button>(Resource.Id.editServerButton);
 
@@ -41,7 +55,8 @@ namespace DriverTracker.Mobile.Droid
 
             ServerConnection connection = connectionStore.CurrentConnection;
 
-            editServerButton.Click += (sender, e) => {
+            editServerButton.Click += (sender, e) =>
+            {
                 Intent intent = new Intent(this, typeof(ChooseServerActivity));
                 if (connection != null)
                 {
@@ -51,13 +66,15 @@ namespace DriverTracker.Mobile.Droid
                 StartActivityForResult(intent, EDITSERVER_REQUEST);
             };
 
-            chooseServerButton.Click += (sender, e) => {
+            chooseServerButton.Click += (sender, e) =>
+            {
                 connectionStore.CurrentConnection = serverConnections[companiesListView.SelectedItemPosition];
                 SetResult(Result.Ok);
                 Finish();
             };
 
-            addNewServerButton.Click += (sender, e) => {
+            addNewServerButton.Click += (sender, e) =>
+            {
                 Intent intent = new Intent(this, typeof(ChooseServerActivity));
                 StartActivityForResult(intent, NEWSERVER_REQUEST);
             };
@@ -71,7 +88,7 @@ namespace DriverTracker.Mobile.Droid
         {
             ServerConnection connection = connectionStore.CurrentConnection;
 
-            currentServerNameView.Text = connection?.CompanyName 
+            currentServerNameView.Text = connection?.CompanyName
                 ?? Resources.GetString(Resource.String.notSelected);
 
             serverConnections.AddRange(await connectionStore.ListConnections());
