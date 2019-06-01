@@ -1,0 +1,38 @@
+﻿@import "../node_modules/bootstrap/scss/functions";
+
+$theme-colors: (
+    "primary": #dcdc00,
+    "secondary": #b8b8b8,
+    "warning": #ff7f00,
+    "light": #b8b8b8,
+    "dark": #000,
+    "info": #53b3b4
+);
+
+$body-bg: theme-color("dark");
+$body-color: theme-color("light");
+
+$card-bg: theme-color("dark");
+$card-color: theme-color("light");
+$card-border-color: rgba(theme-color("light"), 0.625);
+
+$list-group-bg: $card-bg;
+$list-group-color: $card-color;
+$list-group-border-color: $card-border-color;
+
+$table-color: $body-color;
+
+$modal-content-bg: $body-bg;
+$modal-content-color: $body-color;
+$modal-content-border-color: $body-color;
+$modal-header-border-color: $list-group-border-color;
+$modal-footer-border-color: $list-group-border-color;
+
+$close-color: $body-color;
+
+$input-bg: $body-bg;
+$input-color: $body-color;
+$input-border-color: $card-border-color;
+$input-plaintext-color: $body-color;
+
+@import "../node_modules/bootstrap/scss/bootstrap";

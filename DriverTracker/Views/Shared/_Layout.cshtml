@@ -12,18 +12,15 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway|Passion+One|Seymour+One" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <environment include="Development">
-            <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-            <link rel="stylesheet" href="~/css/site.css" />
+            <link rel="stylesheet" href="~/css/custom.css" />
+            <link rel="stylesheet" href="~/css/styles.css" />
         </environment>
         <environment exclude="Development">
-            <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/4.1.1/css/bootstrap.min.css"
-                  asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-                  asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-            <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+             <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
         </environment>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
             <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">DriverTracker</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -40,7 +37,7 @@
             @if (User.Identity.IsAuthenticated)
             {
             <form class="text-md-right d-inline" method="post" action="~/Identity/Account/Logout">
-                <button type="submit" id="logout-btn" class="btn btn-default" value="Log out">
+                <button type="submit" id="logout-btn" class="btn btn-primary" value="Log out">
                     <i class="fas fa-sign-out-alt"></i>
                     <span class="sr-only">Log out</span>
                 </button>
@@ -48,7 +45,7 @@
             }
             else
             {
-                <a id="login-btn" class="btn btn-default" href="~/Identity/Account/Login/?ReturnUrl=@Context.Request.Path">
+                <a id="login-btn" class="btn btn-primary" href="~/Identity/Account/Login/?ReturnUrl=@Context.Request.Path">
                     <i class="fas fa-sign-in-alt"></i>
                     <span class="sr-only">Log in</span>
                 </a>
@@ -57,7 +54,7 @@
 
         @await Component.InvokeAsync("CookieConsent")
 
-        <div class="container body-content">
+        <div class="container body-content mt-3">
             @RenderBody()
             <hr />
             <footer>

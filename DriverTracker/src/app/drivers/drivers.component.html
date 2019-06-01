@@ -1,10 +1,7 @@
 <ng-template [ngIf]="companyStatistics != null">
     <div class="card w-md-50 mb-3">
-        <div class="card-header">
-            Company
-        </div>
         <div class="card-body">
-            <h2 class="card-title">Statistics</h2>
+            <h5 class="card-title">Statistics</h5>
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">{{companyStatistics.numOfDrivers}} driver<ng-template [ngIf]="companyStatistics.numOfDrivers != 1">s</ng-template></li>
@@ -22,11 +19,8 @@
 </ng-template>
 
 <div class="card w-100">
-    <div class="card-header">
-         Data
-    </div>
     <div class="card-body">
-        <h2 class="card-title">Drivers</h2>
+        <h5 class="card-title">Drivers</h5>
         <form (ngSubmit)="onSubmit()" #driversForm="ngForm">
             <div class="table-responsive-md">
                 <table class="table">
@@ -55,7 +49,7 @@
                             </td>
                             <td [ngSwitch]="editing">
                                 <div class="btn-toolbar" role="toolbar" *ngSwitchCase="driver.driverID">
-                                    <button type="submit" class="btn btn-success mr-2" [disabled]="!driversForm.form.valid">Save</button>
+                                    <button type="submit" class="btn btn-primary mr-2" [disabled]="!driversForm.form.valid">Save</button>
                                     <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
                                 </div>
                                 <span class="btn-group" role="group" *ngSwitchDefault>
@@ -73,7 +67,7 @@
                                 <input class="form-control" required #licenseNumber />
                             </td>
                             <td>
-                                <button type="submit" class="btn btn-success mr-2" [disabled]="!driversForm.form.valid" (click)="saveNew(name.value, licenseNumber.value); name.value=''; licenseNumber.value=''">Save</button>
+                                <button type="submit" class="btn btn-primary mr-2" [disabled]="!driversForm.form.valid" (click)="saveNew(name.value, licenseNumber.value); name.value=''; licenseNumber.value=''">Save</button>
                                 <button type="button" class="btn btn-secondary" (click)="cancelAdd()">Cancel</button>
                             </td>
                         </tr>
@@ -88,21 +82,17 @@
 </div>
 <!-- delete confirm modal -->
 <ng-template #content let-modal>
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Confirm Delete</h5>
-                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('crossClicked')">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete driver {{toDelete.name}}?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" (click)="modal.close('deleteConfirmed')">Delete</button>
-                <button type="button" class="btn btn-secondary" (click)="modal.close('deleteCancelled')">Cancel</button>
-            </div>
-        </div>
+    <div class="modal-header">
+        <h5 class="modal-title">Confirm Delete</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('crossClicked')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Are you sure you want to delete driver {{toDelete.name}}?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="modal.close('deleteConfirmed')">Delete</button>
+        <button type="button" class="btn btn-secondary" (click)="modal.close('deleteCancelled')">Cancel</button>
     </div>
 </ng-template>
