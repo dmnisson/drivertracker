@@ -44,164 +44,164 @@ namespace DriverTracker.Mobile.Droid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f05001d
-			public const int AboardField = 2131034141;
+			// aapt resource value: 0x7F010000
+			public const int AboardField = 2130771968;
 			
-			// aapt resource value: 0x7f050034
-			public const int AddNewButton = 2131034164;
+			// aapt resource value: 0x7F010001
+			public const int AddNewButton = 2130771969;
 			
-			// aapt resource value: 0x7f050017
-			public const int ArrivalTimeField = 2131034135;
+			// aapt resource value: 0x7F010002
+			public const int ArrivalTimeField = 2130771970;
 			
-			// aapt resource value: 0x7f05000f
-			public const int AveragePickupDelayTextView = 2131034127;
+			// aapt resource value: 0x7F010003
+			public const int AveragePickupDelayTextView = 2130771971;
 			
-			// aapt resource value: 0x7f050015
-			public const int DestinationAddressField = 2131034133;
+			// aapt resource value: 0x7F010024
+			public const int continueButton = 2130772004;
 			
-			// aapt resource value: 0x7f050029
-			public const int DriverInfoButton = 2131034153;
+			// aapt resource value: 0x7F010004
+			public const int DestinationAddressField = 2130771972;
 			
-			// aapt resource value: 0x7f050006
-			public const int DriverNameField = 2131034118;
+			// aapt resource value: 0x7F010005
+			public const int DriverInfoButton = 2130771973;
 			
-			// aapt resource value: 0x7f050018
-			public const int DurationField = 2131034136;
+			// aapt resource value: 0x7F010006
+			public const int DriverNameField = 2130771974;
 			
-			// aapt resource value: 0x7f050022
-			public const int EditLegButton = 2131034146;
+			// aapt resource value: 0x7F010007
+			public const int DurationField = 2130771975;
 			
-			// aapt resource value: 0x7f050001
-			public const int EmailAddressField = 2131034113;
+			// aapt resource value: 0x7F010008
+			public const int EditLegButton = 2130771976;
 			
-			// aapt resource value: 0x7f05002d
-			public const int EndLegButton = 2131034157;
+			// aapt resource value: 0x7F010025
+			public const int editText1 = 2130772005;
 			
-			// aapt resource value: 0x7f05001a
-			public const int FareField = 2131034138;
+			// aapt resource value: 0x7F010009
+			public const int EmailAddressField = 2130771977;
 			
-			// aapt resource value: 0x7f05001b
-			public const int FuelCostField = 2131034139;
+			// aapt resource value: 0x7F01000A
+			public const int EndLegButton = 2130771978;
 			
-			// aapt resource value: 0x7f050021
-			public const int LegManagerListView = 2131034145;
+			// aapt resource value: 0x7F01000B
+			public const int FareField = 2130771979;
 			
-			// aapt resource value: 0x7f050026
-			public const int LegStateTextView = 2131034150;
+			// aapt resource value: 0x7F01000C
+			public const int FuelCostField = 2130771980;
 			
-			// aapt resource value: 0x7f05002c
-			public const int LegTimeElapsedField = 2131034156;
+			// aapt resource value: 0x7F010026
+			public const int gridLayout1 = 2130772006;
 			
-			// aapt resource value: 0x7f050007
-			public const int LicenseNumberField = 2131034119;
+			// aapt resource value: 0x7F01000D
+			public const int LegManagerListView = 2130771981;
 			
-			// aapt resource value: 0x7f050028
-			public const int ManageLegsButton = 2131034152;
+			// aapt resource value: 0x7F01000E
+			public const int LegStateTextView = 2130771982;
 			
-			// aapt resource value: 0x7f050019
-			public const int PickupDelayField = 2131034137;
+			// aapt resource value: 0x7F01000F
+			public const int LegTimeElapsedField = 2130771983;
 			
-			// aapt resource value: 0x7f05002e
-			public const int PickupRequestListView = 2131034158;
+			// aapt resource value: 0x7F010010
+			public const int LicenseNumberField = 2130771984;
 			
-			// aapt resource value: 0x7f050023
-			public const int PickupRequestsButton = 2131034147;
+			// aapt resource value: 0x7F010027
+			public const int linearLayout1 = 2130772007;
 			
-			// aapt resource value: 0x7f05001e
-			public const int PickupsField = 2131034142;
+			// aapt resource value: 0x7F010011
+			public const int ManageLegsButton = 2130771985;
 			
-			// aapt resource value: 0x7f05000b
-			public const int PickupsTextView = 2131034123;
+			// aapt resource value: 0x7F010012
+			public const int PickupDelayField = 2130771986;
 			
-			// aapt resource value: 0x7f05002f
-			public const int RespondToPickupRequest = 2131034159;
+			// aapt resource value: 0x7F010013
+			public const int PickupRequestListView = 2130771987;
 			
-			// aapt resource value: 0x7f05001f
-			public const int SaveLegButton = 2131034143;
+			// aapt resource value: 0x7F010014
+			public const int PickupRequestsButton = 2130771988;
 			
-			// aapt resource value: 0x7f050014
-			public const int StartAddressTextView = 2131034132;
+			// aapt resource value: 0x7F010015
+			public const int PickupsField = 2130771989;
 			
-			// aapt resource value: 0x7f050030
-			public const int StartLegAddressField = 2131034160;
+			// aapt resource value: 0x7F010016
+			public const int PickupsTextView = 2130771990;
 			
-			// aapt resource value: 0x7f050025
-			public const int StartLegAtAddressButton = 2131034149;
+			// aapt resource value: 0x7F010017
+			public const int RespondToPickupRequest = 2130771991;
 			
-			// aapt resource value: 0x7f050031
-			public const int StartLegButton = 2131034161;
+			// aapt resource value: 0x7F010018
+			public const int SaveLegButton = 2130771992;
 			
-			// aapt resource value: 0x7f050024
-			public const int StartLegHereButton = 2131034148;
+			// aapt resource value: 0x7F010028
+			public const int space1 = 2130772008;
 			
-			// aapt resource value: 0x7f050016
-			public const int StartTimeField = 2131034134;
+			// aapt resource value: 0x7F010029
+			public const int space2 = 2130772009;
 			
-			// aapt resource value: 0x7f050033
-			public const int SwitchToUserButton = 2131034163;
+			// aapt resource value: 0x7F01002A
+			public const int space3 = 2130772010;
 			
-			// aapt resource value: 0x7f05002b
-			public const int SwitchUserButton = 2131034155;
+			// aapt resource value: 0x7F010019
+			public const int StartAddressTextView = 2130771993;
 			
-			// aapt resource value: 0x7f050013
-			public const int TotalCostsTextView = 2131034131;
+			// aapt resource value: 0x7F01001A
+			public const int StartLegAddressField = 2130771994;
 			
-			// aapt resource value: 0x7f050011
-			public const int TotalFaresTextView = 2131034129;
+			// aapt resource value: 0x7F01001B
+			public const int StartLegAtAddressButton = 2130771995;
 			
-			// aapt resource value: 0x7f050032
-			public const int UsersListView = 2131034162;
+			// aapt resource value: 0x7F01001C
+			public const int StartLegButton = 2130771996;
 			
-			// aapt resource value: 0x7f050005
-			public const int continueButton = 2131034117;
+			// aapt resource value: 0x7F01001D
+			public const int StartLegHereButton = 2130771997;
 			
-			// aapt resource value: 0x7f050003
-			public const int editText1 = 2131034115;
+			// aapt resource value: 0x7F01001E
+			public const int StartTimeField = 2130771998;
 			
-			// aapt resource value: 0x7f050009
-			public const int gridLayout1 = 2131034121;
+			// aapt resource value: 0x7F01001F
+			public const int SwitchToUserButton = 2130771999;
 			
-			// aapt resource value: 0x7f050020
-			public const int linearLayout1 = 2131034144;
+			// aapt resource value: 0x7F010020
+			public const int SwitchUserButton = 2130772000;
 			
-			// aapt resource value: 0x7f050004
-			public const int space1 = 2131034116;
+			// aapt resource value: 0x7F01002B
+			public const int textView1 = 2130772011;
 			
-			// aapt resource value: 0x7f050027
-			public const int space2 = 2131034151;
+			// aapt resource value: 0x7F01002C
+			public const int textView10 = 2130772012;
 			
-			// aapt resource value: 0x7f05002a
-			public const int space3 = 2131034154;
+			// aapt resource value: 0x7F01002D
+			public const int textView2 = 2130772013;
 			
-			// aapt resource value: 0x7f050000
-			public const int textView1 = 2131034112;
+			// aapt resource value: 0x7F01002E
+			public const int textView3 = 2130772014;
 			
-			// aapt resource value: 0x7f05001c
-			public const int textView10 = 2131034140;
+			// aapt resource value: 0x7F01002F
+			public const int textView4 = 2130772015;
 			
-			// aapt resource value: 0x7f050002
-			public const int textView2 = 2131034114;
+			// aapt resource value: 0x7F010030
+			public const int textView5 = 2130772016;
 			
-			// aapt resource value: 0x7f050008
-			public const int textView3 = 2131034120;
+			// aapt resource value: 0x7F010031
+			public const int textView6 = 2130772017;
 			
-			// aapt resource value: 0x7f05000a
-			public const int textView4 = 2131034122;
+			// aapt resource value: 0x7F010032
+			public const int textView7 = 2130772018;
 			
-			// aapt resource value: 0x7f05000c
-			public const int textView5 = 2131034124;
+			// aapt resource value: 0x7F010033
+			public const int textView8 = 2130772019;
 			
-			// aapt resource value: 0x7f05000d
-			public const int textView6 = 2131034125;
+			// aapt resource value: 0x7F010034
+			public const int textView9 = 2130772020;
 			
-			// aapt resource value: 0x7f05000e
-			public const int textView7 = 2131034126;
+			// aapt resource value: 0x7F010021
+			public const int TotalCostsTextView = 2130772001;
 			
-			// aapt resource value: 0x7f050010
-			public const int textView8 = 2131034128;
+			// aapt resource value: 0x7F010022
+			public const int TotalFaresTextView = 2130772002;
 			
-			// aapt resource value: 0x7f050012
-			public const int textView9 = 2131034130;
+			// aapt resource value: 0x7F010023
+			public const int UsersListView = 2130772003;
 			
 			static Id()
 			{
@@ -216,32 +216,32 @@ namespace DriverTracker.Mobile.Droid
 		public partial class Layout
 		{
 			
-			// aapt resource value: 0x7f030000
-			public const int Authenticate = 2130903040;
+			// aapt resource value: 0x7F020000
+			public const int Authenticate = 2130837504;
 			
-			// aapt resource value: 0x7f030001
-			public const int DriverInfo = 2130903041;
+			// aapt resource value: 0x7F020001
+			public const int DriverInfo = 2130837505;
 			
-			// aapt resource value: 0x7f030002
-			public const int EditLeg = 2130903042;
+			// aapt resource value: 0x7F020002
+			public const int EditLeg = 2130837506;
 			
-			// aapt resource value: 0x7f030003
-			public const int LegManager = 2130903043;
+			// aapt resource value: 0x7F020003
+			public const int LegManager = 2130837507;
 			
-			// aapt resource value: 0x7f030004
-			public const int Main = 2130903044;
+			// aapt resource value: 0x7F020004
+			public const int Main = 2130837508;
 			
-			// aapt resource value: 0x7f030005
-			public const int OnLeg = 2130903045;
+			// aapt resource value: 0x7F020005
+			public const int OnLeg = 2130837509;
 			
-			// aapt resource value: 0x7f030006
-			public const int PickupRequests = 2130903046;
+			// aapt resource value: 0x7F020006
+			public const int PickupRequests = 2130837510;
 			
-			// aapt resource value: 0x7f030007
-			public const int StartLegAtAddress = 2130903047;
+			// aapt resource value: 0x7F020007
+			public const int StartLegAtAddress = 2130837511;
 			
-			// aapt resource value: 0x7f030008
-			public const int SwitchUser = 2130903048;
+			// aapt resource value: 0x7F020008
+			public const int SwitchUser = 2130837512;
 			
 			static Layout()
 			{
@@ -256,8 +256,8 @@ namespace DriverTracker.Mobile.Droid
 		public partial class Mipmap
 		{
 			
-			// aapt resource value: 0x7f020000
-			public const int Icon = 2130837504;
+			// aapt resource value: 0x7F030000
+			public const int Icon = 2130903040;
 			
 			static Mipmap()
 			{
@@ -272,32 +272,32 @@ namespace DriverTracker.Mobile.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040007
-			public const int app_name = 2130968583;
+			// aapt resource value: 0x7F040000
+			public const int app_name = 2130968576;
 			
-			// aapt resource value: 0x7f040005
-			public const int editLeg = 2130968581;
+			// aapt resource value: 0x7F040001
+			public const int editLeg = 2130968577;
 			
-			// aapt resource value: 0x7f040008
-			public const int host = 2130968584;
+			// aapt resource value: 0x7F040002
+			public const int host = 2130968578;
 			
-			// aapt resource value: 0x7f040004
-			public const int infoForDriver = 2130968580;
+			// aapt resource value: 0x7F040003
+			public const int infoForDriver = 2130968579;
 			
-			// aapt resource value: 0x7f040003
-			public const int manageLegs = 2130968579;
+			// aapt resource value: 0x7F040004
+			public const int manageLegs = 2130968580;
 			
-			// aapt resource value: 0x7f040000
-			public const int pickupRequests = 2130968576;
+			// aapt resource value: 0x7F040005
+			public const int pickupRequests = 2130968581;
 			
-			// aapt resource value: 0x7f040001
-			public const int startLegAtAddress = 2130968577;
+			// aapt resource value: 0x7F040006
+			public const int startLegAtAddress = 2130968582;
 			
-			// aapt resource value: 0x7f040002
-			public const int startLegHere = 2130968578;
+			// aapt resource value: 0x7F040007
+			public const int startLegHere = 2130968583;
 			
-			// aapt resource value: 0x7f040006
-			public const int switchUser = 2130968582;
+			// aapt resource value: 0x7F040008
+			public const int switchUser = 2130968584;
 			
 			static String()
 			{
