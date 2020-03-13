@@ -8,6 +8,7 @@ using DriverTracker.Models;
 using DriverTracker.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using DriverTracker.Repositories;
 
 namespace DriverTracker.Controllers
 {

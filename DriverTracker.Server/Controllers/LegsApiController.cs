@@ -10,6 +10,7 @@ using DriverTracker.Domain;
 using DriverTracker.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using DriverTracker.Repositories;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

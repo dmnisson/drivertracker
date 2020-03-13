@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using DriverTracker.Domain;
 using DriverTracker.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using DriverTracker.Repositories;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
