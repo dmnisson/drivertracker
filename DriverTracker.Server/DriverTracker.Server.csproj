@@ -18,6 +18,7 @@
       <PrivateAssets Condition="'%(PackageReference.Version)' == ''">all</PrivateAssets>
       <Publish Condition="'%(PackageReference.Version)' == ''">true</Publish>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Geocoding.Core" Version="4.0.1" />
     <PackageReference Include="Geocoding.Google" Version="4.0.1" />
@@ -39,5 +40,8 @@
     <Content Remove="Areas\Identity\Pages\Account\_ViewImports.cshtml" />
     <Content Remove="Areas\Identity\Pages\Account\Login.cshtml" />
     <Content Remove="Areas\Identity\Pages\Account\Logout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="DriverTracker.db" />
   </ItemGroup>
 </Project>
