@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriverTracker.Mobile.Droid"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriverTracker.Mobile.iOS", "iOS\DriverTracker.Mobile.iOS.csproj", "{077FDBF1-DB92-41E9-98DE-35B5FDA50E99}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriverTracker.Server", "DriverTracker.Server\DriverTracker.Server.csproj", "{BD7E3C21-2B8E-4A9E-BEA0-FA0A07481910}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,5 +83,17 @@ Global
 		{077FDBF1-DB92-41E9-98DE-35B5FDA50E99}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 		{077FDBF1-DB92-41E9-98DE-35B5FDA50E99}.Debug|iPhone.ActiveCfg = Debug|iPhone
 		{077FDBF1-DB92-41E9-98DE-35B5FDA50E99}.Debug|iPhone.Build.0 = Debug|iPhone
+		{BD7E3C21-2B8E-4A9E-BEA0-FA0A07481910}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD7E3C21-2B8E-4A9E-BEA0-FA0A07481910}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD7E3C21-2B8E-4A9E-BEA0-FA0A07481910}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD7E3C21-2B8E-4A9E-BEA0-FA0A07481910}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD7E3C21-2B8E-4A9E-BEA0-FA0A07481910}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{BD7E3C21-2B8E-4A9E-BEA0-FA0A07481910}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{BD7E3C21-2B8E-4A9E-BEA0-FA0A07481910}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{BD7E3C21-2B8E-4A9E-BEA0-FA0A07481910}.Release|iPhone.Build.0 = Release|Any CPU
+		{BD7E3C21-2B8E-4A9E-BEA0-FA0A07481910}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{BD7E3C21-2B8E-4A9E-BEA0-FA0A07481910}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{BD7E3C21-2B8E-4A9E-BEA0-FA0A07481910}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{BD7E3C21-2B8E-4A9E-BEA0-FA0A07481910}.Debug|iPhone.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal
