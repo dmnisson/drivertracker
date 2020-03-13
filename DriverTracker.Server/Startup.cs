@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Accord.Statistics.Analysis;
 using DriverTracker.Authorization;
@@ -12,12 +13,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DriverTracker.Server
 {
@@ -38,6 +41,26 @@ namespace DriverTracker.Server
             services.AddDbContext<MvcDriverContext>(options => options.UseSqlite("Data Source=DriverTracker.db"));
             services.AddDbContext<DriverTrackerIdentityDbContext>(options =>
                                                                   options.UseSqlite("Data Source=DriverTracker.db"));
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                    .AddEntityFrameworkStores<DriverTrackerIdentityDbContext>();
+
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["APITokens:Key"]));
+            services.AddAuthentication().AddJwtBearer(options => {
+                options.RequireHttpsMetadata = false; // this line in development version only
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    IssuerSigningKey = signingKey,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuer = true,
+                    ValidateIssuerSigningKey = true,
+
+                    ValidAudience = Configuration["APITokens:Audience"],
+                    ValidIssuer = Configuration["APITokens:Issuer"]
+                };
+            });
 
             services.AddAuthorization(options => {
                 options.AddPolicy("DriverInfoPolicy", policy => policy.Requirements.Add(new SameDriverRequirement()));
@@ -80,6 +103,7 @@ namespace DriverTracker.Server
             }
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseMvc();
         }
     }
