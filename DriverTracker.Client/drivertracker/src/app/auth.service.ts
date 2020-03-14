@@ -5,6 +5,7 @@ import { Observable, BehaviorSubject, timer } from 'rxjs';
 import { filter, map, switchMap, skipWhile } from 'rxjs/operators';
 import { LoginModel } from './login-model';
 import * as jwt_decode from 'jwt-decode';
+import { environment } from '../environments/environment';
 
 const jsonHeader = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -14,7 +15,7 @@ const jsonHeader = {
   providedIn: 'root'
 })
 export class AuthService {
-    private authUrl = '/api/account';
+    private authUrl = `${environment.apiRoot}/account`;
     private token = new BehaviorSubject<string>(null);
     private tokenExpired = new BehaviorSubject<boolean>(false);
 

@@ -5,6 +5,7 @@ import { catchError, map, flatMap } from 'rxjs/operators';
 import { LegCoordinates } from './leg-coordinates';
 
 import { AuthService } from './auth.service';
+import { environment } from '../environments/environment';
 
 const jsonHeader = { 'Content-Type': 'application/json' };
 
@@ -12,7 +13,7 @@ const jsonHeader = { 'Content-Type': 'application/json' };
   providedIn: 'root'
 })
 export class GeocodingService {
-    private geocodingUrl = "/api/geocoding";
+    private geocodingUrl = `${environment.apiRoot}/geocoding`;
 
     getLegCoordinates(id: number): Observable<LegCoordinates> {
         const url = `${this.geocodingUrl}/${id}`;

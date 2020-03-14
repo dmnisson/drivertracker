@@ -5,13 +5,14 @@ import { catchError, map, flatMap } from 'rxjs/operators';
 
 import { CompanyStatistics, DriverStatistics } from './statistics';
 import { AuthService } from './auth.service';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StatisticsService {
 
-    private analysisUrl = '/api/analysisapi';
+    private analysisUrl = `${environment.apiRoot}/analysisapi`;
 
     getCompanyStatistics(): Observable<CompanyStatistics> {
         const url = `${this.analysisUrl}/company`;

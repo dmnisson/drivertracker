@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, map, flatMap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+import { environment } from '../environments/environment';
 
 const jsonHeader = { 'Content-Type': 'application/json' };
 
@@ -10,7 +11,7 @@ const jsonHeader = { 'Content-Type': 'application/json' };
   providedIn: 'root'
 })
 export class PickupPredictorService {
-    private analysisUrl = '/api/analysisapi';
+    private analysisUrl = `${environment.apiRoot}/analysisapi`;
 
     getFareClassIntervals(): Observable<number[]> {
         const url = `${this.analysisUrl}/fareclassintervals`;

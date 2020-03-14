@@ -6,6 +6,7 @@ import { Leg } from './leg';
 
 import { Observable } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 
 const jsonHeader = { 'Content-Type': 'application/json' };
 
@@ -13,7 +14,7 @@ const jsonHeader = { 'Content-Type': 'application/json' };
   providedIn: 'root'
 })
 export class LegService {
-    private legsUrl = '/api/legsapi';
+    private legsUrl = `${environment.apiRoot}/legsapi`;
 
     getLegsAll(): Observable<Leg[]> {
         return this.authService.authHeader()

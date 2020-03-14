@@ -6,6 +6,7 @@ import { map, switchMap, catchError } from 'rxjs/operators';
 import { Driver } from './driver';
 import { LegService } from './leg.service';
 import { AuthService } from './auth.service';
+import { environment } from '../environments/environment';
 
 const jsonHeader = { 'Content-Type': 'application/json' };
 
@@ -13,7 +14,7 @@ const jsonHeader = { 'Content-Type': 'application/json' };
   providedIn: 'root'
 })
 export class DriverService {
-  private driversUrl = '/api/driversapi';
+  private driversUrl = `${environment.apiRoot}/driversapi`;
 
     getDrivers(): Observable<Driver[]> {
         return this.authService.authHeader().pipe(
