@@ -1,0 +1,17 @@
+@import "../node_modules/bootstrap/scss/functions"
+
+$theme-colors: ("primary": #dcdc00, "secondary": #b8b8b8, "warning": #ff7f00, "light": #b8b8b8, "dark": #000, "info": #53b3b4)
+
+$body-bg: theme-color("dark")
+$body-color: theme-color("light")
+
+@import "../node_modules/bootstrap/scss/bootstrap"
+
+.navbar-light .navbar-brand
+  color: theme-color("dark")
+
+.navbar-light .navbar-nav .nav-link
+  color: theme-color("dark")
+
+.navbar-light .navbar-toggler
+  color: theme-color("dark")

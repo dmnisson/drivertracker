@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ItemType>GenericProject</ItemType>
+    <ProjectGuid>{E2F446F7-330B-44F1-A082-4A0E5CBBD73D}</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Default|AnyCPU' ">
+    <OutputPath>.\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="drivertracker\.editorconfig" />
+    <None Include="drivertracker\.gitignore" />
+    <None Include="drivertracker\angular.json" />
+    <None Include="drivertracker\browserslist" />
+    <None Include="drivertracker\karma.conf.js" />
+    <None Include="drivertracker\package.json" />
+    <None Include="drivertracker\package-lock.json" />
+    <None Include="drivertracker\README.md" />
+    <None Include="drivertracker\tsconfig.app.json" />
+    <None Include="drivertracker\tsconfig.json" />
+    <None Include="drivertracker\tsconfig.spec.json" />
+    <None Include="drivertracker\tslint.json" />
+    <None Include="drivertracker\e2e\protractor.conf.js" />
+    <None Include="drivertracker\e2e\tsconfig.json" />
+    <None Include="drivertracker\e2e\src\app.e2e-spec.ts" />
+    <None Include="drivertracker\e2e\src\app.po.ts" />
+    <None Include="drivertracker\src\app\app.component.html" />
+    <None Include="drivertracker\src\app\app.component.sass" />
+    <None Include="drivertracker\src\app\app.component.spec.ts" />
+    <None Include="drivertracker\src\app\app.component.ts" />
+    <None Include="drivertracker\src\app\app.module.ts" />
+    <None Include="drivertracker\src\app\app-routing.module.ts" />
+    <None Include="drivertracker\src\assets\.gitkeep" />
+    <None Include="drivertracker\src\environments\environment.prod.ts" />
+    <None Include="drivertracker\src\environments\environment.ts" />
+    <None Include="drivertracker\src\favicon.ico" />
+    <None Include="drivertracker\src\index.html" />
+    <None Include="drivertracker\src\main.ts" />
+    <None Include="drivertracker\src\polyfills.ts" />
+    <None Include="drivertracker\src\styles.sass" />
+    <None Include="drivertracker\src\test.ts" />
+    <None Include="drivertracker\src\app\app-navbar\app-navbar.component.html" />
+    <None Include="drivertracker\src\app\app-navbar\app-navbar.component.sass" />
+    <None Include="drivertracker\src\app\app-navbar\app-navbar.component.spec.ts" />
+    <None Include="drivertracker\src\app\app-navbar\app-navbar.component.ts" />
+    <None Include="drivertracker\src\app\home-page\home-page.component.html" />
+    <None Include="drivertracker\src\app\home-page\home-page.component.sass" />
+    <None Include="drivertracker\src\app\home-page\home-page.component.spec.ts" />
+    <None Include="drivertracker\src\app\home-page\home-page.component.ts" />
+  </ItemGroup>
+</Project>

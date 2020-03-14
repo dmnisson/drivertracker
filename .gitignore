@@ -43,3 +43,4 @@ Thumbs.db
 DriverTracker/node_modules
 DriverTracker/appsettings.json
 DriverTracker.Server/appsettings.json
+DriverTracker.Client/node_modules
