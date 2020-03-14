@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -12,12 +14,19 @@ export class AppNavbarComponent implements OnInit {
   faSignInAlt = faSignInAlt;
   faSignOutAlt = faSignOutAlt;
 
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
+    this.authService.getCurrentToken()
+      .subscribe(token => this.token = token);
   }
 
   logout() {
+    this.authService.clearToken();
+    this.router.navigateByUrl('/login');
   }
 
 }
