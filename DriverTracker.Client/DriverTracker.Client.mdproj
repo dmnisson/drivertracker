@@ -51,5 +51,34 @@
     <None Include="drivertracker\src\app\about-page\about-page.component.sass" />
     <None Include="drivertracker\src\app\about-page\about-page.component.spec.ts" />
     <None Include="drivertracker\src\app\about-page\about-page.component.ts" />
+    <None Include="drivertracker\src\app\drivers\drivers.component.html" />
+    <None Include="drivertracker\src\app\drivers\drivers.component.sass" />
+    <None Include="drivertracker\src\app\drivers\drivers.component.spec.ts" />
+    <None Include="drivertracker\src\app\drivers\drivers.component.ts" />
+    <None Include="drivertracker\src\app\driver.ts" />
+    <None Include="drivertracker\src\app\driver.service.ts" />
+    <None Include="drivertracker\src\app\driver.service.spec.ts" />
+    <None Include="drivertracker\src\app\auth.service.ts" />
+    <None Include="drivertracker\src\app\auth.service.spec.ts" />
+    <None Include="drivertracker\src\app\statistics.ts" />
+    <None Include="drivertracker\src\app\statistics.service.ts" />
+    <None Include="drivertracker\src\app\statistics.service.spec.ts" />
+    <None Include="drivertracker\src\app\leg.ts" />
+    <None Include="drivertracker\src\app\leg.service.ts" />
+    <None Include="drivertracker\src\app\leg.service.spec.ts" />
+    <None Include="drivertracker\src\app\login-model.ts" />
+    <None Include="drivertracker\src\app\pickup-predictor\pickup-predictor.component.html" />
+    <None Include="drivertracker\src\app\pickup-predictor\pickup-predictor.component.scss" />
+    <None Include="drivertracker\src\app\pickup-predictor\pickup-predictor.component.spec.ts" />
+    <None Include="drivertracker\src\app\pickup-predictor\pickup-predictor.component.ts" />
+    <None Include="drivertracker\src\app\pickup-predictor.service.ts" />
+    <None Include="drivertracker\src\app\pickup-predictor.service.spec.ts" />
+    <None Include="drivertracker\src\app\geocoding.service.ts" />
+    <None Include="drivertracker\src\app\geocoding.service.spec.ts" />
+    <None Include="drivertracker\src\app\leg-coordinates.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="drivertracker\src\app\drivers\" />
+    <Folder Include="drivertracker\src\app\pickup-predictor\" />
   </ItemGroup>
 </Project>
