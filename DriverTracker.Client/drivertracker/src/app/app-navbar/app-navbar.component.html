@@ -21,13 +21,13 @@
         </ul>
     </div>
 
-    <button *ngIf="token" id="logout-btn" class="btn btn-primary" (click)="logout()">
-        <i class="fas fa-sign-out-alt"></i>
-        <span class="sr-only">Log out</span>
+    <button *ngIf="token; else noToken" id="logout-btn" class="btn btn-primary" (click)="logout()">
+        <fa-icon [icon]="faSignOutAlt" size="lg"></fa-icon>
+        <span class="sr-only">Sign out</span>
     </button>
-    <ng-template #elseBlock>
+    <ng-template #noToken>
         <a id="login-btn" class="btn btn-primary" routerLink="/login">
-            <i class="fas fa-sign-in-alt"></i>
+            <fa-icon [icon]="faSignInAlt" size="lg"></fa-icon>
             <span class="sr-only">Sign in</span>
         </a>
     </ng-template>
