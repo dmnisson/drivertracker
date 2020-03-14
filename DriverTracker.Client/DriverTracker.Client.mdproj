@@ -47,5 +47,9 @@
     <None Include="drivertracker\src\app\home-page\home-page.component.sass" />
     <None Include="drivertracker\src\app\home-page\home-page.component.spec.ts" />
     <None Include="drivertracker\src\app\home-page\home-page.component.ts" />
+    <None Include="drivertracker\src\app\about-page\about-page.component.html" />
+    <None Include="drivertracker\src\app\about-page\about-page.component.sass" />
+    <None Include="drivertracker\src\app\about-page\about-page.component.spec.ts" />
+    <None Include="drivertracker\src\app\about-page\about-page.component.ts" />
   </ItemGroup>
 </Project>
