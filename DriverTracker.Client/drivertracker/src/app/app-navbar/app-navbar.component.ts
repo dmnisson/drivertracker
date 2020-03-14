@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppNavbarComponent implements OnInit {
 
+  token: String;
+  faSignInAlt = faSignInAlt;
+  faSignOutAlt = faSignOutAlt;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  logout() {
   }
 
 }
