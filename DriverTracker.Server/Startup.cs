@@ -21,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 
 namespace DriverTracker.Server
 {
@@ -33,10 +34,23 @@ namespace DriverTracker.Server
 
         public IConfiguration Configuration { get; }
 
+        readonly String DevAllowSpecificCrossOrigins = "_devAllowSpecificCrossOrigins";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddCors(options => {
+                options.AddPolicy(DevAllowSpecificCrossOrigins, builder => {
+                    builder.WithOrigins("http://localhost:4200")
+                        .AllowAnyMethod()
+                        .WithHeaders(
+                            HeaderNames.ContentType,
+                            HeaderNames.Authorization
+                        );
+                });
+            });
 
             services.AddDbContext<MvcDriverContext>(options => options.UseSqlite("Data Source=DriverTracker.db"));
             services.AddDbContext<DriverTrackerIdentityDbContext>(options =>
@@ -102,9 +116,14 @@ namespace DriverTracker.Server
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseAuthentication();
-            app.UseMvc();
+            if (env.IsDevelopment())
+            {
+                app.UseCors(DevAllowSpecificCrossOrigins);
+            }
+
+            _ = app.UseHttpsRedirection()
+                .UseAuthentication()
+                .UseMvc();
 
             CreateRoles(serviceProvider).Wait();
         }
