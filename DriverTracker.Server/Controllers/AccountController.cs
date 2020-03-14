@@ -46,21 +46,12 @@ namespace DriverTracker.Controllers
             {
                 Microsoft.AspNetCore.Identity.SignInResult loginResult = await _signInManager.PasswordSignInAsync(login.Input.Email, login.Input.Password, false, false);
 
-                if (!loginResult.Succeeded) { return BadRequest(); }
+                if (!loginResult.Succeeded) { return Unauthorized(); }
                 IdentityUser user = await _userManager.FindByEmailAsync(login.Input.Email);
 
                 return Ok(await GetToken(user));
             }
             return BadRequest(ModelState);
-        }
-
-        // POST: api/account/makesessionusertoken
-        [HttpPost("makesessionusertoken")]
-        [Authorize(AuthenticationSchemes = "Identity.Application")]
-        public async Task<IActionResult> MakeSessionUserToken()
-        {
-            IdentityUser user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
-            return Ok(await GetToken(user));
         }
 
         // POST: api/account/refreshtoken
