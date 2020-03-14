@@ -47,6 +47,9 @@ export class AuthService {
 
     getCurrentToken(): Observable<string> {
       return this.token.pipe(map(t => {
+        if (t === null) {
+          return null;
+        }
         const expDate = jwt_decode(t).exp;
         const currentTime = Date.now();
         return expDate < currentTime / 1000 ? null : t;
@@ -59,6 +62,11 @@ export class AuthService {
         this.token.next(token);
         const expDate = jwt_decode(token).exp;
         timer(expDate - 15*60000).subscribe(obj => this.refreshToken());
+    }
+
+    clearToken(): void {
+      localStorage.removeItem(AUTH_TOKEN_ITEM_KEY);
+      this.token.next(null);
     }
 
     authHeader(): Observable<any> {
