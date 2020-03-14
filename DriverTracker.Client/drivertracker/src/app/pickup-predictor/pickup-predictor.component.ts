@@ -75,7 +75,6 @@ export class PickupPredictorComponent implements OnInit, AfterViewChecked {
     }
 
     ngOnInit() {
-        this.authService.makeSessionUserToken();
         this.resultsJustComputed = false;
         this.pickupPredictorService.getFareClassIntervals()
             .subscribe(bounds => {

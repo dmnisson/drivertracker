@@ -121,7 +121,6 @@ export class DriversComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.authService.makeSessionUserToken();
         this.getDrivers();
         this.getCompanyStatistics();
     }

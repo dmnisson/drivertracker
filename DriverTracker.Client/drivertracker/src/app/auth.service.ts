@@ -11,13 +11,16 @@ const jsonHeader = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
 
+const AUTH_TOKEN_ITEM_KEY = 'authToken';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
     private authUrl = `${environment.apiRoot}/account`;
-    private token = new BehaviorSubject<string>(null);
-    private tokenExpired = new BehaviorSubject<boolean>(false);
+    private token = new BehaviorSubject<string>(
+      localStorage.getItem(AUTH_TOKEN_ITEM_KEY)
+    );
 
     constructor(private http: HttpClient) {
 
@@ -34,14 +37,6 @@ export class AuthService {
         .toPromise();
     }
 
-    makeSessionUserToken(force = false) : void {
-        const url = this.authUrl + '/makesessionusertoken';
-        this.token.asObservable().pipe(
-            filter(token => force || token == null),
-            switchMap(token => this.http.post<string>(url, "", {responseType: 'text' as 'json'})))
-            .subscribe(t => this.updateToken(t));
-    }
-
     refreshToken(): void {
         const url = this.authUrl + '/refreshtoken';
         this.authHeader().pipe(
@@ -51,18 +46,18 @@ export class AuthService {
     }
 
     getCurrentToken(): Observable<string> {
-        return this.token.asObservable();
+      return this.token.pipe(map(t => {
+        const expDate = jwt_decode(t).exp;
+        const currentTime = Date.now();
+        return expDate < currentTime / 1000 ? null : t;
+      }));
     }
 
-    isTokenExpired(): Observable<boolean> {
-        return this.tokenExpired.asObservable();
-    }
-
-    // update the information stored in the class
+    /* update the locally stored information */
     updateToken(token: string): void {
+        localStorage.setItem(AUTH_TOKEN_ITEM_KEY, token);
         this.token.next(token);
-        this.tokenExpired.next(false);
-        let expDate = jwt_decode(token).exp;
+        const expDate = jwt_decode(token).exp;
         timer(expDate - 15*60000).subscribe(obj => this.refreshToken());
     }
 
