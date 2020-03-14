@@ -13,6 +13,8 @@ import { AboutPageComponent } from './about-page/about-page.component';
 import { DriversComponent } from './drivers/drivers.component';
 import { PickupPredictorComponent } from './pickup-predictor/pickup-predictor.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthGuardService } from './guards/auth-guard.service';
+import { LoginPageComponent } from './login-page/login-page.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
     HomePageComponent,
     AboutPageComponent,
     DriversComponent,
-    PickupPredictorComponent
+    PickupPredictorComponent,
+    LoginPageComponent
   ],
   imports: [
     BrowserModule,

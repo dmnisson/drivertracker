@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, BehaviorSubject, timer } from 'rxjs';
-import { filter, map, switchMap, skipWhile } from 'rxjs/operators';
+import { filter, map, switchMap, skipWhile, first } from 'rxjs/operators';
 import { LoginModel } from './login-model';
 import * as jwt_decode from 'jwt-decode';
 import { environment } from '../environments/environment';
@@ -23,11 +23,15 @@ export class AuthService {
 
     }
 
-    makeToken(email: string, password: string) : void {
+    makeToken(email: string, password: string) : Promise<String> {
         const url = this.authUrl + '/maketoken';
-        this.http.post<string>(url, new LoginModel(email, password),
-            Object.assign(jsonHeader, {responseType: 'text' as 'json'}))
-            .subscribe(t => this.updateToken(t));
+      return this.http.post<string>(url, new LoginModel(email, password),
+        Object.assign(jsonHeader, { responseType: 'text' as 'json' }))
+        .pipe(first(t => {
+          this.updateToken(t);
+          return true;
+        }))
+        .toPromise();
     }
 
     makeSessionUserToken(force = false) : void {
@@ -47,7 +51,7 @@ export class AuthService {
     }
 
     getCurrentToken(): Observable<string> {
-        return this.token.asObservable().pipe(skipWhile(t => t == null));
+        return this.token.asObservable();
     }
 
     isTokenExpired(): Observable<boolean> {

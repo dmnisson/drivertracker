@@ -76,6 +76,12 @@
     <None Include="drivertracker\src\app\geocoding.service.ts" />
     <None Include="drivertracker\src\app\geocoding.service.spec.ts" />
     <None Include="drivertracker\src\app\leg-coordinates.ts" />
+    <None Include="drivertracker\src\app\guards\auth-guard.service.spec.ts" />
+    <None Include="drivertracker\src\app\guards\auth-guard.service.ts" />
+    <None Include="drivertracker\src\app\login-page\login-page.component.html" />
+    <None Include="drivertracker\src\app\login-page\login-page.component.sass" />
+    <None Include="drivertracker\src\app\login-page\login-page.component.spec.ts" />
+    <None Include="drivertracker\src\app\login-page\login-page.component.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="drivertracker\src\app\drivers\" />
