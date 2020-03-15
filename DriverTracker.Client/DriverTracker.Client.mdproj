@@ -82,9 +82,14 @@
     <None Include="drivertracker\src\app\login-page\login-page.component.sass" />
     <None Include="drivertracker\src\app\login-page\login-page.component.spec.ts" />
     <None Include="drivertracker\src\app\login-page\login-page.component.ts" />
+    <None Include="drivertracker\src\app\driver-details\driver-details.component.html" />
+    <None Include="drivertracker\src\app\driver-details\driver-details.component.sass" />
+    <None Include="drivertracker\src\app\driver-details\driver-details.component.spec.ts" />
+    <None Include="drivertracker\src\app\driver-details\driver-details.component.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="drivertracker\src\app\drivers\" />
     <Folder Include="drivertracker\src\app\pickup-predictor\" />
+    <Folder Include="drivertracker\src\app\driver-details\" />
   </ItemGroup>
 </Project>

@@ -7,6 +7,7 @@ import { DriversComponent } from './drivers/drivers.component';
 import { PickupPredictorComponent } from './pickup-predictor/pickup-predictor.component';
 import { AuthGuardService } from './guards/auth-guard.service';
 import { LoginPageComponent } from './login-page/login-page.component';
+import { DriverDetailsComponent } from './driver-details/driver-details.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,11 @@ const routes: Routes = [
   {
     path: 'predictions/pickup',
     component: PickupPredictorComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'statistics/driver/:id',
+    component: DriverDetailsComponent,
     canActivate: [AuthGuardService]
   }
 ];

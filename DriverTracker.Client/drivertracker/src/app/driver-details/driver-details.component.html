@@ -1,0 +1,286 @@
+<ng-template [ngIf]="driverStatistics != null">
+    <div class="card w-md-50 mb-2">
+        <div class="card-body">
+            <h5 class="card-title">Summary</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Pickups: {{driverStatistics.pickups}}</li>
+            <li class="list-group-item">Miles driven: {{driverStatistics.milesDriven}}</li>
+            <li class="list-group-item" *ngIf="driverStatistics.averagePickupDelay != null">Average pickup delay: {{driverStatistics.averagePickupDelay}}</li>
+            <li class="list-group-item">Total fares: {{driverStatistics.totalFares}}</li>
+            <li class="list-group-item">Total fuel costs: {{driverStatistics.totalCosts}}</li>
+        </ul>
+    </div>
+</ng-template>
+
+<ng-template [ngIf]="driver != null">
+    <div class="card w-100 mb-2">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="card-title d-flex-inline">Details</h5>
+                <button class="btn btn-primary d-flex-inline" (click)="clickEditDriverDetails()" [disabled]="editingDriverDetails">
+                    <fa-icon [icon]="faEdit"></fa-icon>
+                    <span class="sr-only">Edit</span>
+                </button>
+            </div>
+            <ng-template [ngIf]="editingDriverDetails">
+                <form (ngSubmit)="onSubmitDriverDetails()" #driverDetailsForm="ngForm">
+                    <dl class="row">
+                        <dt class="col-sm-5 card-text">
+                            Name
+                        </dt>
+                        <dd class="col-sm-5 card-text">
+                            <input type="text" class="form-control" id="name" required name="name" [(ngModel)]="driver.name" />
+                        </dd>
+                        <dt class="col-sm-5 card-text">
+                            License Number
+                        </dt>
+                        <dd class="col-sm-5 card-text">
+                            <input type="text" class="form-control" id="licenseNumber" required name="licenseNumber" [(ngModel)]="driver.licenseNumber" />
+                        </dd>
+                    </dl>
+                    <button type="submit" class="btn btn-primary mr-2" [disabled]="!driverDetailsForm.form.valid">Save</button>
+                    <button type="button" class="btn btn-secondary" (click)="cancelEditDriverDetails()">Cancel</button>
+                </form>
+            </ng-template>
+            <ng-template [ngIf]="!editingDriverDetails">
+                <dl class="row">
+                    <dt class="col-sm-5 card-text">
+                        Name
+                    </dt>
+                    <dd class="col-sm-5 card-text">
+                        {{driver.name}}
+                    </dd>
+                    <dt class="col-sm-5 card-text">
+                        License Number
+                    </dt>
+                    <dd class="col-sm-5 card-text">
+                        {{driver.licenseNumber}}
+                    </dd>
+                </dl>
+            </ng-template>
+        </div>
+    </div>
+</ng-template>
+
+<div class="card w-100 mb-2">
+
+    <div class="card-body">
+        <h5 class="card-title">Legs</h5>
+        <ng-template [ngIf]="legs != null && legs.length > 0">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Start Address
+                            </th>
+                            <th>
+                                Requested Pickup Time
+                            </th>
+                            <th>
+                                Actual Start Time
+                            </th>
+                            <th>
+                                Destination Address
+                            </th>
+                            <th>
+                                Arrival Time
+                            </th>
+                            <th class="d-none d-md-table-cell">
+                                Distance
+                            </th>
+                            <th>
+                                Fare
+                            </th>
+                            <th class="d-none d-md-table-cell">
+                                Passengers Aboard
+                            </th>
+                            <th>
+                                Pickups
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let leg of legs">
+                            <td>
+                                {{leg.startAddress}}
+                            </td>
+                            <td>
+                                {{leg.pickupRequestTime | date:'short'}}
+                            </td>
+                            <td>
+                                {{leg.startTime | date:'short'}}
+                            </td>
+                            <td>
+                                {{leg.destinationAddress}}
+                            </td>
+                            <td>
+                                {{leg.arrivalTime | date:'short'}}
+                            </td>
+                            <td class="d-none d-md-table-cell">
+                                {{leg.distance}}
+                            </td>
+                            <td>
+                                {{leg.fare}}
+                            </td>
+                            <td class="d-none d-md-table-cell">
+                                {{leg.numOfPassengersAboard}}
+                            </td>
+                            <td>
+                                {{leg.numOfPassengersPickedUp}}
+                            </td>
+                            <td>
+                                <span class="btn-group" role="group">
+                                    <button type="button" class="btn btn-secondary" (click)="showLegDetails(leg, legDetails)">Details</button>
+                                    <button type="button" class="btn btn-secondary" (click)="showDeleteConfirm(leg, deleteConfirm)">Delete</button>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="10">
+                                <button type="button" class="btn btn-primary" (click)="showLegDetails(null, legDetails)">New Leg</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </ng-template>
+        <ng-template [ngIf]="legs == null || legs.length == 0">
+            <p class="card-text">No legs have been entered.</p>
+        </ng-template>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-default" routerLink="/statistics/drivers">Back to Drivers List</a>
+</div>
+
+<ng-template #legDetails let-modal>
+    <form (ngSubmit)="onSubmitLegDetails()" #legDetailsForm="ngForm">
+            <div class="modal-header">
+                <h2>
+                    Leg Details
+                    <button type="button" class="btn btn-primary" (click)="editShowingLeg()">
+                        <i class="fas fa-edit"></i><span class="sr-only">Edit</span>
+                    </button>
+                </h2>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('legDetailsCrossClick')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <dl class="row">
+                        <dt class="col-sm-5">
+                            Start Address
+                        </dt>
+                        <dd class="col-sm-5">
+                            <input class="form-control" type="text" id="startAddress" name="startAddress" required [(ngModel)]="showingLeg.startAddress"
+                                   *ngIf="editingLegDetails; else readOnlyStartAddress" />
+                            <ng-template #readOnlyStartAddress>{{showingLeg.startAddress}}</ng-template>
+                        </dd>
+                        <dt class="col-sm-5">
+                            Pickup Request Time
+                        </dt>
+                        <dd class="col-sm-5">
+                            <input class="form-control" type="text" id="pickupRequestTime" name="pickupRequestTime" [(ngModel)]="showingLeg.pickupRequestTime"
+                                   *ngIf="editingLegDetails; else readOnlyPickupRequestTime" />
+                            <ng-template #readOnlyPickupRequestTime>{{showingLeg.pickupRequestTime | date:'short'}}</ng-template>
+                        </dd>
+                        <dt class="col-sm-5">
+                            Start Time
+                        </dt>
+                        <dd class="col-sm-5">
+                            <input class="form-control" type="text" id="startTime" name="startTime" required [(ngModel)]="showingLeg.startTime"
+                                   *ngIf="editingLegDetails; else startTime" />
+                            <ng-template #readOnlyStartTime>{{showingLeg.startTime | date:'short'}}</ng-template>
+                        </dd>
+                        <dt class="col-sm-5">
+                            Destination Address
+                        </dt>
+                        <dd class="col-sm-5">
+                            <input class="form-control" type="text" id="destinationAddress" name="destinationAddress" required [(ngModel)]="showingLeg.destinationAddress"
+                                   *ngIf="editingLegDetails; else readOnlyDestinationAddress" />
+                            <ng-template #readOnlyDestinationAddress>{{showingLeg.destinationAddress}}</ng-template>
+                        </dd>
+                        <dt class="col-sm-5">
+                            Arrival Time
+                        </dt>
+                        <dd class="col-sm-5">
+                            <input class="form-control" type="text" id="arrivalTime" name="arrivalTime" required [(ngModel)]="showingLeg.arrivalTime"
+                                   *ngIf="editingLegDetails; else readOnlyArrivalTime" />
+                            <ng-template #readOnlyArrivalTime>{{showingLeg.arrivalTime | date:'short'}}</ng-template>
+                        </dd>
+                        <dt class="col-sm-5">
+                            Distance
+                        </dt>
+                        <dd class="col-sm-5">
+                            <input class="form-control" type="number" id="distance" name="distance" required [(ngModel)]="showingLeg.distance"
+                                   *ngIf="editingLegDetails; else readOnlyDistance" />
+                            <ng-template #readOnlyDistance>{{showingLeg.distance}}</ng-template>
+                        </dd>
+                        <dt class="col-sm-5">
+                            Fare
+                        </dt>
+                        <dd class="col-sm-5">
+                            <input class="form-control" type="number" id="fare" name="fare" required [(ngModel)]="showingLeg.fare"
+                                   *ngIf="editingLegDetails; else readOnlyFare" />
+                            <ng-template #readOnlyFare>{{showingLeg.fare}}</ng-template>
+                        </dd>
+                        <dt class="col-sm-5">
+                            Number of Passengers Aboard
+                        </dt>
+                        <dd class="col-sm-5">
+                            <input class="form-control" type="number" id="numOfPassengersAboard" name="numOfPassengersAboard" required [(ngModel)]="showingLeg.numOfPassengersAboard"
+                                   *ngIf="editingLegDetails; else readOnlyNumOfPassengersAboard" />
+                            <ng-template #readOnlyNumOfPassengersAboard>{{showingLeg.numOfPassengersAboard}}</ng-template>
+                        </dd>
+                        <dt class="col-sm-5">
+                            Number of Passengers Picked Up
+                        </dt>
+                        <dd class="col-sm-5">
+                            <input class="form-control" type="number" id="numOfPassengersPickedUp" name="numOfPassengersPickedUp" required [(ngModel)]="showingLeg.numOfPassengersPickedUp"
+                                   *ngIf="editingLegDetails; else readOnlyNumOfPassengersPickedUp" />
+                            <ng-template #readOnlyNumOfPassengersPickedUp>{{showingLeg.numOfPassengersPickedUp}}</ng-template>
+                        </dd>
+                        <dt class="col-sm-5">
+                            Fuel Cost
+                        </dt>
+                        <dd class="col-sm-5">
+                            <input class="form-control" type="number" id="fuelCost" name="fuelCost" required [(ngModel)]="showingLeg.fuelCost"
+                                   *ngIf="editingLegDetails; else readOnlyFuelCost" />
+                            <ng-template #readOnlyFuelCost>{{showingLeg.fuelCost}}</ng-template>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" [disabled]="!legDetailsForm.form.valid" *ngIf="editingLegDetails" (click)="modal.close('legDetailsSaveClick')">
+                    Save
+                </button>
+                <button type="button" class="btn btn-secondary" (click)="modal.close('legDetailsCloseClick')">Close</button>
+            </div>
+    </form>
+</ng-template>
+
+<ng-template #deleteConfirm let-modal>
+    <div class="modal-header">
+        <h2>Confirm</h2>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('legDeleteConfirmCrossClick')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        Are you sure you want to delete this leg?
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger mr-2" (click)="modal.close('legDeleteConfirmClick')">
+            Delete
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="modal.close('legDeleteCancelClick')">
+            Cancel
+        </button>
+    </div>
+</ng-template>
