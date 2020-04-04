@@ -4,7 +4,7 @@
 const gulp = require("gulp"),
       rimraf = require("rimraf"),
       concat = require("gulp-concat"),
-      cssmin = require("gulp-cssmin"),
+      cssmin = require("gulp-clean-css"),
       ts = require("gulp-typescript"),
       uglify = require("gulp-uglify"),
       merge = require("merge-stream"),
