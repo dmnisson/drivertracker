@@ -27,7 +27,7 @@ import { DriverDetailsComponent } from './driver-details/driver-details.componen
       HttpClientModule,
       FormsModule,
       AppRoutingModule,
-      NgbModule.forRoot()
+      NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
